@@ -1,0 +1,18 @@
+cff-version: 1.2.0
+message: "If you use this benchmark, please cite it as below."
+title: "RoxyAPI Astrology API Accuracy Benchmark"
+abstract: "A reproducible MIT-licensed accuracy benchmark for any astrology API. 210 reference planet positions across 21 birth charts cross-referenced against NASA JPL Horizons DE441 ephemeris."
+authors:
+  - name: "RoxyAPI"
+url: "https://github.com/RoxyAPI/astrology-api-benchmark"
+repository-code: "https://github.com/RoxyAPI/astrology-api-benchmark"
+license: MIT
+type: software
+keywords:
+  - astrology
+  - astronomy
+  - ephemeris
+  - accuracy-benchmark
+  - nasa-jpl-horizons
+  - reproducible
+  - open-dataset
