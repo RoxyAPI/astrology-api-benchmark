@@ -1,0 +1,22 @@
+chart_id,name,date,time,latitude,longitude,timezone,rodden_rating,description
+obama,Barack Obama,1961-08-04,19:24:00,21.3,-157.8667,-10,AA,Honolulu HI HST; AA-rated celebrity birth chart
+beyonce,Beyonce Knowles,1981-09-04,21:47:00,29.7667,-95.3667,-5,AA,Houston TX CDT; AA-rated celebrity birth chart
+diana,Princess Diana,1961-07-01,19:45:00,52.8333,0.5,1,A,Sandringham UK BST; A-rated celebrity birth chart
+einstein,Albert Einstein,1879-03-14,11:30:00,48.4,10.0,0.6667,AA,Ulm Germany LMT m10e0; pre-1900 chart with local mean time
+jobs,Steve Jobs,1955-02-24,19:15:00,37.7833,-122.4167,-8,AA,San Francisco PST; AA-rated celebrity birth chart
+musk,Elon Musk,1971-06-28,07:30:00,-25.75,28.1667,2,B,Pretoria South Africa SAST; southern hemisphere
+monroe,Marilyn Monroe,1926-06-01,09:30:00,34.05,-118.25,-8,AA,Los Angeles PST; AA-rated celebrity birth chart
+jfk,John F Kennedy,1917-05-29,15:00:00,42.3333,-71.1167,-5,A,Brookline MA EST; A-rated celebrity birth chart
+reykjavik_summer,Reykjavik summer solstice,1985-06-21,12:00:00,64.1466,-21.9426,0,synthetic,Iceland near 64N; tests near-polar latitude in continuous daylight
+ushuaia_winter,Ushuaia winter solstice,1985-12-21,09:00:00,-54.8019,-68.3030,-3,synthetic,Argentina far south near 55S; tests southern high latitude in winter
+quito_equinox,Quito autumn equinox,1995-09-23,12:00:00,-0.1807,-78.4678,-5,synthetic,Ecuador on the equator; tests ecliptic-equatorial alignment
+ny_dst_spring,New York DST spring-forward,2005-04-03,02:30:00,40.7128,-74.0060,-5,synthetic,Spring-forward 0230 was skipped this year; tests DST non-existent hour handling
+ny_dst_fall,New York DST fall-back,2005-10-30,01:30:00,40.7128,-74.0060,-4,synthetic,Fall-back 0130 occurred twice; tests EDT and EST disambiguation
+tromso_midnight_sun,Tromso midnight sun,2000-06-22,12:00:00,69.6493,18.9560,2,synthetic,Norway above the Arctic Circle; tests midnight sun handling
+mumbai_2000,Mumbai canonical IST,2000-01-15,14:30:00,19.0760,72.8777,5.5,synthetic,Mumbai IST 5:30; canonical Indian timezone with half-hour offset
+sydney_2010,Sydney AEDT summer,2010-12-25,12:00:00,-33.8688,151.2093,11,synthetic,Sydney AEDT 11; southern hemisphere positive offset
+tokyo_1990,Tokyo JST,1990-04-29,06:00:00,35.6762,139.6503,9,synthetic,Tokyo JST 9; East Asia timezone
+boston_1900,Boston year 1900,1900-07-04,12:00:00,42.3601,-71.0589,-5,synthetic,Pre-WW1 ephemeris validation for early 1900s
+greenwich_y2k,Greenwich Y2K rollover,2000-01-01,00:00:00,51.4769,0.0,0,synthetic,Y2K rollover at exact GMT zero
+samoa_skipped_day,Samoa post calendar skip,2011-12-31,12:00:00,-13.8333,-171.7667,13,synthetic,Day after Samoa skipped 2011-12-30 changing UTC-11 to UTC+13
+anchorage_winter,Anchorage winter solstice,1985-12-21,12:00:00,61.2181,-149.9003,-9,synthetic,Alaska near 61N at winter solstice; tests northern high latitude in winter darkness
