@@ -84,7 +84,7 @@ The benchmark tests the foundational planet-position layer. It deliberately does
 - **Ayanamsa and sidereal zodiac.** Domain-specific transforms applied above the planet layer.
 - **Aspects, dashas, doshas, interpretations.** Derived calculations layered above raw positions.
 
-Validation for those layers lives in the broader RoxyAPI test suite documented at [roxyapi.com/methodology](https://roxyapi.com/methodology), verified against domain-specific authorities like [DrikPanchang](https://www.drikpanchang.com), onlinejyotish.com, and timeanddate.com.
+Validation for those layers lives in the broader RoxyAPI test suite documented at [roxyapi.com/methodology](https://roxyapi.com/methodology), verified against domain-specific authorities.
 
 ### Why the chart names matter
 
