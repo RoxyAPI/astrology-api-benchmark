@@ -44,19 +44,35 @@ BODY_CODES: dict[str, str] = {
     "Pluto": "999",
 }
 
-# Tolerance per body. Sub-arcminute for outer bodies; looser for the Moon
-# (~13 deg/day motion amplifies any timing precision difference).
+# Tolerance per body, in degrees. Tightened 2026-07-30 from 0.05 / 0.20.
+#
+# These are a VENDOR-NEUTRAL PASS BAR, not a regression guard for any one API. That distinction sets
+# the number. A band sized to one implementation's measured worst case would be a bar only that
+# implementation clears, which would make a benchmark that invites you to point it at a competitor
+# dishonest. So the band is set to catch the class of defect that actually matters (wrong timezone
+# resolution, a geometric rather than apparent ephemeris, a wrong-epoch element set) while leaving
+# room for the legitimate arcsecond-level disagreement between any two good ephemeris
+# implementations.
+#
+# 0.01 deg (36 arcsec) for planets leaves roughly 2x headroom over the tightest observed run
+# (16.55 arcsec max, driven by Neptune, the slowest body and the one with the widest analytical
+# floor). 0.02 deg (72 arcsec) for the Moon still absorbs a couple of minutes of birth-time
+# interpretation at 13 deg/day, and is 20x the 3.30 arcsec observed.
+#
+# Per-body maxima are published in the README, which is where a real regression shows up: the Sun
+# drifting from 0.94 to 20 arcsec would still pass a 36 arcsec bar, so read the table, not just the
+# PASS count.
 TOLERANCES: dict[str, float] = {
-    "Sun": 0.05,
-    "Moon": 0.20,
-    "Mercury": 0.05,
-    "Venus": 0.05,
-    "Mars": 0.05,
-    "Jupiter": 0.05,
-    "Saturn": 0.05,
-    "Uranus": 0.05,
-    "Neptune": 0.05,
-    "Pluto": 0.05,
+    "Sun": 0.01,
+    "Moon": 0.02,
+    "Mercury": 0.01,
+    "Venus": 0.01,
+    "Mars": 0.01,
+    "Jupiter": 0.01,
+    "Saturn": 0.01,
+    "Uranus": 0.01,
+    "Neptune": 0.01,
+    "Pluto": 0.01,
 }
 
 SIGN_OFFSET = {
