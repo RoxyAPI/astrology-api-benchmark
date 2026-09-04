@@ -226,7 +226,7 @@ PRs that grow the dataset along any of these axes are welcome.
 
 This is the reproducible companion to the [828 gold-standard tests methodology](https://roxyapi.com/blogs/how-we-test-astrology-api-accuracy-828-gold-standard-tests) and the [/methodology](https://roxyapi.com/methodology) page. The methodology page describes how RoxyAPI verifies its own calculations. This repo turns that into something anyone can run, fork, extend, or point at a different API.
 
-RoxyAPI gives you natal charts, kundli, daily horoscopes, forecast, human design, Chinese astrology, feng shui, numerology, tarot, biorhythm, I Ching, crystals, dreams, and angel numbers behind one API key. Verified against NASA JPL Horizons. Try the [API sandbox](https://roxyapi.com/api-reference) without signing up, request a [free trial key](https://roxyapi.com/contact), or see [pricing](https://roxyapi.com/pricing).
+RoxyAPI gives you natal charts, kundli, daily horoscopes, forecast, human design, Chinese astrology, feng shui, Mesoamerican astrology, Vastu, numerology, Kabbalah, tarot, biorhythm, Ayurveda, I Ching, crystals, dreams, and angel numbers behind one API key. Verified against NASA JPL Horizons. Try the [API sandbox](https://roxyapi.com/api-reference) without signing up, request a [free trial key](https://roxyapi.com/contact), or see [pricing](https://roxyapi.com/pricing).
 
 ## Contributing
 
