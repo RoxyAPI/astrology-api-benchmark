@@ -13,7 +13,7 @@ Reproducible accuracy benchmark for any astrology API. Open dataset of birth cha
 [![Free trial key](https://img.shields.io/badge/Free_Trial_Key-Request-14b8a6?style=for-the-badge&logo=key&logoColor=white)](https://roxyapi.com/contact)
 [![API Sandbox](https://img.shields.io/badge/API_Sandbox-Try_Live-22c55e?style=for-the-badge&logo=swagger&logoColor=white)](https://roxyapi.com/api-reference)
 [![Methodology](https://img.shields.io/badge/Methodology-NASA_JPL_verified-f59e0b?style=for-the-badge&logo=nasa&logoColor=white)](https://roxyapi.com/methodology)
-[![More starters](https://img.shields.io/badge/More_Starters-RoxyAPI-ec4899?style=for-the-badge&logo=github&logoColor=white)](https://roxyapi.com/starters)
+[![More starters](https://img.shields.io/badge/More_Starters-RoxyAPI-ec4899?style=for-the-badge&logo=github&logoColor=white)](https://roxyapi.com/templates)
 [![License](https://img.shields.io/badge/License-MIT-22c55e?style=for-the-badge)](LICENSE)
 
 ## Why this exists
