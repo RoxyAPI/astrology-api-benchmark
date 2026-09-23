@@ -10,8 +10,8 @@ jfk,John F Kennedy,1917-05-29,15:00:00,42.3333,-71.1167,-5,A,Brookline MA EST; A
 reykjavik_summer,Reykjavik summer solstice,1985-06-21,12:00:00,64.1466,-21.9426,0,synthetic,Iceland near 64N; tests near-polar latitude in continuous daylight
 ushuaia_winter,Ushuaia winter solstice,1985-12-21,09:00:00,-54.8019,-68.3030,-3,synthetic,Argentina far south near 55S; tests southern high latitude in winter
 quito_equinox,Quito autumn equinox,1995-09-23,12:00:00,-0.1807,-78.4678,-5,synthetic,Ecuador on the equator; tests ecliptic-equatorial alignment
-ny_dst_spring,New York DST spring-forward,2005-04-03,02:30:00,40.7128,-74.0060,-5,synthetic,Spring-forward 0230 was skipped this year; tests DST non-existent hour handling
-ny_dst_fall,New York DST fall-back,2005-10-30,01:30:00,40.7128,-74.0060,-4,synthetic,Fall-back 0130 occurred twice; tests EDT and EST disambiguation
+ny_dst_spring,New York DST spring-forward,2005-04-03,02:30:00,40.7128,-74.0060,America/New_York,synthetic,Spring-forward 0230 was skipped this year; tests DST non-existent hour handling
+ny_dst_fall,New York DST fall-back,2005-10-30,01:30:00,40.7128,-74.0060,America/New_York,synthetic,Fall-back 0130 occurred twice; tests EDT and EST disambiguation
 tromso_midnight_sun,Tromso midnight sun,2000-06-22,12:00:00,69.6493,18.9560,2,synthetic,Norway above the Arctic Circle; tests midnight sun handling
 mumbai_2000,Mumbai canonical IST,2000-01-15,14:30:00,19.0760,72.8777,5.5,synthetic,Mumbai IST 5:30; canonical Indian timezone with half-hour offset
 sydney_2010,Sydney AEDT summer,2010-12-25,12:00:00,-33.8688,151.2093,11,synthetic,Sydney AEDT 11; southern hemisphere positive offset

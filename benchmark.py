@@ -56,6 +56,14 @@ def angular_distance(a: float, b: float) -> float:
     return min(diff, 360.0 - diff)
 
 
+def parse_timezone(value: str) -> float | str:
+    """Read a decimal UTC offset as a float, or pass an IANA zone name through as-is."""
+    try:
+        return float(value)
+    except ValueError:
+        return value
+
+
 def post_natal_chart(base_url: str, natal_path: str, api_key: str, body: dict) -> dict:
     req = urllib.request.Request(
         url=f"{base_url.rstrip('/')}{natal_path}",
@@ -138,7 +146,7 @@ def run_benchmark(args: argparse.Namespace) -> int:
             "time": chart["time"],
             "latitude": float(chart["latitude"]),
             "longitude": float(chart["longitude"]),
-            "timezone": float(chart["timezone"]),
+            "timezone": parse_timezone(chart["timezone"]),
         }
         try:
             response = post_natal_chart(args.base_url, args.natal_path, api_key, body)

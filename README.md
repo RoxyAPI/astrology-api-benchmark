@@ -44,7 +44,7 @@ The benchmark script uses Python 3 standard library only, no `pip install` requi
 
 This benchmark validates two specific layers of any astrology API.
 
-**1. Timezone conversion layer.** Given a local birth time and a decimal timezone offset, does the API resolve the same UTC moment that NASA JPL Horizons resolves? Wrong timezone math is the most common silent failure in astrology APIs, and it produces wrong planet positions even when the underlying ephemeris is correct.
+**1. Timezone conversion layer.** Given a local birth time and a timezone, a decimal offset or an IANA zone name, does the API resolve the same UTC moment that NASA JPL Horizons resolves? Wrong timezone math is the most common silent failure in astrology APIs, and it produces wrong planet positions even when the underlying ephemeris is correct.
 
 **2. Ephemeris layer.** For the correct UTC moment, does the API compute geocentric ecliptic planet longitudes that match NASA JPL Horizons DE441, the authoritative reference for solar system body positions?
 
@@ -52,7 +52,7 @@ This benchmark validates two specific layers of any astrology API.
 
 For every chart in `charts.csv`:
 
-1. Read the local birth time, latitude, longitude, and decimal timezone offset.
+1. Read the local birth time, latitude, longitude, and timezone (a decimal offset or an IANA zone name).
 2. Convert local time plus offset to a UTC moment using standard datetime math.
 3. Query NASA JPL Horizons for the geocentric ecliptic longitude of each body at that UTC moment. These are the reference values written to `expected.csv`.
 4. POST the original local-time inputs to the target astrology API. The API performs its own timezone conversion and ephemeris computation.

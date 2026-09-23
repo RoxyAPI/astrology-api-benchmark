@@ -27,6 +27,7 @@ import urllib.parse
 import urllib.request
 from datetime import datetime, timedelta, timezone
 from urllib.error import HTTPError, URLError
+from zoneinfo import ZoneInfo
 
 HORIZONS_URL = "https://ssd.jpl.nasa.gov/api/horizons.api"
 
@@ -101,11 +102,18 @@ def to_sign_and_degree(longitude: float) -> tuple[str, float]:
     return SIGN_NAMES[sign_index], degree_within
 
 
-def chart_utc_iso(date_str: str, time_str: str, timezone_offset: float) -> str:
-    """Convert local-civil chart time (date, time, decimal timezone offset) to UTC ISO."""
+def chart_utc_iso(date_str: str, time_str: str, timezone_value: str) -> str:
+    """Convert local-civil chart time (date, time, decimal offset or IANA zone name) to UTC ISO.
+
+    An IANA name resolves through the system zone database with the default fold (0), which
+    Python already applies before a spring-forward gap and to the first pass of a fall-back
+    repeat, so a synthetic DST-transition row keeps the same resolved instant either way.
+    """
     naive = datetime.strptime(f"{date_str} {time_str}", "%Y-%m-%d %H:%M:%S")
-    tz_seconds = int(timezone_offset * 3600)
-    tz_obj = timezone(timedelta(seconds=tz_seconds))
+    try:
+        tz_obj = timezone(timedelta(seconds=int(float(timezone_value) * 3600)))
+    except ValueError:
+        tz_obj = ZoneInfo(timezone_value)
     aware_local = naive.replace(tzinfo=tz_obj)
     aware_utc = aware_local.astimezone(timezone.utc)
     return aware_utc.strftime("%Y-%m-%d %H:%M")
@@ -162,9 +170,7 @@ def regenerate(charts_path: str, expected_path: str, sleep_seconds: float = 1.0)
 
     for chart in charts:
         chart_id = chart["chart_id"]
-        utc_start = chart_utc_iso(
-            chart["date"], chart["time"], float(chart["timezone"])
-        )
+        utc_start = chart_utc_iso(chart["date"], chart["time"], chart["timezone"])
         utc_dt = datetime.strptime(utc_start, "%Y-%m-%d %H:%M")
         utc_stop = (utc_dt + timedelta(minutes=1)).strftime("%Y-%m-%d %H:%M")
 
