@@ -16,103 +16,6 @@ Reproducible accuracy benchmark for any astrology API. Open dataset of birth cha
 [![More starters](https://img.shields.io/badge/More_Starters-RoxyAPI-ec4899?style=for-the-badge&logo=github&logoColor=white)](https://roxyapi.com/templates)
 [![License](https://img.shields.io/badge/License-MIT-22c55e?style=for-the-badge)](LICENSE)
 
-## Why this exists
-
-Astrology APIs make accuracy claims, but almost none publish a reproducible benchmark. The reader is asked to trust a methodology page or a tolerance number with no way to verify it. This repo flips that: a public dataset of chart inputs, expected planet longitudes pulled directly from [NASA JPL Horizons](https://ssd.jpl.nasa.gov/horizons/) (the authoritative ephemeris reference for solar system bodies), and a Python script that anyone can run against any astrology API to see the actual deviation.
-
-It is also vendor-agnostic. The default target is RoxyAPI, but swapping `--base-url` and `--natal-path` points the same script at any HTTP API that returns planet longitudes for a natal chart.
-
-## Quick start
-
-```bash
-git clone https://github.com/RoxyAPI/astrology-api-benchmark.git
-cd astrology-api-benchmark
-
-export API_KEY=your_roxyapi_key   # https://roxyapi.com/contact for a free test key
-
-python3 benchmark.py
-```
-
-Two ways to test free:
-
-- [roxyapi.com/api-reference](https://roxyapi.com/api-reference) lets you test the API live in the browser sandbox without signing up.
-- [roxyapi.com/contact](https://roxyapi.com/contact) accepts free test key requests.
-
-The benchmark script uses Python 3 standard library only, no `pip install` required.
-
-## What this benchmark validates
-
-This benchmark validates two specific layers of any astrology API.
-
-**1. Timezone conversion layer.** Given a local birth time and a timezone, a decimal offset or an IANA zone name, does the API resolve the same UTC moment that NASA JPL Horizons resolves? Wrong timezone math is the most common silent failure in astrology APIs, and it produces wrong planet positions even when the underlying ephemeris is correct.
-
-**2. Ephemeris layer.** For the correct UTC moment, does the API compute geocentric ecliptic planet longitudes that match NASA JPL Horizons DE441, the authoritative reference for solar system body positions?
-
-### How the test runs
-
-For every chart in `charts.csv`:
-
-1. Read the local birth time, latitude, longitude, and timezone (a decimal offset or an IANA zone name).
-2. Convert local time plus offset to a UTC moment using standard datetime math.
-3. Query NASA JPL Horizons for the geocentric ecliptic longitude of each body at that UTC moment. These are the reference values written to `expected.csv`.
-4. POST the original local-time inputs to the target astrology API. The API performs its own timezone conversion and ephemeris computation.
-5. Compare the API output to the JPL reference for each body. Compute the angular deviation in arcseconds and degrees, with 0/360 wraparound handled correctly.
-
-### Worked example: Obama natal chart
-
-| Step | Value |
-|------|-------|
-| Local birth | 1961-08-04 19:24:00, Honolulu HI, timezone -10 |
-| UTC moment | 1961-08-05 05:24:00 UTC |
-| JPL Horizons Sun longitude | 132.5479089 degrees (Leo 12.5479089) |
-| RoxyAPI Sun longitude | 132.5476606 degrees |
-| Deviation | 0.89 arcseconds (0.0002 degrees), within the 0.01 degree tolerance |
-
-### Tolerance bands
-
-| Body | Tolerance | Why |
-|------|-----------|-----|
-| Sun, Mercury, Venus, Mars, Jupiter, Saturn, Uranus, Neptune, Pluto | 0.01° (36 arcsec) | Roughly 2x headroom over the tightest observed run. Wide enough for the legitimate arcsecond-level disagreement between two good ephemeris implementations, tight enough to fail an API using a geometric rather than an apparent ephemeris |
-| Moon | 0.02° (72 arcsec) | The Moon moves about 13°/day, so this absorbs a couple of minutes of birth-time interpretation. Still 20x the observed maximum |
-
-**These bands are a vendor-neutral pass bar, not a regression guard.** Tightened 2026-07-30 from 0.05° and 0.20°. They are deliberately NOT set to any one implementation's measured worst case: a band sized to one engine is a bar only that engine clears, which would make a benchmark that invites you to point it at a competitor dishonest. The bar catches the class of defect that matters, wrong timezone resolution, a geometric ephemeris, a wrong-epoch element set. For regressions, read the per-body table in the latest run: a body drifting from 1 to 20 arcseconds still passes a 36 arcsecond bar.
-
-### What this benchmark does not validate
-
-The benchmark tests the foundational planet-position layer. It deliberately does not validate:
-
-- **House cusps** (Placidus, Koch, Whole Sign, Equal). Observer-frame angles computed from sidereal time and obliquity, not body positions. JPL does not publish them.
-- **Ascendant and Midheaven.** Same reason as house cusps. Sensitive to exact birth-time precision.
-- **Ayanamsa and sidereal zodiac.** Domain-specific transforms applied above the planet layer.
-- **Aspects, dashas, doshas, interpretations.** Derived calculations layered above raw positions.
-
-Validation for those layers lives in the broader RoxyAPI test suite documented at [roxyapi.com/methodology](https://roxyapi.com/methodology), verified against domain-specific authorities.
-
-### Why the chart names matter
-
-JPL Horizons does not know who anyone is. Feed it `(date, time, latitude, longitude, timezone)`, it returns geocentric ecliptic longitudes. The chart label is human metadata. We use named AA-rated celebrity charts so any reader can cross-check our birth-time inputs against the same [astro-databank](https://www.astro.com/astro-databank) entries we sourced them from. If our chart inputs disagree with the public record, our credibility falls regardless of internal mathematical consistency.
-
-The synthetic edge-case charts (DST transitions, polar latitudes, pre-1900 dates, half-hour offsets, calendar-skip days) are explicitly labeled as test fixtures designed to exercise specific timezone-handling conditions. Their value is coverage, not celebrity provenance.
-
-### Reference dataset
-
-Reference values are pulled from [NASA JPL Horizons DE441](https://ssd.jpl.nasa.gov/horizons/) for 21 charts: 8 named celebrity charts plus 13 synthetic edge-case scenarios. Each longitude in `expected.csv` keeps the full precision Horizons publishes, seven decimal degrees, about 0.0004 arcseconds. Rodden Ratings cite the [astro-databank](https://www.astro.com/astro-databank) data-quality system.
-
-| Chart | Birth | Rodden |
-|-------|-------|--------|
-| Barack Obama | Aug 4, 1961, 7:24 PM, Honolulu HI | AA |
-| Beyonce Knowles | Sep 4, 1981, 9:47 PM, Houston TX | AA |
-| Albert Einstein | Mar 14, 1879, 11:30 AM, Ulm Germany (LMT) | AA |
-| Marilyn Monroe | Jun 1, 1926, 9:30 AM, Los Angeles CA | AA |
-| Steve Jobs | Feb 24, 1955, 7:15 PM, San Francisco CA | AA |
-| Princess Diana | Jul 1, 1961, 7:45 PM, Sandringham UK | A |
-| John F Kennedy | May 29, 1917, 3:00 PM, Brookline MA | A |
-| Elon Musk | Jun 28, 1971, 7:30 AM, Pretoria South Africa | B |
-
-Plus 13 synthetic charts covering Reykjavik (64°N), Tromsø (70°N), Anchorage (61°N), Ushuaia (-55°S), Sydney AEDT, Tokyo JST, Mumbai IST half-hour offset, Quito on the equator, New York DST spring-forward + fall-back, Boston 1900 pre-WW1 era, Greenwich Y2K rollover, Samoa post-2011 calendar skip.
-
-That is 210 reference points (10 planets × 21 charts). Adding more charts is one-line work in `charts.csv` plus a re-run of `regenerate_expected.py` against JPL Horizons. See [Adding charts](#adding-charts) below.
-
 ## Latest run
 
 <!-- BENCHMARK:BEGIN - generated by benchmark.py --update-readme, do not hand-edit -->
@@ -161,32 +64,71 @@ Reproduce it with your own key, and keep the block above honest at the same time
 python3 benchmark.py --update-readme
 ```
 
-## Run history
+## What this benchmark validates
 
-Every run this repo has published, oldest first. Kept deliberately: a benchmark that silently replaces its numbers gives you no way to tell a real improvement from a quiet re-tune. Chart inputs and scoring are the same across all rows, so they are directly comparable. Where the reference itself changed, the row says so.
+This benchmark validates two specific layers of any astrology API.
 
-| Run | Median | Max | Pass | Notes |
-|-----|-------:|----:|------|-------|
-| 2026-04-28 | 16.0 arcsec | 32.4 arcsec | 210 / 210 | First published run. Tolerance bands were 0.05 deg planets, 0.20 deg Moon. |
-| 2026-07-30 | 1.48 arcsec | 16.55 arcsec | 210 / 210 | Accuracy update to the positions engine deployed 2026-07-29. Median improved about 11x, max about 2x. Tolerance bands tightened to 0.01 deg planets, 0.02 deg Moon. |
-| 2026-09-25 | 1.54 arcsec | 16.70 arcsec | 210 / 210 | Reference values now carry the seven decimal degrees JPL Horizons publishes, where earlier runs used four. Engine unchanged, so every shift from the previous row, at most 0.15 arcsec on any body, is the finer reference. |
+**1. Timezone conversion layer.** Given a local birth time and a timezone, a decimal offset or an IANA zone name, does the API resolve the same UTC moment that NASA JPL Horizons resolves? Wrong timezone math is the most common silent failure in astrology APIs, and it produces wrong planet positions even when the underlying ephemeris is correct.
 
-Per-body maximum on each run. The 2026-04-28 column is the arcminute figure published at the time multiplied by 60, so it inherits that rounding (the second decimal of an arcminute is 0.6 arcseconds):
+**2. Ephemeris layer.** For the correct UTC moment, does the API compute geocentric ecliptic planet longitudes that match NASA JPL Horizons DE441, the authoritative reference for solar system body positions?
 
-| Body | Max, 2026-04-28 | Max, 2026-07-30 | Max, 2026-09-25 |
-|------|----------------:|----------------:|----------------:|
-| Neptune | 32.4 arcsec | 16.55 arcsec | 16.70 arcsec |
-| Saturn | 29.4 arcsec | 9.35 arcsec | 9.29 arcsec |
-| Jupiter | 25.2 arcsec | 6.03 arcsec | 5.88 arcsec |
-| Uranus | 24.6 arcsec | 11.42 arcsec | 11.32 arcsec |
-| Mars | 24.6 arcsec | 6.21 arcsec | 6.32 arcsec |
-| Mercury | 22.8 arcsec | 5.40 arcsec | 5.45 arcsec |
-| Pluto | 22.2 arcsec | 5.61 arcsec | 5.70 arcsec |
-| Sun | 21.6 arcsec | 0.94 arcsec | 0.89 arcsec |
-| Venus | 21.0 arcsec | 2.22 arcsec | 2.08 arcsec |
-| Moon | 3.0 arcsec | 3.30 arcsec | 3.23 arcsec |
+### How the test runs
 
-Every body improved between the first two runs except the Moon, which was already tight and stayed there: its first-run figure is an arcminute value times 60 and so carries up to 0.3 arcseconds of rounding, which puts 3.0, 3.30 and 3.23 inside one measurement. All 210 points were inside tolerance on every run, so the first change was a precision improvement rather than a correctness one: no chart changed a sign, and none was ever outside the published band.
+For every chart in `charts.csv`:
+
+1. Read the local birth time, latitude, longitude, and timezone (a decimal offset or an IANA zone name).
+2. Convert local time plus offset to a UTC moment using standard datetime math.
+3. Query NASA JPL Horizons for the geocentric ecliptic longitude of each body at that UTC moment. These are the reference values written to `expected.csv`.
+4. POST the original local-time inputs to the target astrology API. The API performs its own timezone conversion and ephemeris computation.
+5. Compare the API output to the JPL reference for each body. Compute the angular deviation in arcseconds and degrees, with 0/360 wraparound handled correctly.
+
+### Worked example: Obama natal chart
+
+| Step | Value |
+|------|-------|
+| Local birth | 1961-08-04 19:24:00, Honolulu HI, timezone -10 |
+| UTC moment | 1961-08-05 05:24:00 UTC |
+| JPL Horizons Sun longitude | 132.5479089 degrees (Leo 12.5479089) |
+| RoxyAPI Sun longitude | 132.5476606 degrees |
+| Deviation | 0.89 arcseconds (0.0002 degrees), within the 0.01 degree tolerance |
+
+### Tolerance bands
+
+| Body | Tolerance | Why |
+|------|-----------|-----|
+| Sun, Mercury, Venus, Mars, Jupiter, Saturn, Uranus, Neptune, Pluto | 0.01° (36 arcsec) | Roughly 2x headroom over the tightest observed run. Wide enough for the legitimate arcsecond-level disagreement between two good ephemeris implementations, tight enough to fail an API using a geometric rather than an apparent ephemeris |
+| Moon | 0.02° (72 arcsec) | The Moon moves about 13°/day, so this absorbs a couple of minutes of birth-time interpretation. Still 20x the observed maximum |
+
+**These bands are a vendor-neutral pass bar, not a regression guard.** They are deliberately NOT set to the measured worst case of any one implementation: a band sized to one engine is a bar only that engine clears, which would make a benchmark that invites you to point it at a competitor dishonest. The bar catches the class of defect that matters, wrong timezone resolution, a geometric ephemeris, a wrong-epoch element set. For regressions, read the per-body table in the latest run: a body drifting from 1 to 20 arcseconds still passes a 36 arcsecond bar.
+
+### What this benchmark does not validate
+
+The benchmark tests the foundational planet-position layer. It deliberately does not validate:
+
+- **House cusps** (Placidus, Koch, Whole Sign, Equal). Observer-frame angles computed from sidereal time and obliquity, not body positions. JPL does not publish them.
+- **Ascendant and Midheaven.** Same reason as house cusps. Sensitive to exact birth-time precision.
+- **Ayanamsa and sidereal zodiac.** Domain-specific transforms applied above the planet layer.
+- **Aspects, dashas, doshas, interpretations.** Derived calculations layered above raw positions.
+
+Validation for those layers lives in the broader RoxyAPI test suite documented at [roxyapi.com/methodology](https://roxyapi.com/methodology), verified against domain-specific authorities.
+
+## Quick start
+
+```bash
+git clone https://github.com/RoxyAPI/astrology-api-benchmark.git
+cd astrology-api-benchmark
+
+export API_KEY=your_roxyapi_key   # https://roxyapi.com/contact for a free test key
+
+python3 benchmark.py
+```
+
+Two ways to test free:
+
+- [roxyapi.com/api-reference](https://roxyapi.com/api-reference) lets you test the API live in the browser sandbox without signing up.
+- [roxyapi.com/contact](https://roxyapi.com/contact) accepts free test key requests.
+
+The benchmark script uses Python 3 standard library only, no `pip install` required.
 
 ## Run against a different API
 
@@ -199,6 +141,31 @@ python3 benchmark.py \
 ```
 
 If the response shape differs, adapt `extract_body_longitude` in `benchmark.py`, the only place in the script that knows the response shape.
+
+## Why the chart names matter
+
+JPL Horizons does not know who anyone is. Feed it `(date, time, latitude, longitude, timezone)`, it returns geocentric ecliptic longitudes. The chart label is human metadata. We use named AA-rated celebrity charts so any reader can cross-check our birth-time inputs against the same [astro-databank](https://www.astro.com/astro-databank) entries we sourced them from. If our chart inputs disagree with the public record, our credibility falls regardless of internal mathematical consistency.
+
+The synthetic edge-case charts (DST transitions, polar latitudes, pre-1900 dates, half-hour offsets, calendar-skip days) are explicitly labeled as test fixtures designed to exercise specific timezone-handling conditions. Their value is coverage, not celebrity provenance.
+
+## Reference dataset
+
+Reference values are pulled from [NASA JPL Horizons DE441](https://ssd.jpl.nasa.gov/horizons/) for 21 charts: 8 named celebrity charts plus 13 synthetic edge-case scenarios. Each longitude in `expected.csv` keeps the full precision Horizons publishes, seven decimal degrees, about 0.0004 arcseconds. Rodden Ratings cite the [astro-databank](https://www.astro.com/astro-databank) data-quality system.
+
+| Chart | Birth | Rodden |
+|-------|-------|--------|
+| Barack Obama | Aug 4, 1961, 7:24 PM, Honolulu HI | AA |
+| Beyonce Knowles | Sep 4, 1981, 9:47 PM, Houston TX | AA |
+| Albert Einstein | Mar 14, 1879, 11:30 AM, Ulm Germany (LMT) | AA |
+| Marilyn Monroe | Jun 1, 1926, 9:30 AM, Los Angeles CA | AA |
+| Steve Jobs | Feb 24, 1955, 7:15 PM, San Francisco CA | AA |
+| Princess Diana | Jul 1, 1961, 7:45 PM, Sandringham UK | A |
+| John F Kennedy | May 29, 1917, 3:00 PM, Brookline MA | A |
+| Elon Musk | Jun 28, 1971, 7:30 AM, Pretoria South Africa | B |
+
+Plus 13 synthetic charts covering Reykjavik (64°N), Tromsø (70°N), Anchorage (61°N), Ushuaia (-55°S), Sydney AEDT, Tokyo JST, Mumbai IST half-hour offset, Quito on the equator, New York DST spring-forward + fall-back, Boston 1900 pre-WW1 era, Greenwich Y2K rollover, Samoa post-2011 calendar skip.
+
+That is 210 reference points (10 planets × 21 charts). Adding more charts is one-line work in `charts.csv` plus a re-run of `regenerate_expected.py` against JPL Horizons. See [Adding charts](#adding-charts) below.
 
 ## Adding charts
 
@@ -222,6 +189,39 @@ Roadmap for the dataset itself:
 - Vedic / sidereal extension (separate `expected-vedic.csv` referenced against [DrikPanchang](https://www.drikpanchang.com))
 
 PRs that grow the dataset along any of these axes are welcome.
+
+## Run history
+
+Every run this repo has published, newest first. Kept deliberately: a benchmark that silently replaces its numbers gives you no way to tell a real improvement from a quiet re-tune. Chart inputs and scoring are the same across all rows, so they are directly comparable. Where the reference itself changed, the row says so.
+
+| Run | Median | Max | Pass | Notes |
+|-----|-------:|----:|------|-------|
+| 2026-09-25 | 1.54 arcsec | 16.70 arcsec | 210 / 210 | Reference values now carry the seven decimal degrees JPL Horizons publishes, where earlier runs used four. Engine unchanged, so every shift from the previous row, at most 0.15 arcsec on any body, is the finer reference. |
+| 2026-07-30 | 1.48 arcsec | 16.55 arcsec | 210 / 210 | Accuracy update to the positions engine deployed 2026-07-29. Median improved about 11x, max about 2x. Tolerance bands tightened to 0.01 deg planets, 0.02 deg Moon. |
+| 2026-04-28 | 16.0 arcsec | 32.4 arcsec | 210 / 210 | First published run. Tolerance bands were 0.05 deg planets, 0.20 deg Moon. |
+
+Per-body maximum on each run. The 2026-04-28 column is the arcminute figure published at the time multiplied by 60, so it inherits that rounding (the second decimal of an arcminute is 0.6 arcseconds):
+
+| Body | Max, 2026-09-25 | Max, 2026-07-30 | Max, 2026-04-28 |
+|------|-----------------:|-----------------:|-----------------:|
+| Neptune | 16.70 arcsec | 16.55 arcsec | 32.4 arcsec |
+| Saturn | 9.29 arcsec | 9.35 arcsec | 29.4 arcsec |
+| Jupiter | 5.88 arcsec | 6.03 arcsec | 25.2 arcsec |
+| Uranus | 11.32 arcsec | 11.42 arcsec | 24.6 arcsec |
+| Mars | 6.32 arcsec | 6.21 arcsec | 24.6 arcsec |
+| Mercury | 5.45 arcsec | 5.40 arcsec | 22.8 arcsec |
+| Pluto | 5.70 arcsec | 5.61 arcsec | 22.2 arcsec |
+| Sun | 0.89 arcsec | 0.94 arcsec | 21.6 arcsec |
+| Venus | 2.08 arcsec | 2.22 arcsec | 21.0 arcsec |
+| Moon | 3.23 arcsec | 3.30 arcsec | 3.0 arcsec |
+
+Every body improved between the first two runs except the Moon, which was already tight and stayed there: its first-run figure is an arcminute value times 60 and so carries up to 0.3 arcseconds of rounding, which puts 3.0, 3.30 and 3.23 inside one measurement. All 210 points were inside tolerance on every run, so the first change was a precision improvement rather than a correctness one: no chart changed a sign, and none was ever outside the published band.
+
+## Why this exists
+
+Astrology APIs make accuracy claims, but almost none publish a reproducible benchmark. The reader is asked to trust a methodology page or a tolerance number with no way to verify it. This repo flips that: a public dataset of chart inputs, expected planet longitudes pulled directly from [NASA JPL Horizons](https://ssd.jpl.nasa.gov/horizons/) (the authoritative ephemeris reference for solar system bodies), and a Python script that anyone can run against any astrology API to see the actual deviation.
+
+It is also vendor-agnostic. The default target is RoxyAPI, but swapping `--base-url` and `--natal-path` points the same script at any HTTP API that returns planet longitudes for a natal chart.
 
 ## How this fits with RoxyAPI
 
