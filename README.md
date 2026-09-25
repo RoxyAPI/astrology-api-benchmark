@@ -197,7 +197,7 @@ python3 benchmark.py \
   --natal-path /astrology/natal-chart
 ```
 
-If the response shape differs, adapt `extract_body_longitude` in `benchmark.py`. The function is 25 lines and the only place that knows about response structure.
+If the response shape differs, adapt `extract_body_longitude` in `benchmark.py`, the only place in the script that knows the response shape.
 
 ## Adding charts
 
