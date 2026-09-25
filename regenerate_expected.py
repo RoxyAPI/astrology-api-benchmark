@@ -8,7 +8,8 @@ expected.csv with one row per (chart, body) pair.
 
 This script populates the dataset that benchmark.py reads. Run it once when you
 add charts to charts.csv. The result is reproducible: anyone can re-run this and
-get the same numbers (within the precision Horizons publishes).
+get the same numbers. Longitudes are written with the seven decimal degrees
+Horizons prints, about 0.0004 arcseconds, and never rounded further.
 
 Usage:
     python3 regenerate_expected.py
@@ -30,6 +31,10 @@ from urllib.error import HTTPError, URLError
 from zoneinfo import ZoneInfo
 
 HORIZONS_URL = "https://ssd.jpl.nasa.gov/api/horizons.api"
+
+# Horizons prints ObsEcLon to seven decimal degrees. Formatting to the same width keeps its digits
+# exactly and drops only the float noise the sign subtraction adds.
+HORIZONS_DECIMALS = 7
 
 # JPL Horizons COMMAND codes for major bodies, geocentric (CENTER=500@399)
 BODY_CODES: dict[str, str] = {
@@ -56,12 +61,12 @@ BODY_CODES: dict[str, str] = {
 # implementations.
 #
 # 0.01 deg (36 arcsec) for planets leaves roughly 2x headroom over the tightest observed run
-# (16.55 arcsec max, driven by Neptune, the slowest body and the one with the widest analytical
+# (16.70 arcsec max, driven by Neptune, the slowest body and the one with the widest analytical
 # floor). 0.02 deg (72 arcsec) for the Moon still absorbs a couple of minutes of birth-time
-# interpretation at 13 deg/day, and is 20x the 3.30 arcsec observed.
+# interpretation at 13 deg/day, and is 20x the 3.23 arcsec observed.
 #
 # Per-body maxima are published in the README, which is where a real regression shows up: the Sun
-# drifting from 0.94 to 20 arcsec would still pass a 36 arcsec bar, so read the table, not just the
+# drifting from 0.89 to 20 arcsec would still pass a 36 arcsec bar, so read the table, not just the
 # PASS count.
 TOLERANCES: dict[str, float] = {
     "Sun": 0.01,
@@ -195,7 +200,7 @@ def regenerate(charts_path: str, expected_path: str, sleep_seconds: float = 1.0)
                     "chart_id": chart_id,
                     "body": body,
                     "sign": sign,
-                    "degree_within_sign": round(degree_within, 4),
+                    "degree_within_sign": f"{degree_within:.{HORIZONS_DECIMALS}f}",
                     "source": "JPL Horizons (DE441)",
                     "tolerance_deg": TOLERANCES[body],
                 }

@@ -168,7 +168,7 @@ def run_benchmark(args: argparse.Namespace) -> int:
                 {
                     "chart_id": chart_id,
                     "body": body_name,
-                    "expected_longitude": round(ref["expected_longitude"], 4),
+                    "expected_longitude": f"{ref['expected_longitude']:.7f}",
                     "actual_longitude": "",
                     "deviation_deg": "",
                     "deviation_arcsec": "",
@@ -183,9 +183,9 @@ def run_benchmark(args: argparse.Namespace) -> int:
             {
                 "chart_id": chart_id,
                 "body": body_name,
-                "expected_longitude": round(ref["expected_longitude"], 4),
-                "actual_longitude": round(actual, 4),
-                "deviation_deg": round(deviation, 4),
+                "expected_longitude": f"{ref['expected_longitude']:.7f}",
+                "actual_longitude": f"{actual:.7f}",
+                "deviation_deg": f"{deviation:.7f}",
                 "deviation_arcsec": round(deviation * 3600.0, 2),
                 "tolerance_deg": ref["tolerance_deg"],
                 "within_tolerance": "PASS" if within else "FAIL",
@@ -209,8 +209,8 @@ def run_benchmark(args: argparse.Namespace) -> int:
         writer.writeheader()
         writer.writerows(results)
 
-    # Stats come from the unrounded arcsecond column, not the 4-decimal degree column, so the
-    # summary and the per-row CSV cannot disagree. Rounding degrees first quantizes to 0.36 arcsec.
+    # Stats come from the arcsecond column, so the summary and the per-row CSV cannot disagree.
+    # Degree columns carry seven decimals, the precision of the JPL Horizons reference.
     numeric = [
         r["deviation_arcsec"] / 3600.0
         for r in results
