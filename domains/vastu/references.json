@@ -1,0 +1,720 @@
+{
+  "format": 1,
+  "domain": "vastu",
+  "sources": [
+    {
+      "name": "Varahamihira, Brihat Samhita, translated by N. Chidambaram Iyer",
+      "url": "https://archive.org/details/b29353130",
+      "command": "python -m benchmark pull vastu",
+      "retrieved": "2026-10-09",
+      "licence": "Public domain translation, Madura, 1884; values only",
+      "citation": "Varahamihira, The Brihat Samhita, translated into English by N. Chidambaram Iyer, Madura, South Indian Press, 1884, chapter 53 (the sixth chapter of the volume part on architecture), verses 42 to 45 for the squares and 71 to 75 for the effects",
+      "method": "The nine by nine plate and the squares of its rim were transcribed from verses 42 to 45, the effect of a door on each rim square from verses 72 to 75. Each list opens at the corner its verse names, and a corner square belongs to the side whose list opens with it. A side is cut into eight equal parts counted from that corner, and a facing bearing names the cardinal side it looks out toward within 22.5 degrees.",
+      "applies_to": [
+        "side",
+        "ordinal_on_side",
+        "pada",
+        "square",
+        "effect_category"
+      ],
+      "notes": "The effect word is a reading of the verse: gain, harm, or mixed where the verse names both or neither. It is asserted only where the Iyer and Kern translations agree on it."
+    },
+    {
+      "name": "Kern, Verspreide Geschriften vol. 2",
+      "url": "https://archive.org/details/in.gov.ignca.10715",
+      "retrieved": "2026-10-09",
+      "licence": "Public domain translation, The Hague, 1913; values only",
+      "citation": "Hendrik Kern, translation of the Brhat Sanhita of Varahamihira, in Verspreide Geschriften vol. 2, The Hague, 1913, chapter 53, verses 71 to 75",
+      "method": "The effect words of verses 72 to 75 were read in a second, independent translation and classified by the same rule as the first. Where it renders an effect with different words that name the same kind of outcome, the classification agrees. Where it differs, the pada is left unclassified.",
+      "applies_to": [
+        "effect_category"
+      ]
+    }
+  ],
+  "families": [
+    {
+      "label": "Entrance side and pada from facing bearing and door position",
+      "quantities": [
+        "side",
+        "ordinal_on_side",
+        "pada"
+      ]
+    },
+    {
+      "label": "Square of the nine by nine plan",
+      "quantities": [
+        "square"
+      ]
+    },
+    {
+      "label": "Classical effect of the entrance pada",
+      "quantities": [
+        "effect_category"
+      ]
+    }
+  ],
+  "tolerances": [
+    {
+      "applies_to": "*",
+      "value": 0,
+      "unit": "exact",
+      "why": "A pada, a side, a square and an effect word are discrete: one square off names a different deity and a different verdict."
+    }
+  ],
+  "cases": [
+    {
+      "id": "east-start-corner",
+      "input": {
+        "facing_degrees": 90,
+        "door_position": 0.0
+      },
+      "expected": {
+        "side": "East",
+        "ordinal_on_side": 1,
+        "pada": 1,
+        "square": 1,
+        "effect_category": "harm"
+      }
+    },
+    {
+      "id": "east-boundary-before",
+      "input": {
+        "facing_degrees": 90,
+        "door_position": 0.1249999
+      },
+      "expected": {
+        "side": "East",
+        "ordinal_on_side": 1,
+        "pada": 1,
+        "square": 1,
+        "effect_category": "harm"
+      }
+    },
+    {
+      "id": "east-boundary-on",
+      "input": {
+        "facing_degrees": 90,
+        "door_position": 0.125
+      },
+      "expected": {
+        "side": "East",
+        "ordinal_on_side": 2,
+        "pada": 2,
+        "square": 2,
+        "effect_category": "mixed"
+      }
+    },
+    {
+      "id": "east-boundary-past",
+      "input": {
+        "facing_degrees": 90,
+        "door_position": 0.1250001
+      },
+      "expected": {
+        "side": "East",
+        "ordinal_on_side": 2,
+        "pada": 2,
+        "square": 2,
+        "effect_category": "mixed"
+      }
+    },
+    {
+      "id": "south-boundary-before",
+      "input": {
+        "facing_degrees": 180,
+        "door_position": 0.4999999
+      },
+      "expected": {
+        "side": "South",
+        "ordinal_on_side": 4,
+        "pada": 12,
+        "square": 36
+      }
+    },
+    {
+      "id": "south-boundary-on",
+      "input": {
+        "facing_degrees": 180,
+        "door_position": 0.5
+      },
+      "expected": {
+        "side": "South",
+        "ordinal_on_side": 5,
+        "pada": 13,
+        "square": 45,
+        "effect_category": "harm"
+      }
+    },
+    {
+      "id": "south-boundary-past",
+      "input": {
+        "facing_degrees": 180,
+        "door_position": 0.5000001
+      },
+      "expected": {
+        "side": "South",
+        "ordinal_on_side": 5,
+        "pada": 13,
+        "square": 45,
+        "effect_category": "harm"
+      }
+    },
+    {
+      "id": "south-mid-pada",
+      "input": {
+        "facing_degrees": 195,
+        "door_position": 0.6875
+      },
+      "expected": {
+        "side": "South",
+        "ordinal_on_side": 6,
+        "pada": 14,
+        "square": 54,
+        "effect_category": "harm"
+      }
+    },
+    {
+      "id": "west-boundary-before",
+      "input": {
+        "facing_degrees": 270,
+        "door_position": 0.8749999
+      },
+      "expected": {
+        "side": "West",
+        "ordinal_on_side": 7,
+        "pada": 23,
+        "square": 75,
+        "effect_category": "harm"
+      }
+    },
+    {
+      "id": "west-boundary-on",
+      "input": {
+        "facing_degrees": 270,
+        "door_position": 0.875
+      },
+      "expected": {
+        "side": "West",
+        "ordinal_on_side": 8,
+        "pada": 24,
+        "square": 74,
+        "effect_category": "harm"
+      }
+    },
+    {
+      "id": "west-far-end",
+      "input": {
+        "facing_degrees": 270,
+        "door_position": 1.0
+      },
+      "expected": {
+        "side": "West",
+        "ordinal_on_side": 8,
+        "pada": 24,
+        "square": 74,
+        "effect_category": "harm"
+      }
+    },
+    {
+      "id": "west-edge-of-sector",
+      "input": {
+        "facing_degrees": 247.6,
+        "door_position": 0.0
+      },
+      "expected": {
+        "side": "West",
+        "ordinal_on_side": 1,
+        "pada": 17,
+        "square": 81,
+        "effect_category": "harm"
+      }
+    },
+    {
+      "id": "north-boundary-before",
+      "input": {
+        "facing_degrees": 360,
+        "door_position": 0.2499999
+      },
+      "expected": {
+        "side": "North",
+        "ordinal_on_side": 2,
+        "pada": 26,
+        "square": 64,
+        "effect_category": "harm"
+      }
+    },
+    {
+      "id": "north-boundary-on",
+      "input": {
+        "facing_degrees": 0,
+        "door_position": 0.25
+      },
+      "expected": {
+        "side": "North",
+        "ordinal_on_side": 3,
+        "pada": 27,
+        "square": 55,
+        "effect_category": "gain"
+      }
+    },
+    {
+      "id": "north-boundary-past",
+      "input": {
+        "facing_degrees": 15,
+        "door_position": 0.2500001
+      },
+      "expected": {
+        "side": "North",
+        "ordinal_on_side": 3,
+        "pada": 27,
+        "square": 55,
+        "effect_category": "gain"
+      }
+    },
+    {
+      "id": "north-edge-of-sector",
+      "input": {
+        "facing_degrees": 337.6,
+        "door_position": 0.9999999
+      },
+      "expected": {
+        "side": "North",
+        "ordinal_on_side": 8,
+        "pada": 32,
+        "square": 10,
+        "effect_category": "harm"
+      }
+    },
+    {
+      "id": "door-northeast-corner-square",
+      "input": {
+        "facing_degrees": 90,
+        "door_x": 89,
+        "door_y": 89
+      },
+      "expected": {
+        "side": "East",
+        "ordinal_on_side": 1,
+        "pada": 1,
+        "square": 1,
+        "effect_category": "harm"
+      }
+    },
+    {
+      "id": "door-corner-square-belongs-south",
+      "input": {
+        "facing_degrees": 90,
+        "door_x": 89,
+        "door_y": 5
+      },
+      "expected": {
+        "side": "South",
+        "ordinal_on_side": 1,
+        "pada": 9,
+        "square": 9,
+        "effect_category": "harm"
+      }
+    },
+    {
+      "id": "door-corner-square-belongs-west",
+      "input": {
+        "facing_degrees": 180,
+        "door_x": 5,
+        "door_y": 1
+      },
+      "expected": {
+        "side": "West",
+        "ordinal_on_side": 1,
+        "pada": 17,
+        "square": 81,
+        "effect_category": "harm"
+      }
+    },
+    {
+      "id": "door-corner-square-belongs-north",
+      "input": {
+        "facing_degrees": 270,
+        "door_x": 1,
+        "door_y": 89
+      },
+      "expected": {
+        "side": "North",
+        "ordinal_on_side": 1,
+        "pada": 25,
+        "square": 73
+      }
+    },
+    {
+      "id": "door-east-fourth-square",
+      "input": {
+        "facing_degrees": 90,
+        "door_x": 90,
+        "door_y": 55
+      },
+      "expected": {
+        "side": "East",
+        "ordinal_on_side": 4,
+        "pada": 4,
+        "square": 4,
+        "effect_category": "gain"
+      }
+    },
+    {
+      "id": "door-south-middle-square",
+      "input": {
+        "facing_degrees": 180,
+        "door_x": 45,
+        "door_y": 0
+      },
+      "expected": {
+        "side": "South",
+        "ordinal_on_side": 5,
+        "pada": 13,
+        "square": 45,
+        "effect_category": "harm"
+      }
+    },
+    {
+      "id": "door-north-last-square",
+      "input": {
+        "facing_degrees": 0,
+        "door_x": 75,
+        "door_y": 90
+      },
+      "expected": {
+        "side": "North",
+        "ordinal_on_side": 8,
+        "pada": 32,
+        "square": 10,
+        "effect_category": "harm"
+      }
+    },
+    {
+      "id": "door-decides-the-side",
+      "input": {
+        "facing_degrees": 40,
+        "door_x": 45,
+        "door_y": 1
+      },
+      "expected": {
+        "side": "South",
+        "ordinal_on_side": 5,
+        "pada": 13,
+        "square": 45,
+        "effect_category": "harm"
+      }
+    }
+  ],
+  "cross_checks": [
+    {
+      "id": "pada-1-kern",
+      "source": "Kern, Verspreide Geschriften vol. 2",
+      "input": {
+        "pada": 1
+      },
+      "expected": {
+        "effect_category": "harm"
+      }
+    },
+    {
+      "id": "pada-2-kern",
+      "source": "Kern, Verspreide Geschriften vol. 2",
+      "input": {
+        "pada": 2
+      },
+      "expected": {
+        "effect_category": "mixed"
+      }
+    },
+    {
+      "id": "pada-3-kern",
+      "source": "Kern, Verspreide Geschriften vol. 2",
+      "input": {
+        "pada": 3
+      },
+      "expected": {
+        "effect_category": "gain"
+      }
+    },
+    {
+      "id": "pada-4-kern",
+      "source": "Kern, Verspreide Geschriften vol. 2",
+      "input": {
+        "pada": 4
+      },
+      "expected": {
+        "effect_category": "gain"
+      }
+    },
+    {
+      "id": "pada-5-kern",
+      "source": "Kern, Verspreide Geschriften vol. 2",
+      "input": {
+        "pada": 5
+      },
+      "expected": {
+        "effect_category": "harm"
+      }
+    },
+    {
+      "id": "pada-6-kern",
+      "source": "Kern, Verspreide Geschriften vol. 2",
+      "input": {
+        "pada": 6
+      },
+      "expected": {
+        "effect_category": "harm"
+      }
+    },
+    {
+      "id": "pada-8-kern",
+      "source": "Kern, Verspreide Geschriften vol. 2",
+      "input": {
+        "pada": 8
+      },
+      "expected": {
+        "effect_category": "harm"
+      }
+    },
+    {
+      "id": "pada-9-kern",
+      "source": "Kern, Verspreide Geschriften vol. 2",
+      "input": {
+        "pada": 9
+      },
+      "expected": {
+        "effect_category": "harm"
+      }
+    },
+    {
+      "id": "pada-10-kern",
+      "source": "Kern, Verspreide Geschriften vol. 2",
+      "input": {
+        "pada": 10
+      },
+      "expected": {
+        "effect_category": "harm"
+      }
+    },
+    {
+      "id": "pada-11-kern",
+      "source": "Kern, Verspreide Geschriften vol. 2",
+      "input": {
+        "pada": 11
+      },
+      "expected": {
+        "effect_category": "harm"
+      }
+    },
+    {
+      "id": "pada-12-kern",
+      "source": "Kern, Verspreide Geschriften vol. 2",
+      "input": {
+        "pada": 12
+      },
+      "expected": {
+        "effect_category": "gain"
+      }
+    },
+    {
+      "id": "pada-13-kern",
+      "source": "Kern, Verspreide Geschriften vol. 2",
+      "input": {
+        "pada": 13
+      },
+      "expected": {
+        "effect_category": "harm"
+      }
+    },
+    {
+      "id": "pada-14-kern",
+      "source": "Kern, Verspreide Geschriften vol. 2",
+      "input": {
+        "pada": 14
+      },
+      "expected": {
+        "effect_category": "harm"
+      }
+    },
+    {
+      "id": "pada-15-kern",
+      "source": "Kern, Verspreide Geschriften vol. 2",
+      "input": {
+        "pada": 15
+      },
+      "expected": {
+        "effect_category": "harm"
+      }
+    },
+    {
+      "id": "pada-16-kern",
+      "source": "Kern, Verspreide Geschriften vol. 2",
+      "input": {
+        "pada": 16
+      },
+      "expected": {
+        "effect_category": "harm"
+      }
+    },
+    {
+      "id": "pada-17-kern",
+      "source": "Kern, Verspreide Geschriften vol. 2",
+      "input": {
+        "pada": 17
+      },
+      "expected": {
+        "effect_category": "harm"
+      }
+    },
+    {
+      "id": "pada-18-kern",
+      "source": "Kern, Verspreide Geschriften vol. 2",
+      "input": {
+        "pada": 18
+      },
+      "expected": {
+        "effect_category": "harm"
+      }
+    },
+    {
+      "id": "pada-19-kern",
+      "source": "Kern, Verspreide Geschriften vol. 2",
+      "input": {
+        "pada": 19
+      },
+      "expected": {
+        "effect_category": "harm"
+      }
+    },
+    {
+      "id": "pada-20-kern",
+      "source": "Kern, Verspreide Geschriften vol. 2",
+      "input": {
+        "pada": 20
+      },
+      "expected": {
+        "effect_category": "gain"
+      }
+    },
+    {
+      "id": "pada-21-kern",
+      "source": "Kern, Verspreide Geschriften vol. 2",
+      "input": {
+        "pada": 21
+      },
+      "expected": {
+        "effect_category": "gain"
+      }
+    },
+    {
+      "id": "pada-22-kern",
+      "source": "Kern, Verspreide Geschriften vol. 2",
+      "input": {
+        "pada": 22
+      },
+      "expected": {
+        "effect_category": "harm"
+      }
+    },
+    {
+      "id": "pada-23-kern",
+      "source": "Kern, Verspreide Geschriften vol. 2",
+      "input": {
+        "pada": 23
+      },
+      "expected": {
+        "effect_category": "harm"
+      }
+    },
+    {
+      "id": "pada-24-kern",
+      "source": "Kern, Verspreide Geschriften vol. 2",
+      "input": {
+        "pada": 24
+      },
+      "expected": {
+        "effect_category": "harm"
+      }
+    },
+    {
+      "id": "pada-25-kern",
+      "source": "Kern, Verspreide Geschriften vol. 2",
+      "input": {
+        "pada": 25
+      },
+      "expected": {
+        "effect_category": "harm"
+      }
+    },
+    {
+      "id": "pada-26-kern",
+      "source": "Kern, Verspreide Geschriften vol. 2",
+      "input": {
+        "pada": 26
+      },
+      "expected": {
+        "effect_category": "harm"
+      }
+    },
+    {
+      "id": "pada-27-kern",
+      "source": "Kern, Verspreide Geschriften vol. 2",
+      "input": {
+        "pada": 27
+      },
+      "expected": {
+        "effect_category": "gain"
+      }
+    },
+    {
+      "id": "pada-28-kern",
+      "source": "Kern, Verspreide Geschriften vol. 2",
+      "input": {
+        "pada": 28
+      },
+      "expected": {
+        "effect_category": "gain"
+      }
+    },
+    {
+      "id": "pada-29-kern",
+      "source": "Kern, Verspreide Geschriften vol. 2",
+      "input": {
+        "pada": 29
+      },
+      "expected": {
+        "effect_category": "gain"
+      }
+    },
+    {
+      "id": "pada-30-kern",
+      "source": "Kern, Verspreide Geschriften vol. 2",
+      "input": {
+        "pada": 30
+      },
+      "expected": {
+        "effect_category": "harm"
+      }
+    },
+    {
+      "id": "pada-31-kern",
+      "source": "Kern, Verspreide Geschriften vol. 2",
+      "input": {
+        "pada": 31
+      },
+      "expected": {
+        "effect_category": "harm"
+      }
+    },
+    {
+      "id": "pada-32-kern",
+      "source": "Kern, Verspreide Geschriften vol. 2",
+      "input": {
+        "pada": 32
+      },
+      "expected": {
+        "effect_category": "harm"
+      }
+    }
+  ]
+}
