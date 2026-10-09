@@ -45,7 +45,7 @@ The RoxyAPI Astrology API Accuracy Benchmark is an open, reproducible benchmark 
 | [Location](#location) | IANA Time Zone Database | 24 | 24 of 24 | 0 | 0 | 0 | exact |
 <!-- generated:scorecard:end -->
 
-[![Terminal recording of the RoxyAPI benchmark run: a green check mark per domain with the pass count, median and largest deviation, then the boxed scorecard and the precision tier sentence](assets/run.gif)](https://roxyapi.github.io/astrology-api-benchmark/)
+[![Terminal recording of the RoxyAPI benchmark run: a green check mark per domain with the pass count, median and largest deviation, then the boxed scorecard and the precision tier sentence](https://raw.githubusercontent.com/RoxyAPI/astrology-api-benchmark/main/assets/run.gif)](https://roxyapi.github.io/astrology-api-benchmark/)
 
 <!-- generated:coverage:begin python -m benchmark readme, do not edit -->
 The RoxyAPI coverage map: each reference authority, the domain it checks and the quantities compared, generated from the references of every domain in the run.
@@ -236,7 +236,7 @@ flowchart LR
 
 **Latest RoxyAPI accuracy report:** [roxyapi.github.io/astrology-api-benchmark](https://roxyapi.github.io/astrology-api-benchmark/) ([PDF](https://roxyapi.github.io/astrology-api-benchmark/report.pdf), [JSON](results/latest.json), [CSV](results/latest.csv))
 
-[![The accuracy report: scorecard, per domain charts and every measurement](assets/report.png)](https://roxyapi.github.io/astrology-api-benchmark/)
+[![The accuracy report: scorecard, per domain charts and every measurement](https://raw.githubusercontent.com/RoxyAPI/astrology-api-benchmark/main/assets/report.png)](https://roxyapi.github.io/astrology-api-benchmark/)
 
 ## What does not count as an accuracy check
 

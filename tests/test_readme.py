@@ -1,6 +1,7 @@
 from __future__ import annotations
 
 import json
+import re
 import shutil
 from pathlib import Path
 from typing import Any
@@ -10,7 +11,7 @@ import pytest
 from benchmark.__main__ import main
 from benchmark.claims import amount, fmt, quantity_stats
 from benchmark.domains import discover, references_for
-from benchmark.paths import RESULTS_DIR
+from benchmark.paths import RESULTS_DIR, ROOT
 from benchmark.readme import (
     BLOCKS,
     ReadmeError,
@@ -165,3 +166,14 @@ def test_scorecard_max_rounds_up_and_domains_link_the_report_card() -> None:
         "(https://roxyapi.github.io/astrology-api-benchmark/#domain-western-planets)"
         in (blocks["domains"])
     )
+
+
+def test_every_readme_image_is_an_absolute_url() -> None:
+    """Pages that render this README elsewhere (a package registry, a template gallery) cannot
+    resolve a repository-relative image, so every image source must be an absolute https URL."""
+    text = (ROOT / "README.md").read_text(encoding="utf-8")
+    sources = re.findall(r"!\[[^\]]*\]\(([^)\s]+)", text) + re.findall(
+        r'<img[^>]*src="([^"]+)"', text
+    )
+    assert sources
+    assert [s for s in sources if not s.startswith("https://")] == []
