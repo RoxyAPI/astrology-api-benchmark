@@ -21,6 +21,7 @@ from benchmark.claims import (
     deviations,
     fmt,
     headline,
+    labels,
     quantity_line,
     quantity_stats,
     subject,
@@ -74,7 +75,7 @@ def render_blocks(results: Mapping[str, Any], refs: Mapping[str, References]) ->
     """Every block body, keyed by block name, from a results document and its references."""
     domains: list[dict[str, Any]] = list(results["domains"])
     return {
-        "claim": _claim(results),
+        "claim": _claim(results, refs),
         "scorecard": _scorecard(domains),
         "coverage": _coverage(results, refs),
         "domains": "\n\n".join(_domain(d, refs[d["id"]], subject(results)) for d in domains),
@@ -117,9 +118,9 @@ def update(
     return True
 
 
-def _claim(results: Mapping[str, Any]) -> str:
+def _claim(results: Mapping[str, Any], refs: Mapping[str, References]) -> str:
     domains, run = results["domains"], results["run"]
-    first, *rest = headline(results)
+    first, *rest = headline(results, labels(refs))
     by_unit = "; ".join(_unit_figure(unit, domains) for unit in Unit if _has_unit(domains, unit))
     return (
         f"> **{first}**{''.join(f' {r}' for r in rest)}\n>\n"
@@ -141,7 +142,9 @@ def _unit_figure(unit: Unit, domains: Sequence[DomainDoc]) -> str:
     noun = UNIT_NOUNS[unit]
     if unit is Unit.EXACT:
         return f"{noun} {sum(d == 0 for d in devs):,} of {len(devs):,} exact"
-    return f"{noun} median {amount(median(devs) if devs else None, unit)} over {len(devs):,}"
+    return (
+        f"{noun} median {amount(median(devs) if devs else None, unit, deg=True)} over {len(devs):,}"
+    )
 
 
 def _has_unit(domains: Sequence[DomainDoc], unit: Unit) -> bool:

@@ -17,7 +17,7 @@ from benchmark.claims import (
     tier_figures,
     tier_sentences,
 )
-from benchmark.schema import Chart, parse_references
+from benchmark.schema import Chart, Unit, parse_references
 
 REFS: dict[str, Any] = {
     "format": 1,
@@ -97,8 +97,8 @@ def test_fmt_up_never_rounds_down(value: float, shown: str) -> None:
 
 def test_tier_sentences_takes_the_tightest_tier_every_point_reaches() -> None:
     assert tier_sentences(doc(DOMAIN)) == [
-        "RoxyAPI returned 4 of 4 positions within 1 arcsec of NASA JPL Horizons in the Western "
-        "planets domain."
+        "For Western planets, RoxyAPI returned 4 of 4 positions within 1 arcsec (0.00028°) of "
+        "NASA JPL Horizons."
     ]
     assert tier_figures(DOMAIN["summaries"][0]) == (
         "4 within 10 arcsec, 4 within 1 arcsec, 2 within 0.1 arcsec"
@@ -110,11 +110,21 @@ def test_tier_sentences_is_per_domain_best_first_and_never_pooled() -> None:
     loose["summaries"][0]["tiers"] = [{"limit": 10.0, "points": 3}, {"limit": 1.0, "points": 1}]
     other = {**copy.deepcopy(DOMAIN), "title": "Vedic", "authority": "Another"}
     assert tier_sentences(doc(loose, other)) == [
-        "RoxyAPI returned 4 of 4 positions within 1 arcsec of Another in the Vedic domain.",
-        "RoxyAPI returned 3 of 4 positions within 10 arcsec of NASA JPL Horizons in the Western "
-        "planets domain.",
+        "For Vedic, RoxyAPI returned 4 of 4 positions within 1 arcsec (0.00028°) of Another.",
+        "For Western planets, RoxyAPI returned 3 of 4 positions within 10 arcsec (0.0028°) of "
+        "NASA JPL Horizons.",
     ]
-    assert headline(doc(loose, other))[0].endswith("of Another in the Vedic domain.")
+    assert headline(doc(loose, other))[0].startswith("For Vedic, RoxyAPI returned 4 of 4")
+
+
+def test_a_fully_measured_summary_is_bounded_by_its_worst_value_with_labels() -> None:
+    bounded = copy.deepcopy(DOMAIN)
+    bounded["summaries"][0] |= {"max": 0.314, "missing": 0}
+    names = {(bounded["id"], Unit.ARCSEC): "Sun, Moon, planets and Chiron"}
+    assert tier_sentences(doc(bounded), names) == [
+        "For the Sun, Moon, planets and Chiron, RoxyAPI returned 4 of 4 positions within "
+        "0.32 arcsec (0.000089°) of NASA JPL Horizons."
+    ]
 
 
 def test_units_are_singular_for_one() -> None:
@@ -131,7 +141,8 @@ def test_headline_without_tiers_is_the_totals_alone() -> None:
     assert tier_sentences(doc(old)) == []
     assert headline(doc(old, target="https://api.example.com/v1")) == [
         "In the open accuracy benchmark run of 2026-01-01, api.example.com returned 4 of 4 "
-        "values within tolerance across 1 domain, with a median angular deviation of 0.14 arcsec."
+        "values within tolerance across 1 domain, with a median angular deviation of 0.14 arcsec "
+        "(0.000039°)."
     ]
 
 
@@ -147,8 +158,8 @@ def test_quantity_lines_bound_the_max_and_name_a_dedicated_source(
     assert quantity_reference(DOMAIN, refs, "Sun") == "NASA JPL Horizons"
     _, chiron = quantity_stats(DOMAIN, refs)
     assert quantity_line(chiron, "RoxyAPI") == (
-        "RoxyAPI Chiron: every one of 2 charts within 0.32 arcsec of Horizons small-body "
-        "integration (median 0.26)."
+        "RoxyAPI Chiron: every one of 2 charts within 0.32 arcsec (0.000089°) of Horizons "
+        "small-body integration (median 0.26)."
     )
     assert chiron.worst_case == "obama"
     failing = copy.deepcopy(DOMAIN)
@@ -156,7 +167,7 @@ def test_quantity_lines_bound_the_max_and_name_a_dedicated_source(
     sun = quantity_stats(failing, refs)[0]
     assert quantity_line(sun, "RoxyAPI") == (
         "RoxyAPI Sun: 1 of 2 charts within the pass band of NASA JPL Horizons, largest "
-        "deviation 40 arcsec (median 20)."
+        "deviation 40 arcsec (0.011°) (median 20)."
     )
 
 

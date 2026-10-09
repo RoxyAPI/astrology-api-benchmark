@@ -10,7 +10,7 @@ from datetime import UTC, date, datetime
 from pathlib import Path
 
 from benchmark.api import DEFAULT_TARGET, ApiClient, ConfigError
-from benchmark.claims import target_host
+from benchmark.claims import labels, target_host
 from benchmark.console import Console, use_color
 from benchmark.domains import DomainError, discover, load_pull, write_references
 from benchmark.paths import DIST_DIR, DOMAINS_DIR, ENV_FILE, README_PATH, RESULTS_DIR
@@ -71,7 +71,7 @@ def run(args: argparse.Namespace) -> int:
         console.domain(results[-1], width)
     doc = document(args.date, args.target, results)
     json_path, csv_path = write_results(args.out, doc)
-    console.scorecard(results, doc)
+    console.scorecard(results, doc, labels({d.domain.id: d.references for d in loaded}))
     print(
         f"wrote {json_path.name} and {csv_path.name} to {os.path.relpath(args.out)}",
         file=sys.stderr,

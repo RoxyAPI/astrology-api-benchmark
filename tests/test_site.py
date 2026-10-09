@@ -9,10 +9,11 @@ from typing import Any
 import pytest
 
 from benchmark.__main__ import main
-from benchmark.claims import headline
-from benchmark.domains import DomainError
+from benchmark.claims import headline, labels
+from benchmark.domains import DomainError, references_for
 from benchmark.paths import RESULTS_DIR
 from benchmark.results import CSV_FILE, JSON_FILE, ResultsError
+from benchmark.schema import load_charts
 from benchmark.site import PDF_FILE, PLACEHOLDER, SITE_URL, SiteError, build, render
 
 SCRIPT = re.compile(r'<script id="report-data" type="application/json">(.*?)</script>', re.DOTALL)
@@ -41,7 +42,8 @@ def test_build_inlines_the_committed_results_with_sources(tmp_path: Path) -> Non
     for domain in data["domains"]:
         assert domain["sources"] and domain["tolerances"]
         assert all("name" in s and "licence" in s for s in domain["sources"])
-    assert data["headline"] == " ".join(headline(committed))
+    refs = references_for((d["id"] for d in committed["domains"]), load_charts())
+    assert data["headline"] == " ".join(headline(committed, labels(refs)))
     assert data["target_host"] == "roxyapi.com"
     planets = next(d for d in data["domains"] if d["id"] == "western-planets")
     assert any(line.startswith("RoxyAPI Chiron: ") for line in planets["quantity_lines"])

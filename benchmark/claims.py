@@ -49,10 +49,41 @@ def fmt_up(value: float) -> str:
     return fmt(math.ceil(round(value * scale, 9)) / scale)
 
 
-def amount(value: float | None, unit: str, *, up: bool = False) -> str:
-    """A figure with its unit, singular when the shown figure is 1 ("1 second", "10 seconds")."""
+def degrees(arcsec: float) -> str:
+    """Arcseconds as decimal degrees to two significant figures, e.g. ``0.000013``."""
+    deg = arcsec / 3600
+    if deg <= 0:
+        return "0"
+    return f"{deg:.{max(0, 1 - math.floor(math.log10(deg)))}f}"
+
+
+def amount(value: float | None, unit: str, *, up: bool = False, deg: bool = False) -> str:
+    """A figure with its unit, singular when the shown figure is 1 ("1 second", "10 seconds").
+
+    ``deg`` adds the same arcsec figure in decimal degrees in brackets, for prose claims.
+    """
     shown = fmt_up(value) if up and value is not None else fmt(value)
-    return f"{shown} {unit.removesuffix('s') if shown == '1' else unit}"
+    text = f"{shown} {unit.removesuffix('s') if shown == '1' else unit}"
+    if deg and unit == Unit.ARCSEC and value is not None and shown != "n/a":
+        text += f" ({degrees(float(shown.replace(',', '')))}°)"
+    return text
+
+
+type Labels = Mapping[tuple[str, Unit], str]
+"""Reader label per domain id and unit, from the families of each domain."""
+
+
+def labels(refs: Mapping[str, References]) -> dict[tuple[str, Unit], str]:
+    """The family labels covering the quantities of one unit in each domain, joined as prose."""
+    out: dict[tuple[str, Unit], str] = {}
+    for domain_id, ref in refs.items():
+        by_unit: dict[Unit, list[str]] = {}
+        for family in ref.families:
+            unit = Unit(ref.tolerance_for(family.quantities[0]).unit)
+            by_unit.setdefault(unit, []).append(family.label)
+        for unit, names in by_unit.items():
+            out[(domain_id, unit)] = _join(names)
+    return out
 
 
 def target_host(target: str) -> str:
@@ -66,12 +97,12 @@ def subject(results: ResultsDoc) -> str:
     return "RoxyAPI" if target == DEFAULT_TARGET else target_host(target)
 
 
-def headline(results: ResultsDoc) -> list[str]:
+def headline(results: ResultsDoc, names: Labels | None = None) -> list[str]:
     """The claim as sentences: the strongest precision tier of any domain, then the totals.
 
     Each names who returned the values and against what, so it stands alone when lifted.
     """
-    tiers = tier_sentences(results)
+    tiers = tier_sentences(results, names)
     totals = totals_sentence(results)
     return [tiers[0], totals] if tiers else [totals]
 
@@ -87,15 +118,20 @@ def totals_sentence(results: ResultsDoc) -> str:
         f"In the open accuracy benchmark run of {results['run']['date']}, {subject(results)} "
         f"returned {passed:,} of {points:,} values within tolerance across {count} "
         f"{'domain' if count == 1 else 'domains'}"
-        + (f", with a median angular deviation of {fmt(median(angles))} arcsec." if angles else ".")
+        + (
+            f", with a median angular deviation of {amount(median(angles), Unit.ARCSEC, deg=True)}."
+            if angles
+            else "."
+        )
     )
 
 
-def tier_sentences(results: ResultsDoc) -> list[str]:
+def tier_sentences(results: ResultsDoc, names: Labels | None = None) -> list[str]:
     """One sentence per domain and unit with its strongest true tier, best first.
 
-    A domain reaches its tightest tier when every point sits within it, else its loosest tier
-    with the count. Points are never pooled across domains, whose references differ. Angles
+    A domain with every point measured is bounded by its worst deviation, rounded up; otherwise
+    it falls back to its tightest full tier, else its loosest tier with the count. Points are
+    never pooled across domains, whose references differ. Angles
     lead instants; within a unit a full tier beats a partial one and a tighter limit a looser
     one. Empty when no summary carries tiers.
     """
@@ -106,14 +142,21 @@ def tier_sentences(results: ResultsDoc) -> list[str]:
             tiers = s.get("tiers") or ()
             if unit not in CONTINUOUS or not tiers:
                 continue
+            bound = all_within(s)
             full = [t["limit"] for t in tiers if t["points"] == s["points"]]
-            limit = min(full) if full else max(t["limit"] for t in tiers)
-            reached = next(t["points"] for t in tiers if t["limit"] == limit)
+            if bound is not None:
+                limit, reached, shown = bound, s["points"], amount(bound, unit, up=True, deg=True)
+            else:
+                limit = min(full) if full else max(t["limit"] for t in tiers)
+                reached = next(t["points"] for t in tiers if t["limit"] == limit)
+                shown = amount(limit, unit, deg=True)
+            label = (names or {}).get((d["id"], unit))
+            what = f"the {label}" if label else d["title"]
             sentence = (
-                f"{subject(results)} returned {reached:,} of {s['points']:,} {TIER_NOUNS[unit]} "
-                f"within {amount(limit, unit)} of {d['authority']} in the {d['title']} domain."
+                f"For {what}, {subject(results)} returned {reached:,} of {s['points']:,} "
+                f"{TIER_NOUNS[unit]} within {shown} of {d['authority']}."
             )
-            ranked.append(((not full, CONTINUOUS.index(unit), limit), sentence))
+            ranked.append(((bound is None and not full, CONTINUOUS.index(unit), limit), sentence))
     return [sentence for _, sentence in sorted(ranked, key=lambda r: r[0])]
 
 
@@ -183,9 +226,13 @@ def quantity_line(q: QuantityStat, who: str) -> str:
     if q.max is not None and q.passed == q.values:
         return (
             f"{who} {q.quantity}: every one of {q.values:,} {q.noun} within "
-            f"{amount(q.max, q.unit, up=True)} of {q.reference}{spread}."
+            f"{amount(q.max, q.unit, up=True, deg=True)} of {q.reference}{spread}."
         )
-    worst = f", largest deviation {amount(q.max, q.unit, up=True)}" if q.max is not None else ""
+    worst = (
+        f", largest deviation {amount(q.max, q.unit, up=True, deg=True)}"
+        if q.max is not None
+        else ""
+    )
     return (
         f"{who} {q.quantity}: {q.passed:,} of {q.values:,} {q.noun} within the pass band of "
         f"{q.reference}{worst}{spread}."
@@ -209,7 +256,12 @@ def deviations(domains: Sequence[DomainDoc], unit: Unit) -> list[float]:
     ]
 
 
-def best_tier(summary: Mapping[str, Any]) -> str | None:
-    """The tightest precision tier every point of a summary reaches, e.g. ``within 1 arcsec``."""
-    full = [t["limit"] for t in summary.get("tiers") or () if t["points"] == summary["points"]]
-    return f"within {amount(min(full), summary['unit'])}" if full else None
+def all_within(summary: Mapping[str, Any]) -> float | None:
+    """The bound every point sits within: the worst deviation when all points were measured.
+
+    Rounded up where it is shown, so "within X" is true by construction and as tight as the run
+    allows; the fixed tiers stay the fallback for a summary with a missing value.
+    """
+    if summary.get("missing") or summary.get("max") is None:
+        return None
+    return float(summary["max"])

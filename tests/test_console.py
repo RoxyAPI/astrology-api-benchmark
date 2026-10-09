@@ -43,7 +43,6 @@ def test_color_on_has_marks_and_escapes() -> None:
     assert "2/2" in plain
     assert "median 0.12" in plain
     assert "max 0.2 arcsec" in plain
-    assert "within 1 arcsec" in plain
 
 
 def test_color_off_is_plain_ascii() -> None:
@@ -73,8 +72,8 @@ def test_scorecard_box_and_sentence() -> None:
         plain = [ANSI.sub("", row) for row in box]
         assert len({len(row) for row in plain}) == 1
         assert "1 domains, 2 of 2 values within tolerance" in "\n".join(plain)
-        assert "RoxyAPI returned 2 of 2 positions within 1 arcsec" in " ".join(
-            part.strip(" |") for part in plain
+        assert "RoxyAPI returned 2 of 2 positions within 0.2 arcsec (0.000056°)" in " ".join(
+            part.strip(" |│") for part in plain
         )
     assert "FAIL" in "\n".join(
         scorecard_lines(

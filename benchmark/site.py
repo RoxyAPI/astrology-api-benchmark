@@ -13,7 +13,7 @@ from dataclasses import asdict
 from pathlib import Path
 from typing import Any
 
-from benchmark.claims import headline, quantity_lines, target_host
+from benchmark.claims import headline, labels, quantity_lines, target_host
 from benchmark.diagram import coverage_map, family_labels
 from benchmark.domains import references_for
 from benchmark.paths import DIST_DIR, DOMAINS_DIR, LOGO_PATH, RESULTS_DIR, TEMPLATE_PATH
@@ -62,7 +62,7 @@ def report_data(
         **results,
         "domains": domains,
         "target_host": target_host(results["run"]["target"]),
-        "headline": " ".join(headline(results)),
+        "headline": " ".join(headline(results, labels(refs))),
         "coverage": coverage_map(results["domains"], refs),
         "logo": f"data:image/png;base64,{logo}",
         "links": {

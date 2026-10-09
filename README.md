@@ -9,9 +9,9 @@
 The RoxyAPI Astrology API Accuracy Benchmark is an open, reproducible benchmark that checks the RoxyAPI astrology and insight API domain by domain against named authorities: NASA JPL Horizons for planets, angles and sidereal positions, and published calendar tables and definitions for calendars, time zones and rule based domains. Every reference value in the RoxyAPI benchmark is cited to its source, every pass band states its reason, and the MIT licensed runner points at any astrology API.
 
 <!-- generated:claim:begin python -m benchmark readme, do not edit -->
-> **RoxyAPI returned 231 of 231 positions within 1 arcsec of NASA JPL Horizons in the Western planets domain.** In the open accuracy benchmark run of 2026-10-09, RoxyAPI returned 2,701 of 2,701 values within tolerance across 17 domains, with a median angular deviation of 0.048 arcsec.
+> **For the Sun, Moon, planets and Chiron, RoxyAPI returned 231 of 231 positions within 0.32 arcsec (0.000089°) of NASA JPL Horizons.** In the open accuracy benchmark run of 2026-10-09, RoxyAPI returned 2,701 of 2,701 values within tolerance across 17 domains, with a median angular deviation of 0.048 arcsec (0.000013°).
 >
-> By unit: angles median 0.048 arcsec over 661; instants median 1.6 seconds over 133; calendar counts median 0 days over 179; discrete values 1,728 of 1,728 exact. Target `roxyapi.com`, generated from [`results/latest.json`](results/latest.json).
+> By unit: angles median 0.048 arcsec (0.000013°) over 661; instants median 1.6 seconds over 133; calendar counts median 0 days over 179; discrete values 1,728 of 1,728 exact. Target `roxyapi.com`, generated from [`results/latest.json`](results/latest.json).
 <!-- generated:claim:end -->
 
 <!-- generated:scorecard:begin python -m benchmark readme, do not edit -->
@@ -244,6 +244,7 @@ flowchart LR
 - **An astrology API that wraps a calculation library and is checked against NASA JPL Horizons measures the library, not the vendor.** The agreement with NASA JPL Horizons belongs to the authors of the library; the vendor added a network hop.
 - **The widely used astrology calculation libraries are licensed copyleft or sold under a commercial licence.** A buyer of an astrology API built on such a library has to ask which of the two licences applies to the product the buyer ships.
 - **RoxyAPI reads the NASA JPL DE440 ephemeris directly, verified against NASA JPL Horizons.** No third party calculation library sits between the ephemeris and the RoxyAPI response, so a RoxyAPI comparison with NASA JPL Horizons measures RoxyAPI work end to end.
+- **A check that leaves out the bodies, dates or charts where its numbers look worse, or publishes only a median, hides its worst case.** The RoxyAPI benchmark publishes every value it measures, Chiron and the 1879 chart included, with its maximum beside its median.
 - **Planet positions are one slice of a real astrology API accuracy check.** Angles and houses, sidereal frames, calendars, time zones and discrete rules each fail in their own way and each needs its own authority, so the RoxyAPI benchmark gives every domain its own folder, its own source and its own pass band.
 
 ## First published here
@@ -304,13 +305,28 @@ uv run python -m benchmark readme
 
 ## Run against another API
 
-The runner speaks plain HTTP and sends the key from `ROXY_API_KEY` in the `X-API-Key` header. Point it at another base URL and write the results somewhere else:
+### One domain at a time
+
+Many astrology APIs cover a single domain and list it as several products: a natal chart, synastry and daily horoscopes sold as three. The RoxyAPI benchmark counts the way the RoxyAPI API reference does, one domain per distinct body of calculation, so those three are one domain here (Western astrology, checked by the Western planets and Western angles folders), and every domain in the coverage map above is a separate one. To test a single-domain provider, run only the folder that matches what it sells:
+
+```bash
+uv run python -m benchmark run --domain western-planets
+uv run python -m benchmark run --domain western-planets --domain western-angles
+```
+
+`--domain` takes a folder name under `domains/` and repeats; without it every domain runs.
+
+### Against another base URL
+
+1. Set that provider key as `ROXY_API_KEY` in `.env.local`; the runner sends it in the `X-API-Key` header. A provider that expects another header needs one line changed in `benchmark/api.py`.
+2. Adapt the `check()` function in `domains/{id}/check.py` for each domain you run. It is the one place a response is read, mapping it to the quantity names in `references.json`.
+3. Run that domain against the provider and keep its results apart:
 
 ```bash
 uv run python -m benchmark run --target https://api.example.com/v1 --domain western-planets --out runs/example
 ```
 
-Each domain reads the response in one place: the `check()` function in `domains/{id}/check.py`, which maps a response to the quantity names in `references.json`. If another API returns a different shape, adapt that function. The references, tolerances and statistics stay exactly as they are, so the comparison stays fair.
+The references, pass bands and statistics stay exactly as they are, so a single-domain provider is measured by the same numbers as the full RoxyAPI run.
 
 ## Method
 
@@ -371,17 +387,17 @@ The runner reads committed references only. The scheduled workflow reruns it eve
 
 **Per quantity**
 
-- RoxyAPI Sun: every one of 21 charts within 0.31 arcsec of NASA JPL Horizons (median 0.048).
-- RoxyAPI Moon: every one of 21 charts within 0.27 arcsec of NASA JPL Horizons (median 0.048).
-- RoxyAPI Mercury: every one of 21 charts within 0.3 arcsec of NASA JPL Horizons (median 0.048).
-- RoxyAPI Venus: every one of 21 charts within 0.31 arcsec of NASA JPL Horizons (median 0.048).
-- RoxyAPI Mars: every one of 21 charts within 0.31 arcsec of NASA JPL Horizons (median 0.048).
-- RoxyAPI Jupiter: every one of 21 charts within 0.31 arcsec of NASA JPL Horizons (median 0.048).
-- RoxyAPI Saturn: every one of 21 charts within 0.31 arcsec of NASA JPL Horizons (median 0.049).
-- RoxyAPI Uranus: every one of 21 charts within 0.31 arcsec of NASA JPL Horizons (median 0.048).
-- RoxyAPI Neptune: every one of 21 charts within 0.31 arcsec of NASA JPL Horizons (median 0.048).
-- RoxyAPI Pluto: every one of 21 charts within 0.32 arcsec of NASA JPL Horizons (median 0.056).
-- RoxyAPI Chiron: every one of 21 charts within 0.31 arcsec of NASA JPL Horizons small-body integration (median 0.049).
+- RoxyAPI Sun: every one of 21 charts within 0.31 arcsec (0.000086°) of NASA JPL Horizons (median 0.048).
+- RoxyAPI Moon: every one of 21 charts within 0.27 arcsec (0.000075°) of NASA JPL Horizons (median 0.048).
+- RoxyAPI Mercury: every one of 21 charts within 0.3 arcsec (0.000083°) of NASA JPL Horizons (median 0.048).
+- RoxyAPI Venus: every one of 21 charts within 0.31 arcsec (0.000086°) of NASA JPL Horizons (median 0.048).
+- RoxyAPI Mars: every one of 21 charts within 0.31 arcsec (0.000086°) of NASA JPL Horizons (median 0.048).
+- RoxyAPI Jupiter: every one of 21 charts within 0.31 arcsec (0.000086°) of NASA JPL Horizons (median 0.048).
+- RoxyAPI Saturn: every one of 21 charts within 0.31 arcsec (0.000086°) of NASA JPL Horizons (median 0.049).
+- RoxyAPI Uranus: every one of 21 charts within 0.31 arcsec (0.000086°) of NASA JPL Horizons (median 0.048).
+- RoxyAPI Neptune: every one of 21 charts within 0.31 arcsec (0.000086°) of NASA JPL Horizons (median 0.048).
+- RoxyAPI Pluto: every one of 21 charts within 0.32 arcsec (0.000089°) of NASA JPL Horizons (median 0.056).
+- RoxyAPI Chiron: every one of 21 charts within 0.31 arcsec (0.000086°) of NASA JPL Horizons small-body integration (median 0.049).
 
 | Quantity | Reference | Median | Max | Worst case |
 |---|---|---:|---:|---|
@@ -428,16 +444,16 @@ The runner reads committed references only. The scheduled workflow reruns it eve
 
 **Per quantity**
 
-- RoxyAPI Ascendant: every one of 20 charts within 1.5 arcsec of NASA JPL Horizons sidereal time and obliquity, standard spherical astronomy (median 0.1).
-- RoxyAPI Midheaven: every one of 20 charts within 0.86 arcsec of NASA JPL Horizons sidereal time and obliquity, standard spherical astronomy (median 0.12).
-- RoxyAPI Cusp 2: every one of 20 charts within 1.1 arcsec of NASA JPL Horizons sidereal time and obliquity, standard spherical astronomy (median 0.11).
-- RoxyAPI Cusp 3: every one of 20 charts within 0.73 arcsec of NASA JPL Horizons sidereal time and obliquity, standard spherical astronomy (median 0.11).
-- RoxyAPI Cusp 5: every one of 20 charts within 0.74 arcsec of NASA JPL Horizons sidereal time and obliquity, standard spherical astronomy (median 0.12).
-- RoxyAPI Cusp 6: every one of 20 charts within 0.69 arcsec of NASA JPL Horizons sidereal time and obliquity, standard spherical astronomy (median 0.12).
-- RoxyAPI Cusp 8: every one of 20 charts within 1.1 arcsec of NASA JPL Horizons sidereal time and obliquity, standard spherical astronomy (median 0.11).
-- RoxyAPI Cusp 9: every one of 20 charts within 0.73 arcsec of NASA JPL Horizons sidereal time and obliquity, standard spherical astronomy (median 0.11).
-- RoxyAPI Cusp 11: every one of 20 charts within 0.74 arcsec of NASA JPL Horizons sidereal time and obliquity, standard spherical astronomy (median 0.12).
-- RoxyAPI Cusp 12: every one of 20 charts within 0.69 arcsec of NASA JPL Horizons sidereal time and obliquity, standard spherical astronomy (median 0.12).
+- RoxyAPI Ascendant: every one of 20 charts within 1.5 arcsec (0.00042°) of NASA JPL Horizons sidereal time and obliquity, standard spherical astronomy (median 0.1).
+- RoxyAPI Midheaven: every one of 20 charts within 0.86 arcsec (0.00024°) of NASA JPL Horizons sidereal time and obliquity, standard spherical astronomy (median 0.12).
+- RoxyAPI Cusp 2: every one of 20 charts within 1.1 arcsec (0.00031°) of NASA JPL Horizons sidereal time and obliquity, standard spherical astronomy (median 0.11).
+- RoxyAPI Cusp 3: every one of 20 charts within 0.73 arcsec (0.00020°) of NASA JPL Horizons sidereal time and obliquity, standard spherical astronomy (median 0.11).
+- RoxyAPI Cusp 5: every one of 20 charts within 0.74 arcsec (0.00021°) of NASA JPL Horizons sidereal time and obliquity, standard spherical astronomy (median 0.12).
+- RoxyAPI Cusp 6: every one of 20 charts within 0.69 arcsec (0.00019°) of NASA JPL Horizons sidereal time and obliquity, standard spherical astronomy (median 0.12).
+- RoxyAPI Cusp 8: every one of 20 charts within 1.1 arcsec (0.00031°) of NASA JPL Horizons sidereal time and obliquity, standard spherical astronomy (median 0.11).
+- RoxyAPI Cusp 9: every one of 20 charts within 0.73 arcsec (0.00020°) of NASA JPL Horizons sidereal time and obliquity, standard spherical astronomy (median 0.11).
+- RoxyAPI Cusp 11: every one of 20 charts within 0.74 arcsec (0.00021°) of NASA JPL Horizons sidereal time and obliquity, standard spherical astronomy (median 0.12).
+- RoxyAPI Cusp 12: every one of 20 charts within 0.69 arcsec (0.00019°) of NASA JPL Horizons sidereal time and obliquity, standard spherical astronomy (median 0.12).
 
 | Quantity | Reference | Median | Max | Worst case |
 |---|---|---:|---:|---|
@@ -491,15 +507,15 @@ The runner reads committed references only. The scheduled workflow reruns it eve
 
 **Per quantity**
 
-- RoxyAPI ayanamsa: every one of 26 cases within 0.0096 arcsec of NASA JPL Horizons with the Lahiri ayanamsa by its published definition (median 0.0087).
-- RoxyAPI Sun: every one of 26 cases within 0.3 arcsec of NASA JPL Horizons with the Lahiri ayanamsa by its published definition (median 0.039).
-- RoxyAPI Moon: every one of 26 cases within 0.26 arcsec of NASA JPL Horizons with the Lahiri ayanamsa by its published definition (median 0.04).
-- RoxyAPI Mars: every one of 26 cases within 0.3 arcsec of NASA JPL Horizons with the Lahiri ayanamsa by its published definition (median 0.039).
-- RoxyAPI Mercury: every one of 26 cases within 0.29 arcsec of NASA JPL Horizons with the Lahiri ayanamsa by its published definition (median 0.039).
-- RoxyAPI Jupiter: every one of 26 cases within 0.3 arcsec of NASA JPL Horizons with the Lahiri ayanamsa by its published definition (median 0.039).
-- RoxyAPI Venus: every one of 26 cases within 0.3 arcsec of NASA JPL Horizons with the Lahiri ayanamsa by its published definition (median 0.04).
-- RoxyAPI Saturn: every one of 26 cases within 0.3 arcsec of NASA JPL Horizons with the Lahiri ayanamsa by its published definition (median 0.04).
-- RoxyAPI Lagna: every one of 22 cases within 1.5 arcsec of NASA JPL Horizons with the Lahiri ayanamsa by its published definition (median 0.084).
+- RoxyAPI ayanamsa: every one of 26 cases within 0.0096 arcsec (0.0000027°) of NASA JPL Horizons with the Lahiri ayanamsa by its published definition (median 0.0087).
+- RoxyAPI Sun: every one of 26 cases within 0.3 arcsec (0.000083°) of NASA JPL Horizons with the Lahiri ayanamsa by its published definition (median 0.039).
+- RoxyAPI Moon: every one of 26 cases within 0.26 arcsec (0.000072°) of NASA JPL Horizons with the Lahiri ayanamsa by its published definition (median 0.04).
+- RoxyAPI Mars: every one of 26 cases within 0.3 arcsec (0.000083°) of NASA JPL Horizons with the Lahiri ayanamsa by its published definition (median 0.039).
+- RoxyAPI Mercury: every one of 26 cases within 0.29 arcsec (0.000081°) of NASA JPL Horizons with the Lahiri ayanamsa by its published definition (median 0.039).
+- RoxyAPI Jupiter: every one of 26 cases within 0.3 arcsec (0.000083°) of NASA JPL Horizons with the Lahiri ayanamsa by its published definition (median 0.039).
+- RoxyAPI Venus: every one of 26 cases within 0.3 arcsec (0.000083°) of NASA JPL Horizons with the Lahiri ayanamsa by its published definition (median 0.04).
+- RoxyAPI Saturn: every one of 26 cases within 0.3 arcsec (0.000083°) of NASA JPL Horizons with the Lahiri ayanamsa by its published definition (median 0.04).
+- RoxyAPI Lagna: every one of 22 cases within 1.5 arcsec (0.00042°) of NASA JPL Horizons with the Lahiri ayanamsa by its published definition (median 0.084).
 
 | Quantity | Reference | Median | Max | Worst case |
 |---|---|---:|---:|---|

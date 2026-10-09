@@ -10,10 +10,9 @@ from __future__ import annotations
 import os
 import textwrap
 from collections.abc import Mapping, Sequence
-from dataclasses import asdict
 from typing import Any, TextIO
 
-from benchmark.claims import amount, best_tier, fmt, headline
+from benchmark.claims import Labels, amount, fmt, headline
 from benchmark.results import DomainResult
 from benchmark.schema import Measurement, Status, Summary, Unit
 
@@ -72,9 +71,11 @@ class Console:
         for line in domain_lines(result, width, self):
             self._print(line)
 
-    def scorecard(self, results: Sequence[DomainResult], doc: Mapping[str, Any]) -> None:
+    def scorecard(
+        self, results: Sequence[DomainResult], doc: Mapping[str, Any], names: Labels
+    ) -> None:
         self._print()
-        for line in scorecard_lines(results, doc, self):
+        for line in scorecard_lines(results, doc, self, names):
             self._print(line)
 
     def mark(self, ok: bool) -> str:
@@ -109,9 +110,7 @@ def _spread(s: Summary, console: Console) -> str:
         return console.paint("exact match", "dim")
     if s.median is None or s.max is None:
         return console.paint("nothing measured", "red")
-    text = f"median {fmt(s.median)}  max {amount(s.max, s.unit)}"
-    tier = best_tier(asdict(s))
-    return text + (f"  {console.paint(tier, 'cyan')}" if tier else "")
+    return f"median {fmt(s.median)}  max {amount(s.max, s.unit)}"
 
 
 def _failure(m: Measurement, console: Console) -> str:
@@ -125,7 +124,10 @@ def _failure(m: Measurement, console: Console) -> str:
 
 
 def scorecard_lines(
-    results: Sequence[DomainResult], doc: Mapping[str, Any], console: Console
+    results: Sequence[DomainResult],
+    doc: Mapping[str, Any],
+    console: Console,
+    names: Labels | None = None,
 ) -> list[str]:
     summaries = [s for r in results for s in r.summaries]
     points = sum(s.points for s in summaries)
@@ -137,7 +139,7 @@ def scorecard_lines(
         "",
         f"{len(results)} domains, {passed:,} of {points:,} values within tolerance",
     ]
-    claim = headline(doc)
+    claim = headline(doc, names)
     if len(claim) > 1:
         rows += ["", *textwrap.wrap(claim[0], BOX_WIDTH - 2)]
     return _box(rows, console)

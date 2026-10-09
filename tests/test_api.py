@@ -15,6 +15,7 @@ from benchmark import ApiClient, ApiError
 from benchmark.api import KEY_VARIABLE, ConfigError, load_env_file
 
 SEEN: list[dict[str, Any]] = []
+FLAKY: dict[str, int] = {}
 
 
 class _Handler(BaseHTTPRequestHandler):
@@ -28,7 +29,15 @@ class _Handler(BaseHTTPRequestHandler):
         length = int(self.headers.get("Content-Length") or 0)
         body = self.rfile.read(length).decode("utf-8") if length else ""
         SEEN.append({"path": self.path, "key": self.headers["X-API-Key"], "body": body})
-        if self.path.startswith("/fail"):
+        if self.path.startswith("/flaky"):
+            FLAKY[self.path] = FLAKY.get(self.path, 0) + 1
+            if FLAKY[self.path] < 3:
+                self._send(522, b'{"error": "edge timeout"}')
+            else:
+                self._send(200, json.dumps({"ok": True}).encode())
+        elif self.path.startswith("/down"):
+            self._send(503, b'{"error": "unavailable"}')
+        elif self.path.startswith("/fail"):
             self._send(422, b'{"error": "bad input"}')
         elif self.path.startswith("/text"):
             self._send(200, b"not json")
@@ -53,7 +62,8 @@ def api() -> Iterator[ApiClient]:
     thread.start()
     SEEN.clear()
     try:
-        yield ApiClient(f"http://127.0.0.1:{server.server_port}/", "k-1", timeout=5)
+        FLAKY.clear()
+        yield ApiClient(f"http://127.0.0.1:{server.server_port}/", "k-1", timeout=5, retry_pause=0)
     finally:
         server.shutdown()
         server.server_close()
@@ -79,7 +89,7 @@ def test_unusable_responses_raise_api_error(api: ApiClient, path: str, message: 
 
 def test_unreachable_target_raises_api_error() -> None:
     with pytest.raises(ApiError):
-        ApiClient("http://127.0.0.1:9", "k", timeout=2).get("/x")
+        ApiClient("http://127.0.0.1:9", "k", timeout=2, retry_pause=0).get("/x")
 
 
 def test_env_file_parsing(tmp_path: Path) -> None:
@@ -103,3 +113,20 @@ def test_key_comes_from_environment_then_file(
     monkeypatch.delenv(KEY_VARIABLE)
     with pytest.raises(ConfigError):
         ApiClient.from_env("https://t", tmp_path / "absent")
+
+
+def test_transient_statuses_are_retried_until_an_answer(api: ApiClient) -> None:
+    assert api.get("/flaky") == {"ok": True}
+    assert len(SEEN) == 3
+
+
+def test_a_persistent_transient_status_fails_after_the_last_attempt(api: ApiClient) -> None:
+    with pytest.raises(ApiError, match="HTTP 503"):
+        api.get("/down")
+    assert len(SEEN) == 3
+
+
+def test_a_client_error_is_not_retried(api: ApiClient) -> None:
+    with pytest.raises(ApiError, match="HTTP 422"):
+        api.post("/fail", {})
+    assert len(SEEN) == 1
