@@ -1,0 +1,203 @@
+{
+  "format": 1,
+  "domain": "numerology",
+  "sources": [
+    {
+      "name": "Pythagorean numerology rules",
+      "url": "https://www.worldnumerology.com/numerology-life-path/",
+      "command": "python -m benchmark pull numerology",
+      "retrieved": "2026-10-09",
+      "licence": "Published rules, facts only; no text is copied",
+      "method": "Recomputed from the rules: letters A to I, J to R and S to Z take 1 to 9, a number reduces by digit sum and stops at a single digit or at 11, 22 or 33, the Life Path reduces the month, day and year each and then their sum, and a name number reduces each name part and then the sum of the parts. A, E, I, O and U are the vowels; Y and W are consonants.",
+      "notes": "Practitioners split on whether Y is a vowel by its sound and on whether a name is summed whole or part by part. This reference follows the part by part method and reads Y as a consonant."
+    },
+    {
+      "name": "Hans Decoz worked examples",
+      "url": "https://www.worldnumerology.com/numerology-expression/",
+      "retrieved": "2026-10-09",
+      "licence": "Published worked examples, results only",
+      "method": "Life Path examples from the Life Path page, the Expression example for Thomas Cruise Mapother from the Expression page and the Soul Urge example for Thomas John Hancock from the Soul Urge page, transcribed by hand. The recomputation above is asserted to reproduce every value.",
+      "applies_to": [
+        "life_path",
+        "expression",
+        "soul_urge"
+      ]
+    }
+  ],
+  "families": [
+    {
+      "label": "Life Path, Expression and Soul Urge",
+      "quantities": [
+        "life_path",
+        "expression",
+        "soul_urge"
+      ]
+    }
+  ],
+  "tolerances": [
+    {
+      "applies_to": "*",
+      "value": 0,
+      "unit": "exact",
+      "why": "A numerology number is a discrete value from fixed rules: any other number is a different reading."
+    }
+  ],
+  "cases": [
+    {
+      "id": "master-life-path",
+      "input": {
+        "fullName": "Victor Lewis",
+        "year": 1990,
+        "month": 6,
+        "day": 22
+      },
+      "expected": {
+        "life_path": 11,
+        "expression": 11,
+        "soul_urge": 11
+      }
+    },
+    {
+      "id": "through-19",
+      "input": {
+        "fullName": "Thomas Cruise Mapother",
+        "year": 1990,
+        "month": 8,
+        "day": 12
+      },
+      "expected": {
+        "life_path": 3,
+        "expression": 4,
+        "soul_urge": 9
+      }
+    },
+    {
+      "id": "parts-not-straight-sum",
+      "input": {
+        "fullName": "Albert Einstein",
+        "year": 1879,
+        "month": 3,
+        "day": 14
+      },
+      "expected": {
+        "life_path": 6,
+        "expression": 9,
+        "soul_urge": 7
+      }
+    },
+    {
+      "id": "name-with-y",
+      "input": {
+        "fullName": "Yvonne Lynn Taylor",
+        "year": 1998,
+        "month": 10,
+        "day": 15
+      },
+      "expected": {
+        "life_path": 7,
+        "expression": 8,
+        "soul_urge": 9
+      }
+    },
+    {
+      "id": "hyphen-and-apostrophe",
+      "input": {
+        "fullName": "Mary-Jane O'Neil Smith",
+        "year": 1983,
+        "month": 11,
+        "day": 22
+      },
+      "expected": {
+        "life_path": 9,
+        "expression": 4,
+        "soul_urge": 9
+      }
+    },
+    {
+      "id": "master-expression",
+      "input": {
+        "fullName": "Ruth Adams",
+        "year": 1984,
+        "month": 3,
+        "day": 30
+      },
+      "expected": {
+        "life_path": 1,
+        "expression": 33,
+        "soul_urge": 5
+      }
+    },
+    {
+      "id": "master-soul-urge",
+      "input": {
+        "fullName": "Maria Jones",
+        "year": 1977,
+        "month": 7,
+        "day": 7
+      },
+      "expected": {
+        "life_path": 2,
+        "expression": 6,
+        "soul_urge": 22
+      }
+    }
+  ],
+  "cross_checks": [
+    {
+      "id": "life_path-0",
+      "source": "Hans Decoz worked examples",
+      "input": {
+        "year": 1990,
+        "month": 8,
+        "day": 12
+      },
+      "expected": {
+        "life_path": 3
+      }
+    },
+    {
+      "id": "life_path-1",
+      "source": "Hans Decoz worked examples",
+      "input": {
+        "year": 1983,
+        "month": 11,
+        "day": 22
+      },
+      "expected": {
+        "life_path": 9
+      }
+    },
+    {
+      "id": "life_path-2",
+      "source": "Hans Decoz worked examples",
+      "input": {
+        "year": 1998,
+        "month": 10,
+        "day": 15
+      },
+      "expected": {
+        "life_path": 7
+      }
+    },
+    {
+      "id": "expression-3",
+      "source": "Hans Decoz worked examples",
+      "input": {
+        "fullName": "Thomas Cruise Mapother"
+      },
+      "expected": {
+        "expression": 4
+      }
+    },
+    {
+      "id": "soul_urge-4",
+      "source": "Hans Decoz worked examples",
+      "input": {
+        "fullName": "Thomas John Hancock"
+      },
+      "expected": {
+        "soul_urge": 2
+      }
+    }
+  ]
+}
