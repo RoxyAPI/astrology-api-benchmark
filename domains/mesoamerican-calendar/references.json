@@ -1,0 +1,323 @@
+{
+  "format": 1,
+  "domain": "mesoamerican-calendar",
+  "sources": [
+    {
+      "name": "GMT correlation definition",
+      "url": "https://en.wikipedia.org/wiki/Mesoamerican_Long_Count_calendar",
+      "command": "python -m benchmark pull mesoamerican-calendar",
+      "retrieved": "2026-10-09",
+      "licence": "Calendar definition, facts only; the page is CC BY-SA",
+      "method": "Recomputed from the definition: the epoch 13.0.0.0.0 = 4 Ajaw 8 Kumku sits at Julian Day Number 584283, the day count is the Julian Day Number minus 584283, the Long Count is that count in base 20 with 18 winal to a tun, the Tzolkin runs 13 numbers against 20 day signs and the Haab runs 18 months of 20 days plus the 5 days of Wayeb, both from the epoch. The Julian Day Number of a proleptic Gregorian date follows Fliegel and Van Flandern.",
+      "citation": "Fliegel and Van Flandern, A machine algorithm for processing calendar dates, Communications of the ACM 11 (10), 1968, p. 657",
+      "notes": "Dates are proleptic Gregorian for every year. A converter that reads dates before 15 October 1582 as Julian differs by ten or eleven days."
+    },
+    {
+      "name": "FAMSI date converter",
+      "url": "https://research.famsi.org/date_mayaLC.php",
+      "retrieved": "2026-10-09",
+      "licence": "Published tool output, values only",
+      "method": "Gregorian date and correlation constant 584283 entered in the converter form; the Long Count and Calendar Round it printed were transcribed. The recomputation above is asserted to reproduce every value.",
+      "applies_to": [
+        "long_count",
+        "tzolkin_sign",
+        "tzolkin_number",
+        "haab_month",
+        "haab_day"
+      ]
+    }
+  ],
+  "families": [
+    {
+      "label": "Long Count and day count",
+      "quantities": [
+        "long_count",
+        "days_since_epoch",
+        "julian_day_number"
+      ]
+    },
+    {
+      "label": "Tzolkin sign and number",
+      "quantities": [
+        "tzolkin_sign",
+        "tzolkin_number"
+      ]
+    },
+    {
+      "label": "Haab month and day",
+      "quantities": [
+        "haab_month",
+        "haab_day"
+      ]
+    }
+  ],
+  "tolerances": [
+    {
+      "applies_to": [
+        "days_since_epoch",
+        "julian_day_number"
+      ],
+      "value": 0,
+      "unit": "days",
+      "why": "A day count is an integer from a fixed epoch, any miss is a wrong day."
+    },
+    {
+      "applies_to": "*",
+      "value": 0,
+      "unit": "exact",
+      "why": "Long Count, Tzolkin and Haab values are discrete: a one day shift fails."
+    }
+  ],
+  "cases": [
+    {
+      "id": "creation-era",
+      "input": {
+        "date": "2012-12-21",
+        "correlation": "gmt-584283"
+      },
+      "expected": {
+        "long_count": "13.0.0.0.0",
+        "days_since_epoch": 1872000,
+        "julian_day_number": 2456283,
+        "tzolkin_sign": "ajaw",
+        "tzolkin_number": 4,
+        "haab_month": "kankin",
+        "haab_day": 3
+      }
+    },
+    {
+      "id": "day-before-creation-era",
+      "input": {
+        "date": "2012-12-20",
+        "correlation": "gmt-584283"
+      },
+      "expected": {
+        "long_count": "12.19.19.17.19",
+        "days_since_epoch": 1871999,
+        "julian_day_number": 2456282,
+        "tzolkin_sign": "kawak",
+        "tzolkin_number": 3,
+        "haab_month": "kankin",
+        "haab_day": 2
+      }
+    },
+    {
+      "id": "millennium",
+      "input": {
+        "date": "2000-01-01",
+        "correlation": "gmt-584283"
+      },
+      "expected": {
+        "long_count": "12.19.6.15.2",
+        "days_since_epoch": 1867262,
+        "julian_day_number": 2451545,
+        "tzolkin_sign": "ik",
+        "tzolkin_number": 11,
+        "haab_month": "kankin",
+        "haab_day": 10
+      }
+    },
+    {
+      "id": "obama-birth",
+      "input": {
+        "date": "1961-08-04",
+        "correlation": "gmt-584283"
+      },
+      "expected": {
+        "long_count": "12.17.7.15.13",
+        "days_since_epoch": 1853233,
+        "julian_day_number": 2437516,
+        "tzolkin_sign": "ben",
+        "tzolkin_number": 9,
+        "haab_month": "xul",
+        "haab_day": 11
+      }
+    },
+    {
+      "id": "einstein-birth",
+      "input": {
+        "date": "1879-03-14",
+        "correlation": "gmt-584283"
+      },
+      "expected": {
+        "long_count": "12.13.4.5.0",
+        "days_since_epoch": 1823140,
+        "julian_day_number": 2407423,
+        "tzolkin_sign": "ajaw",
+        "tzolkin_number": 11,
+        "haab_month": "pax",
+        "haab_day": 13
+      }
+    },
+    {
+      "id": "wayeb-day",
+      "input": {
+        "date": "2000-04-02",
+        "correlation": "gmt-584283"
+      },
+      "expected": {
+        "long_count": "12.19.7.1.14",
+        "days_since_epoch": 1867354,
+        "julian_day_number": 2451637,
+        "tzolkin_sign": "ix",
+        "tzolkin_number": 12,
+        "haab_month": "wayeb",
+        "haab_day": 2
+      }
+    },
+    {
+      "id": "classic-era",
+      "input": {
+        "date": "0600-01-01",
+        "correlation": "gmt-584283"
+      },
+      "expected": {
+        "long_count": "9.8.6.8.3",
+        "days_since_epoch": 1355923,
+        "julian_day_number": 1940206,
+        "tzolkin_sign": "akbal",
+        "tzolkin_number": 1,
+        "haab_month": "muwan",
+        "haab_day": 16
+      }
+    },
+    {
+      "id": "pre-reform",
+      "input": {
+        "date": "1000-01-01",
+        "correlation": "gmt-584283"
+      },
+      "expected": {
+        "long_count": "10.8.12.5.0",
+        "days_since_epoch": 1502020,
+        "julian_day_number": 2086303,
+        "tzolkin_sign": "ajaw",
+        "tzolkin_number": 4,
+        "haab_month": "wo",
+        "haab_day": 8
+      }
+    }
+  ],
+  "cross_checks": [
+    {
+      "id": "creation-era",
+      "source": "FAMSI date converter",
+      "input": {
+        "date": "2012-12-21",
+        "correlation": "gmt-584283"
+      },
+      "expected": {
+        "long_count": "13.0.0.0.0",
+        "tzolkin_sign": "ajaw",
+        "tzolkin_number": 4,
+        "haab_month": "kankin",
+        "haab_day": 3
+      }
+    },
+    {
+      "id": "day-before-creation-era",
+      "source": "FAMSI date converter",
+      "input": {
+        "date": "2012-12-20",
+        "correlation": "gmt-584283"
+      },
+      "expected": {
+        "long_count": "12.19.19.17.19",
+        "tzolkin_sign": "kawak",
+        "tzolkin_number": 3,
+        "haab_month": "kankin",
+        "haab_day": 2
+      }
+    },
+    {
+      "id": "millennium",
+      "source": "FAMSI date converter",
+      "input": {
+        "date": "2000-01-01",
+        "correlation": "gmt-584283"
+      },
+      "expected": {
+        "long_count": "12.19.6.15.2",
+        "tzolkin_sign": "ik",
+        "tzolkin_number": 11,
+        "haab_month": "kankin",
+        "haab_day": 10
+      }
+    },
+    {
+      "id": "obama-birth",
+      "source": "FAMSI date converter",
+      "input": {
+        "date": "1961-08-04",
+        "correlation": "gmt-584283"
+      },
+      "expected": {
+        "long_count": "12.17.7.15.13",
+        "tzolkin_sign": "ben",
+        "tzolkin_number": 9,
+        "haab_month": "xul",
+        "haab_day": 11
+      }
+    },
+    {
+      "id": "einstein-birth",
+      "source": "FAMSI date converter",
+      "input": {
+        "date": "1879-03-14",
+        "correlation": "gmt-584283"
+      },
+      "expected": {
+        "long_count": "12.13.4.5.0",
+        "tzolkin_sign": "ajaw",
+        "tzolkin_number": 11,
+        "haab_month": "pax",
+        "haab_day": 13
+      }
+    },
+    {
+      "id": "wayeb-day",
+      "source": "FAMSI date converter",
+      "input": {
+        "date": "2000-04-02",
+        "correlation": "gmt-584283"
+      },
+      "expected": {
+        "long_count": "12.19.7.1.14",
+        "tzolkin_sign": "ix",
+        "tzolkin_number": 12,
+        "haab_month": "wayeb",
+        "haab_day": 2
+      }
+    },
+    {
+      "id": "classic-era",
+      "source": "FAMSI date converter",
+      "input": {
+        "date": "0600-01-01",
+        "correlation": "gmt-584283"
+      },
+      "expected": {
+        "long_count": "9.8.6.8.3",
+        "tzolkin_sign": "akbal",
+        "tzolkin_number": 1,
+        "haab_month": "muwan",
+        "haab_day": 16
+      }
+    },
+    {
+      "id": "pre-reform",
+      "source": "FAMSI date converter",
+      "input": {
+        "date": "1000-01-01",
+        "correlation": "gmt-584283"
+      },
+      "expected": {
+        "long_count": "10.8.12.5.0",
+        "tzolkin_sign": "ajaw",
+        "tzolkin_number": 4,
+        "haab_month": "wo",
+        "haab_day": 8
+      }
+    }
+  ]
+}
