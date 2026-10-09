@@ -1,0 +1,370 @@
+{
+  "format": 1,
+  "domain": "western-angles",
+  "sources": [
+    {
+      "name": "NASA JPL Horizons",
+      "url": "https://ssd.jpl.nasa.gov/api/horizons.api",
+      "command": "python -m benchmark pull western-angles (OBSERVER tables: QUANTITIES 7 at the birthplace; QUANTITIES 2 and 31 of geocentric bodies)",
+      "retrieved": "2026-10-09",
+      "licence": "NASA JPL data, public domain US government work; cite Horizons",
+      "method": "Local apparent sidereal time at the birthplace at the chart instant converted to UT, and the true obliquity of date solved from the apparent equatorial and ecliptic coordinates of one direction. Horizons converts UTC to UT1 with its Earth orientation table before computing sidereal time; before 1962 it reads the time as UT1.",
+      "notes": "Frame IAU 1976/1980 as Horizons prints it. Charts at or beyond the polar circles are skipped because Placidus is undefined there: tromso_midnight_sun."
+    },
+    {
+      "name": "Spherical astronomy formulas",
+      "citation": "Jean Meeus, Astronomical Algorithms, first edition, Willmann-Bell, 1991: chapter 12 eq. 12.1 to 12.4 and 12.9, chapter 14 eq. 14.1. Placidus de Titis, Tabulae Primi Mobilis, 1657, for the house definition.",
+      "command": "python -m benchmark pull western-angles",
+      "retrieved": "2026-10-09",
+      "licence": "Formulas and definitions only; no text reproduced",
+      "method": "Midheaven: the ecliptic longitude whose right ascension is the sidereal angle. Ascendant: the rising ecliptic point on the horizon. Placidus cusps 11 and 12: the ecliptic points one and two thirds of their own diurnal semi arc east of the meridian; cusps 2 and 3: two and one thirds of their own nocturnal semi arc west of the lower meridian, each by fixed point iteration to 1e-10 degrees; cusps 5, 6, 8 and 9 are their opposites. Seven decimal degrees."
+    }
+  ],
+  "families": [
+    {
+      "label": "Ascendant, Midheaven and Placidus cusps",
+      "quantities": [
+        "Ascendant",
+        "Midheaven",
+        "Cusp 2",
+        "Cusp 3",
+        "Cusp 5",
+        "Cusp 6",
+        "Cusp 8",
+        "Cusp 9",
+        "Cusp 11",
+        "Cusp 12"
+      ]
+    }
+  ],
+  "tolerances": [
+    {
+      "applies_to": "*",
+      "value": 36,
+      "unit": "arcsec",
+      "why": "A vendor-neutral pass bar, not sized to any one API, the same as the planets. The sky turns 15 arcseconds per second of time, so the bar admits two good implementations that differ by milliarcseconds in their precession and nutation model, or by the under one second between UTC and UT1, and fails a wrong timezone resolution, mean in place of true obliquity at high latitude, a sign or quadrant slip, or a different house system. Angles and cusps magnify a time error at high latitude, so read the per quantity maxima for regressions."
+    }
+  ],
+  "cases": [
+    {
+      "id": "obama",
+      "chart": "obama",
+      "expected": {
+        "Ascendant": 318.0445697,
+        "Midheaven": 238.8853493,
+        "Cusp 2": 355.8980567,
+        "Cusp 3": 30.2890606,
+        "Cusp 5": 83.9742481,
+        "Cusp 6": 109.0165157,
+        "Cusp 8": 175.8980567,
+        "Cusp 9": 210.2890606,
+        "Cusp 11": 263.9742481,
+        "Cusp 12": 289.0165157
+      }
+    },
+    {
+      "id": "beyonce",
+      "chart": "beyonce",
+      "expected": {
+        "Ascendant": 29.0117746,
+        "Midheaven": 288.9434163,
+        "Cusp 2": 60.8100335,
+        "Cusp 3": 85.6680099,
+        "Cusp 5": 134.8173489,
+        "Cusp 6": 167.6536557,
+        "Cusp 8": 240.8100335,
+        "Cusp 9": 265.6680099,
+        "Cusp 11": 314.8173489,
+        "Cusp 12": 347.6536557
+      }
+    },
+    {
+      "id": "diana",
+      "chart": "diana",
+      "expected": {
+        "Ascendant": 258.408581,
+        "Midheaven": 203.0521823,
+        "Cusp 2": 299.8050309,
+        "Cusp 3": 348.356043,
+        "Cusp 5": 46.0527336,
+        "Cusp 6": 63.2926847,
+        "Cusp 8": 119.8050309,
+        "Cusp 9": 168.356043,
+        "Cusp 11": 226.0527336,
+        "Cusp 12": 243.2926847
+      }
+    },
+    {
+      "id": "einstein",
+      "chart": "einstein",
+      "expected": {
+        "Ascendant": 101.6464077,
+        "Midheaven": 342.8398598,
+        "Cusp 2": 118.6172417,
+        "Cusp 3": 137.8079798,
+        "Cusp 5": 198.3329499,
+        "Cusp 6": 243.1094725,
+        "Cusp 8": 298.6172417,
+        "Cusp 9": 317.8079798,
+        "Cusp 11": 18.3329499,
+        "Cusp 12": 63.1094725
+      }
+    },
+    {
+      "id": "jobs",
+      "chart": "jobs",
+      "expected": {
+        "Ascendant": 172.2939997,
+        "Midheaven": 81.3175587,
+        "Cusp 2": 198.2441819,
+        "Cusp 3": 228.3543095,
+        "Cusp 5": 294.477993,
+        "Cusp 6": 325.2131794,
+        "Cusp 8": 18.2441819,
+        "Cusp 9": 48.3543095,
+        "Cusp 11": 114.477993,
+        "Cusp 12": 145.2131794
+      }
+    },
+    {
+      "id": "musk",
+      "chart": "musk",
+      "expected": {
+        "Ascendant": 103.4920408,
+        "Midheaven": 28.3445466,
+        "Cusp 2": 138.8956173,
+        "Cusp 3": 175.7031199,
+        "Cusp 5": 235.4596888,
+        "Cusp 6": 259.3785975,
+        "Cusp 8": 318.8956173,
+        "Cusp 9": 355.7031199,
+        "Cusp 11": 55.4596888,
+        "Cusp 12": 79.3785975
+      }
+    },
+    {
+      "id": "monroe",
+      "chart": "monroe",
+      "expected": {
+        "Ascendant": 133.0682231,
+        "Midheaven": 36.0029268,
+        "Cusp 2": 156.13342,
+        "Cusp 3": 183.6616622,
+        "Cusp 5": 250.5817902,
+        "Cusp 6": 283.5045371,
+        "Cusp 8": 336.13342,
+        "Cusp 9": 3.6616622,
+        "Cusp 11": 70.5817902,
+        "Cusp 12": 103.5045371
+      }
+    },
+    {
+      "id": "jfk",
+      "chart": "jfk",
+      "expected": {
+        "Ascendant": 199.9985988,
+        "Midheaven": 113.7775587,
+        "Cusp 2": 227.3290872,
+        "Cusp 3": 259.0311947,
+        "Cusp 5": 327.3051525,
+        "Cusp 6": 356.2498696,
+        "Cusp 8": 47.3290872,
+        "Cusp 9": 79.0311947,
+        "Cusp 11": 147.3051525,
+        "Cusp 12": 176.2498696
+      }
+    },
+    {
+      "id": "reykjavik_summer",
+      "chart": "reykjavik_summer",
+      "expected": {
+        "Ascendant": 167.1876799,
+        "Midheaven": 69.3637302,
+        "Cusp 2": 185.2431437,
+        "Cusp 3": 211.2304173,
+        "Cusp 5": 293.7430269,
+        "Cusp 6": 324.7922094,
+        "Cusp 8": 5.2431437,
+        "Cusp 9": 31.2304173,
+        "Cusp 11": 113.7430269,
+        "Cusp 12": 144.7922094
+      }
+    },
+    {
+      "id": "ushuaia_winter",
+      "chart": "ushuaia_winter",
+      "expected": {
+        "Ascendant": 314.1898536,
+        "Midheaven": 203.4481681,
+        "Cusp 2": 330.5761309,
+        "Cusp 3": 352.4960618,
+        "Cusp 5": 64.7001056,
+        "Cusp 6": 104.615703,
+        "Cusp 8": 150.5761309,
+        "Cusp 9": 172.4960618,
+        "Cusp 11": 244.7001056,
+        "Cusp 12": 284.615703
+      }
+    },
+    {
+      "id": "quito_equinox",
+      "chart": "quito_equinox",
+      "expected": {
+        "Ascendant": 268.7908317,
+        "Midheaven": 178.4783171,
+        "Cusp 2": 296.6230098,
+        "Cusp 3": 326.3824663,
+        "Cusp 5": 30.7378432,
+        "Cusp 6": 60.7958404,
+        "Cusp 8": 116.6230098,
+        "Cusp 9": 146.3824663,
+        "Cusp 11": 210.7378432,
+        "Cusp 12": 240.7958404
+      }
+    },
+    {
+      "id": "ny_dst_spring",
+      "chart": "ny_dst_spring",
+      "expected": {
+        "Ascendant": 299.554814,
+        "Midheaven": 232.6279737,
+        "Cusp 2": 345.8944111,
+        "Cusp 3": 24.8486738,
+        "Cusp 5": 74.5593725,
+        "Cusp 6": 95.2263232,
+        "Cusp 8": 165.8944111,
+        "Cusp 9": 204.8486738,
+        "Cusp 11": 254.5593725,
+        "Cusp 12": 275.2263232
+      }
+    },
+    {
+      "id": "ny_dst_fall",
+      "chart": "ny_dst_fall",
+      "expected": {
+        "Ascendant": 146.1574548,
+        "Midheaven": 49.576984,
+        "Cusp 2": 168.7761311,
+        "Cusp 3": 196.5492694,
+        "Cusp 5": 264.8530575,
+        "Cusp 6": 297.652777,
+        "Cusp 8": 348.7761311,
+        "Cusp 9": 16.5492694,
+        "Cusp 11": 84.8530575,
+        "Cusp 12": 117.652777
+      }
+    },
+    {
+      "id": "mumbai_2000",
+      "chart": "mumbai_2000",
+      "expected": {
+        "Ascendant": 61.5428001,
+        "Midheaven": 319.596506,
+        "Cusp 2": 87.9407852,
+        "Cusp 3": 112.8071925,
+        "Cusp 5": 170.849846,
+        "Cusp 6": 206.2842958,
+        "Cusp 8": 267.9407852,
+        "Cusp 9": 292.8071925,
+        "Cusp 11": 350.849846,
+        "Cusp 12": 26.2842958
+      }
+    },
+    {
+      "id": "sydney_2010",
+      "chart": "sydney_2010",
+      "expected": {
+        "Ascendant": 351.2696812,
+        "Midheaven": 260.4910402,
+        "Cusp 2": 17.8867709,
+        "Cusp 3": 48.1113577,
+        "Cusp 5": 112.9368647,
+        "Cusp 6": 143.5863243,
+        "Cusp 8": 197.8867709,
+        "Cusp 9": 228.1113577,
+        "Cusp 11": 292.9368647,
+        "Cusp 12": 323.5863243
+      }
+    },
+    {
+      "id": "tokyo_1990",
+      "chart": "tokyo_1990",
+      "expected": {
+        "Ascendant": 58.4574105,
+        "Midheaven": 308.7905612,
+        "Cusp 2": 83.7796805,
+        "Cusp 3": 105.6628087,
+        "Cusp 5": 157.3960095,
+        "Cusp 6": 195.3381266,
+        "Cusp 8": 263.7796805,
+        "Cusp 9": 285.6628087,
+        "Cusp 11": 337.3960095,
+        "Cusp 12": 15.3381266
+      }
+    },
+    {
+      "id": "boston_1900",
+      "chart": "boston_1900",
+      "expected": {
+        "Ascendant": 192.6313427,
+        "Midheaven": 104.9114551,
+        "Cusp 2": 219.4041939,
+        "Cusp 3": 250.5665625,
+        "Cusp 5": 318.55728,
+        "Cusp 6": 348.099016,
+        "Cusp 8": 39.4041939,
+        "Cusp 9": 70.5665625,
+        "Cusp 11": 138.55728,
+        "Cusp 12": 168.099016
+      }
+    },
+    {
+      "id": "greenwich_y2k",
+      "chart": "greenwich_y2k",
+      "expected": {
+        "Ascendant": 187.0305813,
+        "Midheaven": 99.1581415,
+        "Cusp 2": 211.735632,
+        "Cusp 3": 242.597089,
+        "Cusp 5": 314.7390639,
+        "Cusp 6": 344.0119,
+        "Cusp 8": 31.735632,
+        "Cusp 9": 62.597089,
+        "Cusp 11": 134.7390639,
+        "Cusp 12": 164.0119
+      }
+    },
+    {
+      "id": "samoa_skipped_day",
+      "chart": "samoa_skipped_day",
+      "expected": {
+        "Ascendant": 2.2347472,
+        "Midheaven": 272.0823284,
+        "Cusp 2": 32.4059752,
+        "Cusp 3": 62.5592645,
+        "Cusp 5": 121.7155443,
+        "Cusp 6": 152.0621594,
+        "Cusp 8": 212.4059752,
+        "Cusp 9": 242.5592645,
+        "Cusp 11": 301.7155443,
+        "Cusp 12": 332.0621594
+      }
+    },
+    {
+      "id": "anchorage_winter",
+      "chart": "anchorage_winter",
+      "expected": {
+        "Ascendant": 303.1606897,
+        "Midheaven": 256.6257965,
+        "Cusp 2": 34.1692642,
+        "Cusp 3": 61.9115341,
+        "Cusp 5": 88.2654749,
+        "Cusp 6": 100.7849012,
+        "Cusp 8": 214.1692642,
+        "Cusp 9": 241.9115341,
+        "Cusp 11": 268.2654749,
+        "Cusp 12": 280.7849012
+      }
+    }
+  ]
+}
