@@ -1,0 +1,657 @@
+{
+  "format": 1,
+  "domain": "ayurveda",
+  "sources": [
+    {
+      "name": "NASA JPL Horizons",
+      "url": "https://ssd.jpl.nasa.gov/api/horizons.api",
+      "command": "python -m benchmark pull ayurveda (OBSERVER table of the Sun, CENTER 500@399, QUANTITIES 31, hourly step around each season edge, root by bisection)",
+      "retrieved": "2026-10-09",
+      "licence": "NASA JPL data, public domain US government work; cite Horizons",
+      "method": "Apparent geocentric ecliptic longitude of the Sun of date, hourly around each season edge. The edge is the instant the longitude reaches a multiple of 60 degrees from 270 (sayana), or the same longitude less the Lahiri ayanamsa (nirayana), by bisection on the cubic through the four rows around the crossing, Meeus, Astronomical Algorithms, 2nd edition, chapter 3. The season of a date is the one the Sun is in at midday UT.",
+      "notes": "Times are UT to the millisecond the search resolves. Every instant is in the past, where Horizons applies measured delta T.",
+      "applies_to": [
+        "ritu",
+        "sidereal ritu",
+        "southern ritu",
+        "ritu start",
+        "ritu end",
+        "sidereal ritu start",
+        "sidereal ritu end"
+      ]
+    },
+    {
+      "name": "Sushruta Samhita, Bhishagratna translation",
+      "url": "https://archive.org/details/india.history.resource.92776",
+      "citation": "An English Translation of the Sushruta Samhita, Kaviraj Kunja Lal Bhishagratna, Calcutta 1907, volume 1, Sutrasthana chapter VI (pages 43 and 44): the twelve months from Magha in six seasons of two, and thirty muhurtas to the day and night",
+      "retrieved": "2026-10-09",
+      "licence": "Classical text in an openly digitised 1907 translation; the rules are cited, no text is reproduced",
+      "method": "Sisira is Magha and Phalguna, vasanta Chaitra and Vaishakha, and so on to hemanta. A solar month carries the month named for it (Makara for Magha), which puts every edge on a multiple of 30 degrees of solar longitude and the two courses on the two solstices. A muhurta is a thirtieth of a day, 48 minutes.",
+      "applies_to": [
+        "ritu",
+        "sidereal ritu",
+        "southern ritu",
+        "ritu start",
+        "ritu end",
+        "sidereal ritu start",
+        "sidereal ritu end",
+        "brahma muhurta start",
+        "brahma muhurta end"
+      ]
+    },
+    {
+      "name": "Charaka Samhita, Sutrasthana 6",
+      "url": "https://archive.org/details/GabrielVanLoonCharakaSamhitaVol1Eng",
+      "citation": "Charaka Samhita, Handbook on Ayurveda Volume I, edited by Gabriel Van Loon, 2002 to 2003, after P. V. Sharma: Sutrasthana 6.3 and 6.4, the six seasons and the northward course from sisira to grisma against the southward course from varsa to hemanta",
+      "retrieved": "2026-10-09",
+      "licence": "Cited for the rule only; no text is reproduced",
+      "method": "The second witness to the six season names and to their order against the Sun course: sisira opens the northward half, which a tropical Sun does at the December solstice.",
+      "applies_to": [
+        "ritu",
+        "sidereal ritu",
+        "southern ritu",
+        "ritu start",
+        "ritu end",
+        "sidereal ritu start",
+        "sidereal ritu end"
+      ]
+    },
+    {
+      "name": "Surya Siddhanta, Burgess translation",
+      "url": "https://archive.org/details/TranslationOfTheSuryaSiddhanta",
+      "citation": "Translation of the Surya-Siddhanta, a Text-Book of Hindu Astronomy, by Ebenezer Burgess, Journal of the American Oriental Society, volume 6, 1860: chapter 1 verse 13, a solar month is determined by the entrance of the Sun into a sign of the zodiac",
+      "retrieved": "2026-10-09",
+      "licence": "Classical text in an openly digitised 1860 translation; the rule is cited, no text is reproduced",
+      "method": "A season of two solar months opens at a Sun ingress into a sign.",
+      "applies_to": [
+        "ritu start",
+        "ritu end",
+        "sidereal ritu start",
+        "sidereal ritu end"
+      ]
+    },
+    {
+      "name": "Lahiri ayanamsa, Calendar Reform Committee definition",
+      "url": "https://archive.org/details/calendar_reform_comittee_report",
+      "citation": "Report of the Calendar Reform Committee, Government of India, 1955, recommendations for the religious calendar, item 7, pages 7 and 8",
+      "retrieved": "2026-10-09",
+      "licence": "Government of India publication; the definition is cited, no text is reproduced",
+      "method": "23 deg 15 min 00.658 sec at 0h TT on 21 March 1956 as a true ayanamsa, made mean, carried by the IERS Conventions 2010 general precession in longitude and made true again with the IAU 2000A nutation in longitude of the instant. The frame of every sidereal season edge.",
+      "applies_to": [
+        "sidereal ritu",
+        "sidereal ritu start",
+        "sidereal ritu end"
+      ]
+    },
+    {
+      "name": "Positional Astronomy Centre, Kolkata",
+      "url": "https://packolkata.imd.gov.in/download/nirlon/nlongitude.htm",
+      "retrieved": "2026-10-09",
+      "licence": "Government of India data, India Meteorological Department; values cited with attribution",
+      "method": "Published nirayana longitude of the Sun at 0h TT, transcribed for the four days around the two sidereal season edges as cross checks: the instant the published longitude reaches the edge must equal the recomputed one.",
+      "applies_to": [
+        "sidereal ritu start",
+        "sidereal ritu end"
+      ]
+    },
+    {
+      "name": "US Naval Observatory seasons",
+      "url": "https://aa.usno.navy.mil/data/api",
+      "retrieved": "2026-10-09",
+      "licence": "US Naval Observatory data, public domain US government work",
+      "method": "The December and June solstice instants in UT to the minute as published. A tropical season edge at 270 and 90 degrees is the same event, so the two values are cross checks of the Horizons recomputation, not references.",
+      "applies_to": [
+        "ritu start",
+        "ritu end"
+      ]
+    },
+    {
+      "name": "Ashtanga Hridaya, Sutrasthana 1.8",
+      "url": "https://archive.org/details/Ashtanga.Hridaya.of.Vagbhata",
+      "citation": "Ashtanga Hridaya of Vagbhata, Sanskrit with two commentaries, as digitised: Sutrasthana 1.8, the humours hold the end, the middle and the beginning of the day, the night and digestion; Sutrasthana 2.1, rising in the brahma muhurta",
+      "retrieved": "2026-10-09",
+      "licence": "Classical text in an openly digitised edition; the rule is cited, no text is reproduced",
+      "method": "Kapha holds the first third, pitta the middle third and vata the last third of the day, and the same order the night. The brahma muhurta is read as the window 96 to 48 minutes before sunrise, the fixed reading the commentary settles on; that offset is a stated convention, checked here as arithmetic from sunrise.",
+      "applies_to": [
+        "brahma muhurta start",
+        "brahma muhurta end",
+        "day pitta start",
+        "day vata start",
+        "night pitta start",
+        "night vata start",
+        "dosha order"
+      ]
+    },
+    {
+      "name": "US Naval Observatory Astronomical Applications API",
+      "url": "https://aa.usno.navy.mil/data/api",
+      "citation": "Complete Sun and Moon Data for One Day; rise and set defined at https://aa.usno.navy.mil/faq/RST_defs",
+      "command": "python -m benchmark pull ayurveda (GET rstt/oneday with date, coords and tz in hours)",
+      "retrieved": "2026-10-09",
+      "licence": "US Government data, public domain; cite USNO",
+      "method": "The Rise and Set entries of the Sun data, in the local zone given, and the Rise of the next local day. Sunrise is the upper limb of the Sun on a level sea horizon under 34 arcminutes of refraction. The service prints whole minutes. The thirds of the day and night and the brahma muhurta are computed from them.",
+      "applies_to": [
+        "sunrise",
+        "sunset",
+        "next sunrise",
+        "brahma muhurta start",
+        "brahma muhurta end",
+        "day pitta start",
+        "day vata start",
+        "night pitta start",
+        "night vata start"
+      ]
+    }
+  ],
+  "tolerances": [
+    {
+      "applies_to": [
+        "ritu start",
+        "ritu end"
+      ],
+      "value": 60,
+      "unit": "seconds",
+      "why": "A vendor-neutral pass bar, not sized to any one API. The Sun moves about 2.5 arcseconds a minute at a season edge, so a minute is the arcsecond level disagreement between two good ephemerides: wide enough for that, tight enough to fail an edge read off a daily table, a mean Sun, a longitude in the wrong frame or a coarse sampling of the ingress, each of which is minutes to hours."
+    },
+    {
+      "applies_to": [
+        "sidereal ritu start",
+        "sidereal ritu end"
+      ],
+      "value": 120,
+      "unit": "seconds",
+      "why": "The tropical bar plus the ayanamsa. Two published recomputations of the Lahiri definition differ by an arcsecond or two once nutation is treated as the definition allows, which is up to a minute of Sun motion, so the band is twice the tropical one. A different ayanamsa revision is 20 arcseconds or more, over eight minutes, and fails."
+    },
+    {
+      "applies_to": [
+        "sunrise",
+        "sunset",
+        "next sunrise",
+        "brahma muhurta start",
+        "brahma muhurta end",
+        "day pitta start",
+        "day vata start",
+        "night pitta start",
+        "night vata start"
+      ],
+      "value": 90,
+      "unit": "seconds",
+      "why": "The reference prints whole minutes, so two exact values differ by up to a minute through rounding alone; the half minute beyond covers the difference between two good implementations of the same upper limb and 34 arcminute refraction definition. A different limb (about 4 minutes at mid latitudes) or no refraction (about 2 to 3) fails. A third of the day or night and a fixed offset from sunrise inherit the same bar, since each is a weighted mean of the sunrise and sunset errors."
+    },
+    {
+      "applies_to": [
+        "ritu",
+        "sidereal ritu",
+        "southern ritu",
+        "dosha order"
+      ],
+      "value": 0,
+      "unit": "exact",
+      "why": "Discrete names: the season is a machine identifier of the six, and the order of the six dosha periods is a fixed sequence, so either is right or wrong."
+    }
+  ],
+  "cases": [
+    {
+      "id": "hemanta-sisira-before",
+      "input": {
+        "ritucharya": {
+          "date": "2025-12-21"
+        }
+      },
+      "expected": {
+        "ritu": "hemanta",
+        "ritu start": "2025-10-23T03:50:56.586+00:00",
+        "ritu end": "2025-12-21T15:03:06.254+00:00"
+      }
+    },
+    {
+      "id": "hemanta-sisira-after",
+      "input": {
+        "ritucharya": {
+          "date": "2025-12-22"
+        }
+      },
+      "expected": {
+        "ritu": "sisira",
+        "ritu start": "2025-12-21T15:03:06.254+00:00",
+        "ritu end": "2026-02-18T15:51:56.607+00:00"
+      }
+    },
+    {
+      "id": "sisira-vasanta-before",
+      "input": {
+        "ritucharya": {
+          "date": "2026-02-18"
+        }
+      },
+      "expected": {
+        "ritu": "sisira",
+        "ritu start": "2025-12-21T15:03:06.254+00:00",
+        "ritu end": "2026-02-18T15:51:56.607+00:00"
+      }
+    },
+    {
+      "id": "sisira-vasanta-after",
+      "input": {
+        "ritucharya": {
+          "date": "2026-02-19"
+        }
+      },
+      "expected": {
+        "ritu": "vasanta",
+        "ritu start": "2026-02-18T15:51:56.607+00:00",
+        "ritu end": "2026-04-20T01:39:07.662+00:00"
+      }
+    },
+    {
+      "id": "vasanta-grisma-before",
+      "input": {
+        "ritucharya": {
+          "date": "2026-04-19"
+        }
+      },
+      "expected": {
+        "ritu": "vasanta",
+        "ritu start": "2026-02-18T15:51:56.607+00:00",
+        "ritu end": "2026-04-20T01:39:07.662+00:00"
+      }
+    },
+    {
+      "id": "vasanta-grisma-after",
+      "input": {
+        "ritucharya": {
+          "date": "2026-04-20"
+        }
+      },
+      "expected": {
+        "ritu": "grisma",
+        "ritu start": "2026-04-20T01:39:07.662+00:00",
+        "ritu end": "2026-06-21T08:24:31.510+00:00"
+      }
+    },
+    {
+      "id": "grisma-varsa-before",
+      "input": {
+        "ritucharya": {
+          "date": "2026-06-20"
+        }
+      },
+      "expected": {
+        "ritu": "grisma",
+        "ritu start": "2026-04-20T01:39:07.662+00:00",
+        "ritu end": "2026-06-21T08:24:31.510+00:00"
+      }
+    },
+    {
+      "id": "grisma-varsa-after",
+      "input": {
+        "ritucharya": {
+          "date": "2026-06-21"
+        }
+      },
+      "expected": {
+        "ritu": "varsa",
+        "ritu start": "2026-06-21T08:24:31.510+00:00",
+        "ritu end": "2026-08-23T02:18:49.594+00:00"
+      }
+    },
+    {
+      "id": "sarad-hemanta-before",
+      "input": {
+        "ritucharya": {
+          "date": "2025-10-22"
+        }
+      },
+      "expected": {
+        "ritu": "sarad",
+        "ritu start": "2025-08-22T20:33:52.641+00:00",
+        "ritu end": "2025-10-23T03:50:56.586+00:00"
+      }
+    },
+    {
+      "id": "sarad-hemanta-after",
+      "input": {
+        "ritucharya": {
+          "date": "2025-10-23"
+        }
+      },
+      "expected": {
+        "ritu": "hemanta",
+        "ritu start": "2025-10-23T03:50:56.586+00:00",
+        "ritu end": "2025-12-21T15:03:06.254+00:00"
+      }
+    },
+    {
+      "id": "varsa-sarad-before",
+      "input": {
+        "ritucharya": {
+          "date": "2025-08-22"
+        }
+      },
+      "expected": {
+        "ritu": "varsa",
+        "ritu start": "2025-06-21T02:42:16.842+00:00",
+        "ritu end": "2025-08-22T20:33:52.641+00:00"
+      }
+    },
+    {
+      "id": "varsa-sarad-after",
+      "input": {
+        "ritucharya": {
+          "date": "2025-08-23"
+        }
+      },
+      "expected": {
+        "ritu": "sarad",
+        "ritu start": "2025-08-22T20:33:52.641+00:00",
+        "ritu end": "2025-10-23T03:50:56.586+00:00"
+      }
+    },
+    {
+      "id": "sidereal-sisira-opens-before",
+      "input": {
+        "ritucharya": {
+          "date": "2026-01-13",
+          "rituZodiac": "nirayana"
+        }
+      },
+      "expected": {
+        "sidereal ritu": "hemanta",
+        "sidereal ritu start": "2025-11-16T08:07:39.967+00:00",
+        "sidereal ritu end": "2026-01-14T09:37:22.708+00:00"
+      }
+    },
+    {
+      "id": "sidereal-sisira-opens-after",
+      "input": {
+        "ritucharya": {
+          "date": "2026-01-14",
+          "rituZodiac": "nirayana"
+        }
+      },
+      "expected": {
+        "sidereal ritu": "sisira",
+        "sidereal ritu start": "2026-01-14T09:37:22.708+00:00",
+        "sidereal ritu end": "2026-03-14T19:33:06.416+00:00"
+      }
+    },
+    {
+      "id": "sidereal-sisira-closes-before",
+      "input": {
+        "ritucharya": {
+          "date": "2026-03-14",
+          "rituZodiac": "nirayana"
+        }
+      },
+      "expected": {
+        "sidereal ritu": "sisira",
+        "sidereal ritu start": "2026-01-14T09:37:22.708+00:00",
+        "sidereal ritu end": "2026-03-14T19:33:06.416+00:00"
+      }
+    },
+    {
+      "id": "sidereal-sisira-closes-after",
+      "input": {
+        "ritucharya": {
+          "date": "2026-03-15",
+          "rituZodiac": "nirayana"
+        }
+      },
+      "expected": {
+        "sidereal ritu": "vasanta",
+        "sidereal ritu start": "2026-03-14T19:33:06.416+00:00",
+        "sidereal ritu end": "2026-05-15T00:52:04.848+00:00"
+      }
+    },
+    {
+      "id": "divergence-sidereal",
+      "input": {
+        "ritucharya": {
+          "date": "2026-03-01",
+          "rituZodiac": "nirayana"
+        }
+      },
+      "expected": {
+        "sidereal ritu": "sisira",
+        "sidereal ritu start": "2026-01-14T09:37:22.708+00:00",
+        "sidereal ritu end": "2026-03-14T19:33:06.416+00:00"
+      }
+    },
+    {
+      "id": "divergence-tropical",
+      "input": {
+        "ritucharya": {
+          "date": "2026-03-01"
+        }
+      },
+      "expected": {
+        "ritu": "vasanta",
+        "ritu start": "2026-02-18T15:51:56.607+00:00",
+        "ritu end": "2026-04-20T01:39:07.662+00:00"
+      }
+    },
+    {
+      "id": "southern-march",
+      "input": {
+        "ritucharya": {
+          "date": "2026-03-01",
+          "hemisphere": "southern"
+        }
+      },
+      "expected": {
+        "southern ritu": "sarad"
+      }
+    },
+    {
+      "id": "london-midsummer",
+      "input": {
+        "dinacharya": {
+          "date": "2026-06-21",
+          "latitude": 51.5074,
+          "longitude": -0.1278,
+          "timezone": 1
+        }
+      },
+      "expected": {
+        "sunrise": "2026-06-21T03:43:00.000+00:00",
+        "sunset": "2026-06-21T20:22:00.000+00:00",
+        "next sunrise": "2026-06-22T03:43:00.000+00:00",
+        "brahma muhurta start": "2026-06-21T02:07:00.000+00:00",
+        "brahma muhurta end": "2026-06-21T02:55:00.000+00:00",
+        "day pitta start": "2026-06-21T09:16:00.000+00:00",
+        "day vata start": "2026-06-21T14:49:00.000+00:00",
+        "night pitta start": "2026-06-21T22:49:00.000+00:00",
+        "night vata start": "2026-06-22T01:16:00.000+00:00",
+        "dosha order": "kapha pitta vata kapha pitta vata"
+      }
+    },
+    {
+      "id": "reykjavik-midwinter",
+      "input": {
+        "dinacharya": {
+          "date": "2025-12-21",
+          "latitude": 64.1466,
+          "longitude": -21.9426,
+          "timezone": 0
+        }
+      },
+      "expected": {
+        "sunrise": "2025-12-21T11:22:00.000+00:00",
+        "sunset": "2025-12-21T15:30:00.000+00:00",
+        "next sunrise": "2025-12-22T11:23:00.000+00:00",
+        "brahma muhurta start": "2025-12-21T09:46:00.000+00:00",
+        "brahma muhurta end": "2025-12-21T10:34:00.000+00:00",
+        "day pitta start": "2025-12-21T12:44:40.000+00:00",
+        "day vata start": "2025-12-21T14:07:20.000+00:00",
+        "night pitta start": "2025-12-21T22:07:40.000+00:00",
+        "night vata start": "2025-12-22T04:45:20.000+00:00",
+        "dosha order": "kapha pitta vata kapha pitta vata"
+      }
+    },
+    {
+      "id": "sydney-midsummer",
+      "input": {
+        "dinacharya": {
+          "date": "2025-12-21",
+          "latitude": -33.8688,
+          "longitude": 151.2093,
+          "timezone": 11
+        }
+      },
+      "expected": {
+        "sunrise": "2025-12-20T18:41:00.000+00:00",
+        "sunset": "2025-12-21T09:06:00.000+00:00",
+        "next sunrise": "2025-12-21T18:41:00.000+00:00",
+        "brahma muhurta start": "2025-12-20T17:05:00.000+00:00",
+        "brahma muhurta end": "2025-12-20T17:53:00.000+00:00",
+        "day pitta start": "2025-12-20T23:29:20.000+00:00",
+        "day vata start": "2025-12-21T04:17:40.000+00:00",
+        "night pitta start": "2025-12-21T12:17:40.000+00:00",
+        "night vata start": "2025-12-21T15:29:20.000+00:00",
+        "dosha order": "kapha pitta vata kapha pitta vata"
+      }
+    },
+    {
+      "id": "mumbai-equinox",
+      "input": {
+        "dinacharya": {
+          "date": "2026-03-20",
+          "latitude": 19.076,
+          "longitude": 72.8777,
+          "timezone": 5.5
+        }
+      },
+      "expected": {
+        "sunrise": "2026-03-20T01:13:00.000+00:00",
+        "sunset": "2026-03-20T13:19:00.000+00:00",
+        "next sunrise": "2026-03-21T01:12:00.000+00:00",
+        "brahma muhurta start": "2026-03-19T23:37:00.000+00:00",
+        "brahma muhurta end": "2026-03-20T00:25:00.000+00:00",
+        "day pitta start": "2026-03-20T05:15:00.000+00:00",
+        "day vata start": "2026-03-20T09:17:00.000+00:00",
+        "night pitta start": "2026-03-20T17:16:40.000+00:00",
+        "night vata start": "2026-03-20T21:14:20.000+00:00",
+        "dosha order": "kapha pitta vata kapha pitta vata"
+      }
+    },
+    {
+      "id": "quito-equinox",
+      "input": {
+        "dinacharya": {
+          "date": "2026-03-20",
+          "latitude": -0.1807,
+          "longitude": -78.4678,
+          "timezone": -5
+        }
+      },
+      "expected": {
+        "sunrise": "2026-03-20T11:18:00.000+00:00",
+        "sunset": "2026-03-20T23:24:00.000+00:00",
+        "next sunrise": "2026-03-21T11:18:00.000+00:00",
+        "brahma muhurta start": "2026-03-20T09:42:00.000+00:00",
+        "brahma muhurta end": "2026-03-20T10:30:00.000+00:00",
+        "day pitta start": "2026-03-20T15:20:00.000+00:00",
+        "day vata start": "2026-03-20T19:22:00.000+00:00",
+        "night pitta start": "2026-03-21T03:22:00.000+00:00",
+        "night vata start": "2026-03-21T07:20:00.000+00:00",
+        "dosha order": "kapha pitta vata kapha pitta vata"
+      }
+    }
+  ],
+  "families": [
+    {
+      "label": "Season at a date, both zodiacs and both hemispheres",
+      "quantities": [
+        "ritu",
+        "sidereal ritu",
+        "southern ritu"
+      ]
+    },
+    {
+      "label": "Season opening and closing instants",
+      "quantities": [
+        "ritu start",
+        "ritu end",
+        "sidereal ritu start",
+        "sidereal ritu end"
+      ]
+    },
+    {
+      "label": "Sunrise and sunset",
+      "quantities": [
+        "sunrise",
+        "sunset",
+        "next sunrise"
+      ]
+    },
+    {
+      "label": "Brahma muhurta window",
+      "quantities": [
+        "brahma muhurta start",
+        "brahma muhurta end"
+      ]
+    },
+    {
+      "label": "Dosha periods of the day and night",
+      "quantities": [
+        "day pitta start",
+        "day vata start",
+        "night pitta start",
+        "night vata start",
+        "dosha order"
+      ]
+    }
+  ],
+  "cross_checks": [
+    {
+      "source": "US Naval Observatory seasons",
+      "id": "hemanta-sisira-after",
+      "input": {
+        "ritucharya": {
+          "date": "2025-12-22"
+        }
+      },
+      "expected": {
+        "ritu start": "2025-12-21T15:03:00.000+00:00"
+      }
+    },
+    {
+      "source": "US Naval Observatory seasons",
+      "id": "grisma-varsa-after",
+      "input": {
+        "ritucharya": {
+          "date": "2026-06-21"
+        }
+      },
+      "expected": {
+        "ritu start": "2026-06-21T08:24:00.000+00:00"
+      }
+    },
+    {
+      "source": "Positional Astronomy Centre, Kolkata",
+      "id": "sidereal-sisira-opens-after",
+      "input": {
+        "ritucharya": {
+          "date": "2026-01-14",
+          "rituZodiac": "nirayana"
+        }
+      },
+      "expected": {
+        "sidereal ritu start": "2026-01-14T09:37:20.172+00:00"
+      }
+    },
+    {
+      "source": "Positional Astronomy Centre, Kolkata",
+      "id": "sidereal-sisira-closes-before",
+      "input": {
+        "ritucharya": {
+          "date": "2026-03-14",
+          "rituZodiac": "nirayana"
+        }
+      },
+      "expected": {
+        "sidereal ritu end": "2026-03-14T19:33:06.346+00:00"
+      }
+    }
+  ]
+}
