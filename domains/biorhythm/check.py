@@ -11,7 +11,7 @@ CYCLES = ("physical", "emotional", "intellectual")
 DOMAIN = Domain(
     id="biorhythm",
     title="Biorhythm",
-    authority="sine cycles of 23, 28 and 33 days, recomputed from the published definition",
+    authority="Sine cycles of 23, 28 and 33 days, recomputed from the published definition",
     endpoints=(Endpoint("POST", ENDPOINT, "Biorhythm"),),
     order=120,
 )

@@ -11,38 +11,38 @@ The RoxyAPI Astrology API Accuracy Benchmark is an open, reproducible benchmark 
 <!-- generated:claim:begin python -m benchmark readme, do not edit -->
 > **For the Sun, Moon, planets and Chiron, RoxyAPI returned 231 of 231 positions within 0.32 arcsec (0.000089°) of NASA JPL Horizons.** In the open accuracy benchmark run of 2026-10-09, RoxyAPI returned 2,701 of 2,701 values within tolerance across 17 domains, with a median angular deviation of 0.048 arcsec (0.000013°).
 >
-> By unit: angles median 0.048 arcsec (0.000013°) over 661; instants median 1.6 seconds over 133; calendar counts median 0 days over 179; discrete values 1,728 of 1,728 exact. Target `roxyapi.com`, generated from [`results/latest.json`](results/latest.json).
+> By unit: positions median 0.048 arcsec (0.000013°) over 661; instants median 1.6 seconds over 133; calendar counts median 0 days over 179; discrete values 1,728 of 1,728 exact. Target `roxyapi.com`, generated from [`results/latest.json`](results/latest.json).
 <!-- generated:claim:end -->
 
 <!-- generated:scorecard:begin python -m benchmark readme, do not edit -->
-| Domain | Authority | Values | Within band | Precision | Median | p95 | Max | Unit |
-|---|---|---:|---:|---|---:|---:|---:|---|
-| [Western planets](#western-planets) | NASA JPL Horizons | 231 | 231 of 231 | 231 within 10 arcsec, 231 within 1 arcsec, 187 within 0.1 arcsec | 0.048 | 0.24 | 0.31 | arcsec |
-| [Western angles and houses](#western-angles-and-houses) | NASA JPL Horizons sidereal time and obliquity, standard spherical astronomy | 200 | 200 of 200 | 200 within 10 arcsec, 197 within 1 arcsec, 92 within 0.1 arcsec | 0.12 | 0.62 | 1.5 | arcsec |
-| [Vedic sidereal chart](#vedic-sidereal-chart) | NASA JPL Horizons with the Lahiri ayanamsa by its published definition | 230 | 230 of 230 | 230 within 10 arcsec, 229 within 1 arcsec, 189 within 0.1 arcsec | 0.039 | 0.23 | 1.5 | arcsec |
-| [Vedic sidereal chart](#vedic-sidereal-chart) | NASA JPL Horizons with the Lahiri ayanamsa by its published definition | 26 | 26 of 26 |  | 0.2 | 0.48 | 0.49 | days |
-| [Vedic sidereal chart](#vedic-sidereal-chart) | NASA JPL Horizons with the Lahiri ayanamsa by its published definition | 638 | 638 of 638 |  | 0 | 0 | 0 | exact |
-| [Panchang](#panchang) | NASA JPL Horizons Sun and Moon longitudes by the classical definitions, sunrise from the US Naval Observatory | 13 | 13 of 13 | 13 within 60 seconds, 13 within 10 seconds, 13 within 1 second | 0 | 0 | 0 | seconds |
-| [Panchang](#panchang) | NASA JPL Horizons Sun and Moon longitudes by the classical definitions, sunrise from the US Naval Observatory | 60 | 60 of 60 |  | 0 | 0 | 0 | exact |
-| [Forecast events](#forecast-events) | NASA JPL Horizons | 29 | 29 of 29 | 29 within 60 seconds, 17 within 10 seconds, 10 within 1 second | 2.3 | 30.6 | 44.9 | seconds |
-| [Moon phases](#moon-phases) | U.S. Naval Observatory primary moon phase tables, Universal Time dates | 11 | 11 of 11 |  | 0 | 0 | 0 | days |
-| [Human Design bodygraph](#human-design-bodygraph) | NASA JPL Horizons with the 88 degree solar arc and the Rave Mandala | 10 | 10 of 10 | 10 within 60 seconds, 10 within 10 seconds, 10 within 1 second | 0.014 | 0.27 | 0.27 | seconds |
-| [Human Design bodygraph](#human-design-bodygraph) | NASA JPL Horizons with the 88 degree solar arc and the Rave Mandala | 90 | 90 of 90 |  | 0 | 0 | 0 | exact |
-| [Chinese calendar](#chinese-calendar) | Hong Kong Observatory Gregorian-Lunar conversion tables, sexagenary cycle from a published anchor day | 103 | 103 of 103 |  | 0 | 0 | 0 | days |
-| [Chinese calendar](#chinese-calendar) | Hong Kong Observatory Gregorian-Lunar conversion tables, sexagenary cycle from a published anchor day | 32 | 32 of 32 |  | 0 | 0 | 0 | exact |
-| [Feng shui](#feng-shui) | Printed Qing almanac and Xuan Kong rules recomputed, Hong Kong Observatory Li Chun dates | 13 | 13 of 13 |  | 0 | 0 | 0 | days |
-| [Feng shui](#feng-shui) | Printed Qing almanac and Xuan Kong rules recomputed, Hong Kong Observatory Li Chun dates | 243 | 243 of 243 |  | 0 | 0 | 0 | exact |
-| [Mesoamerican calendar](#mesoamerican-calendar) | GMT correlation 584283, cross-checked against the FAMSI converter | 16 | 16 of 16 |  | 0 | 0 | 0 | days |
-| [Mesoamerican calendar](#mesoamerican-calendar) | GMT correlation 584283, cross-checked against the FAMSI converter | 40 | 40 of 40 |  | 0 | 0 | 0 | exact |
-| [Vastu](#vastu) | Brihat Samhita chapter 53 in the Iyer and Kern translations | 118 | 118 of 118 |  | 0 | 0 | 0 | exact |
-| [Numerology](#numerology) | Pythagorean rules recomputed, cross-checked against published worked examples | 21 | 21 of 21 |  | 0 | 0 | 0 | exact |
-| [Kabbalah](#kabbalah) | Published gematria letter table and the arithmetic Hebrew calendar | 72 | 72 of 72 |  | 0 | 0 | 0 | exact |
-| [Biorhythm](#biorhythm) | sine cycles of 23, 28 and 33 days, recomputed from the published definition | 10 | 10 of 10 |  | 0 | 0 | 0 | days |
-| [Biorhythm](#biorhythm) | sine cycles of 23, 28 and 33 days, recomputed from the published definition | 60 | 60 of 60 |  | 0 | 0 | 0 | exact |
-| [Ayurveda](#ayurveda) | NASA JPL Horizons Sun ingress by the classical season rule, sunrise from the US Naval Observatory | 81 | 81 of 81 | 81 within 60 seconds, 56 within 10 seconds, 21 within 1 second | 1.7 | 25.1 | 29.5 | seconds |
-| [Ayurveda](#ayurveda) | NASA JPL Horizons Sun ingress by the classical season rule, sunrise from the US Naval Observatory | 24 | 24 of 24 |  | 0 | 0 | 0 | exact |
-| [I Ching](#i-ching) | King Wen sequence, cross-checked against Legge and the Unicode Standard | 306 | 306 of 306 |  | 0 | 0 | 0 | exact |
-| [Location](#location) | IANA Time Zone Database | 24 | 24 of 24 |  | 0 | 0 | 0 | exact |
+| Domain | Authority | Values | Within band | Median | p95 | Max | Unit |
+|---|---|---:|---:|---:|---:|---:|---|
+| [Western planets](#western-planets) | NASA JPL Horizons | 231 | 231 of 231 | 0.048 | 0.24 | 0.31 | arcsec |
+| [Western angles and houses](#western-angles-and-houses) | NASA JPL Horizons sidereal time and obliquity, standard spherical astronomy | 200 | 200 of 200 | 0.12 | 0.62 | 1.5 | arcsec |
+| [Vedic sidereal chart](#vedic-sidereal-chart) | NASA JPL Horizons with the Lahiri ayanamsa by its published definition | 230 | 230 of 230 | 0.039 | 0.23 | 1.5 | arcsec |
+|  |  | 26 | 26 of 26 | 0.2 | 0.48 | 0.49 | days |
+|  |  | 638 | 638 of 638 | 0 | 0 | 0 | exact |
+| [Panchang](#panchang) | NASA JPL Horizons Sun and Moon longitudes by the classical definitions, sunrise from the US Naval Observatory | 13 | 13 of 13 | 0 | 0 | 0 | seconds |
+|  |  | 60 | 60 of 60 | 0 | 0 | 0 | exact |
+| [Forecast events](#forecast-events) | NASA JPL Horizons | 29 | 29 of 29 | 2.3 | 30.6 | 44.9 | seconds |
+| [Moon phases](#moon-phases) | U.S. Naval Observatory primary moon phase tables, Universal Time dates | 11 | 11 of 11 | 0 | 0 | 0 | days |
+| [Human Design bodygraph](#human-design-bodygraph) | NASA JPL Horizons with the 88 degree solar arc and the Rave Mandala | 10 | 10 of 10 | 0.014 | 0.27 | 0.27 | seconds |
+|  |  | 90 | 90 of 90 | 0 | 0 | 0 | exact |
+| [Chinese calendar](#chinese-calendar) | Hong Kong Observatory Gregorian-Lunar conversion tables, sexagenary cycle from a published anchor day | 103 | 103 of 103 | 0 | 0 | 0 | days |
+|  |  | 32 | 32 of 32 | 0 | 0 | 0 | exact |
+| [Feng shui](#feng-shui) | Printed Qing almanac and Xuan Kong rules recomputed, Hong Kong Observatory Li Chun dates | 13 | 13 of 13 | 0 | 0 | 0 | days |
+|  |  | 243 | 243 of 243 | 0 | 0 | 0 | exact |
+| [Mesoamerican calendar](#mesoamerican-calendar) | GMT correlation 584283, cross-checked against the FAMSI converter | 16 | 16 of 16 | 0 | 0 | 0 | days |
+|  |  | 40 | 40 of 40 | 0 | 0 | 0 | exact |
+| [Vastu](#vastu) | Brihat Samhita chapter 53 in the Iyer and Kern translations | 118 | 118 of 118 | 0 | 0 | 0 | exact |
+| [Numerology](#numerology) | Pythagorean rules recomputed, cross-checked against published worked examples | 21 | 21 of 21 | 0 | 0 | 0 | exact |
+| [Kabbalah](#kabbalah) | Published gematria letter table and the arithmetic Hebrew calendar | 72 | 72 of 72 | 0 | 0 | 0 | exact |
+| [Biorhythm](#biorhythm) | Sine cycles of 23, 28 and 33 days, recomputed from the published definition | 10 | 10 of 10 | 0 | 0 | 0 | days |
+|  |  | 60 | 60 of 60 | 0 | 0 | 0 | exact |
+| [Ayurveda](#ayurveda) | NASA JPL Horizons Sun ingress by the classical season rule, sunrise from the US Naval Observatory | 81 | 81 of 81 | 1.7 | 25.1 | 29.5 | seconds |
+|  |  | 24 | 24 of 24 | 0 | 0 | 0 | exact |
+| [I Ching](#i-ching) | King Wen sequence, cross-checked against Legge and the Unicode Standard | 306 | 306 of 306 | 0 | 0 | 0 | exact |
+| [Location](#location) | IANA Time Zone Database | 24 | 24 of 24 | 0 | 0 | 0 | exact |
 <!-- generated:scorecard:end -->
 
 [![Terminal recording of the RoxyAPI benchmark run: a green check mark per domain with the pass count, median and largest deviation, then the boxed scorecard and the precision tier sentence](assets/run.gif)](https://roxyapi.github.io/astrology-api-benchmark/)
@@ -240,12 +240,12 @@ flowchart LR
 
 ## What does not count as an accuracy check
 
-- **An astrology API checked against the calculation library the API wraps is a self-test.** A self-test shows that the wrapper passes arguments through, and says nothing about whether the numbers are right.
-- **An astrology API that wraps a calculation library and is checked against NASA JPL Horizons measures the library, not the vendor.** The agreement with NASA JPL Horizons belongs to the authors of the library; the vendor added a network hop.
-- **The widely used astrology calculation libraries are licensed copyleft or sold under a commercial licence.** A buyer of an astrology API built on such a library has to ask which of the two licences applies to the product the buyer ships.
-- **RoxyAPI reads the NASA JPL DE440 ephemeris directly, verified against NASA JPL Horizons.** No third party calculation library sits between the ephemeris and the RoxyAPI response, so a RoxyAPI comparison with NASA JPL Horizons measures RoxyAPI work end to end.
-- **A check that leaves out the bodies, dates or charts where its numbers look worse, or publishes only a median, hides its worst case.** The RoxyAPI benchmark publishes every value it measures, Chiron and the 1879 chart included, with its maximum beside its median.
-- **Planet positions are one slice of a real astrology API accuracy check.** Angles and houses, sidereal frames, calendars, time zones and discrete rules each fail in their own way and each needs its own authority, so the RoxyAPI benchmark gives every domain its own folder, its own source and its own pass band.
+- **A wrapper checked against the library it wraps is a self-test.** It shows that arguments pass through, not that the numbers are right.
+- **A wrapper checked against NASA JPL Horizons measures the library, not the vendor.** The agreement belongs to the library authors; the vendor added a network hop.
+- **The widely used calculation libraries are licensed copyleft or sold under a commercial licence.** A buyer of an API built on one has to ask which licence applies to the product the buyer ships.
+- **RoxyAPI reads the NASA JPL DE440 ephemeris directly, verified against NASA JPL Horizons.** No third party calculation library sits between the ephemeris and the response, so the comparison measures RoxyAPI work end to end.
+- **A check that omits the bodies, dates or charts where its numbers look worse, or publishes only a median, hides its worst case.** This benchmark publishes every value it measures, Chiron and the 1879 chart included, with the maximum beside the median.
+- **Planet positions are one slice of accuracy.** Angles and houses, sidereal frames, calendars, time zones and discrete rules each fail in their own way and need their own authority, so every domain here has its own folder, source and pass band.
 
 ## First published here
 
@@ -381,37 +381,21 @@ The runner reads committed references only. The scheduled workflow reruns it eve
 | `diana` | Princess Diana, 1961-07-01 19:45 | Sun | 99.6630446 | 99.6630575 | 0.046 arcsec | PASS |
 | `jobs` | Steve Jobs, 1955-02-24 19:15 | Sun | 335.7481040 | 335.7481271 | 0.083 arcsec | PASS |
 
-**Precision tiers**
-
-- 231 angles: 231 within 10 arcsec, 231 within 1 arcsec, 187 within 0.1 arcsec.
-
 **Per quantity**
-
-- RoxyAPI Sun: every one of 21 charts within 0.31 arcsec (0.000086°) of NASA JPL Horizons (median 0.048).
-- RoxyAPI Moon: every one of 21 charts within 0.27 arcsec (0.000075°) of NASA JPL Horizons (median 0.048).
-- RoxyAPI Mercury: every one of 21 charts within 0.3 arcsec (0.000083°) of NASA JPL Horizons (median 0.048).
-- RoxyAPI Venus: every one of 21 charts within 0.31 arcsec (0.000086°) of NASA JPL Horizons (median 0.048).
-- RoxyAPI Mars: every one of 21 charts within 0.31 arcsec (0.000086°) of NASA JPL Horizons (median 0.048).
-- RoxyAPI Jupiter: every one of 21 charts within 0.31 arcsec (0.000086°) of NASA JPL Horizons (median 0.048).
-- RoxyAPI Saturn: every one of 21 charts within 0.31 arcsec (0.000086°) of NASA JPL Horizons (median 0.049).
-- RoxyAPI Uranus: every one of 21 charts within 0.31 arcsec (0.000086°) of NASA JPL Horizons (median 0.048).
-- RoxyAPI Neptune: every one of 21 charts within 0.31 arcsec (0.000086°) of NASA JPL Horizons (median 0.048).
-- RoxyAPI Pluto: every one of 21 charts within 0.32 arcsec (0.000089°) of NASA JPL Horizons (median 0.056).
-- RoxyAPI Chiron: every one of 21 charts within 0.31 arcsec (0.000086°) of NASA JPL Horizons small-body integration (median 0.049).
 
 | Quantity | Reference | Median | Max | Worst case |
 |---|---|---:|---:|---|
-| Pluto | NASA JPL Horizons | 0.056 arcsec | 0.31 arcsec | `einstein` |
+| Pluto | NASA JPL Horizons | 0.056 arcsec | 0.32 arcsec | `einstein` |
 | Saturn | NASA JPL Horizons | 0.049 arcsec | 0.31 arcsec | `einstein` |
 | Neptune | NASA JPL Horizons | 0.048 arcsec | 0.31 arcsec | `einstein` |
-| Chiron | NASA JPL Horizons small-body integration | 0.049 arcsec | 0.3 arcsec | `einstein` |
-| Uranus | NASA JPL Horizons | 0.048 arcsec | 0.3 arcsec | `einstein` |
-| Jupiter | NASA JPL Horizons | 0.048 arcsec | 0.3 arcsec | `einstein` |
-| Mars | NASA JPL Horizons | 0.048 arcsec | 0.3 arcsec | `einstein` |
-| Sun | NASA JPL Horizons | 0.048 arcsec | 0.3 arcsec | `einstein` |
-| Venus | NASA JPL Horizons | 0.048 arcsec | 0.3 arcsec | `einstein` |
+| Chiron | NASA JPL Horizons small-body integration | 0.049 arcsec | 0.31 arcsec | `einstein` |
+| Uranus | NASA JPL Horizons | 0.048 arcsec | 0.31 arcsec | `einstein` |
+| Jupiter | NASA JPL Horizons | 0.048 arcsec | 0.31 arcsec | `einstein` |
+| Mars | NASA JPL Horizons | 0.048 arcsec | 0.31 arcsec | `einstein` |
+| Sun | NASA JPL Horizons | 0.048 arcsec | 0.31 arcsec | `einstein` |
+| Venus | NASA JPL Horizons | 0.048 arcsec | 0.31 arcsec | `einstein` |
 | Mercury | NASA JPL Horizons | 0.048 arcsec | 0.3 arcsec | `einstein` |
-| Moon | NASA JPL Horizons | 0.048 arcsec | 0.26 arcsec | `einstein` |
+| Moon | NASA JPL Horizons | 0.048 arcsec | 0.27 arcsec | `einstein` |
 
 ### Western angles and houses
 
@@ -438,35 +422,20 @@ The runner reads committed references only. The scheduled workflow reruns it eve
 | `diana` | Princess Diana, 1961-07-01 19:45 | Ascendant | 258.4085810 | 258.4085350 | 0.17 arcsec | PASS |
 | `einstein` | Albert Einstein, 1879-03-14 11:30 | Ascendant | 101.6464077 | 101.6464050 | 0.0098 arcsec | PASS |
 
-**Precision tiers**
-
-- 200 angles: 200 within 10 arcsec, 197 within 1 arcsec, 92 within 0.1 arcsec.
-
 **Per quantity**
-
-- RoxyAPI Ascendant: every one of 20 charts within 1.5 arcsec (0.00042°) of NASA JPL Horizons sidereal time and obliquity, standard spherical astronomy (median 0.1).
-- RoxyAPI Midheaven: every one of 20 charts within 0.86 arcsec (0.00024°) of NASA JPL Horizons sidereal time and obliquity, standard spherical astronomy (median 0.12).
-- RoxyAPI Cusp 2: every one of 20 charts within 1.1 arcsec (0.00031°) of NASA JPL Horizons sidereal time and obliquity, standard spherical astronomy (median 0.11).
-- RoxyAPI Cusp 3: every one of 20 charts within 0.73 arcsec (0.00020°) of NASA JPL Horizons sidereal time and obliquity, standard spherical astronomy (median 0.11).
-- RoxyAPI Cusp 5: every one of 20 charts within 0.74 arcsec (0.00021°) of NASA JPL Horizons sidereal time and obliquity, standard spherical astronomy (median 0.12).
-- RoxyAPI Cusp 6: every one of 20 charts within 0.69 arcsec (0.00019°) of NASA JPL Horizons sidereal time and obliquity, standard spherical astronomy (median 0.12).
-- RoxyAPI Cusp 8: every one of 20 charts within 1.1 arcsec (0.00031°) of NASA JPL Horizons sidereal time and obliquity, standard spherical astronomy (median 0.11).
-- RoxyAPI Cusp 9: every one of 20 charts within 0.73 arcsec (0.00020°) of NASA JPL Horizons sidereal time and obliquity, standard spherical astronomy (median 0.11).
-- RoxyAPI Cusp 11: every one of 20 charts within 0.74 arcsec (0.00021°) of NASA JPL Horizons sidereal time and obliquity, standard spherical astronomy (median 0.12).
-- RoxyAPI Cusp 12: every one of 20 charts within 0.69 arcsec (0.00019°) of NASA JPL Horizons sidereal time and obliquity, standard spherical astronomy (median 0.12).
 
 | Quantity | Reference | Median | Max | Worst case |
 |---|---|---:|---:|---|
 | Ascendant | NASA JPL Horizons sidereal time and obliquity, standard spherical astronomy | 0.1 arcsec | 1.5 arcsec | `anchorage_winter` |
-| Cusp 8 | NASA JPL Horizons sidereal time and obliquity, standard spherical astronomy | 0.11 arcsec | 1 arcsec | `anchorage_winter` |
-| Cusp 2 | NASA JPL Horizons sidereal time and obliquity, standard spherical astronomy | 0.11 arcsec | 1 arcsec | `anchorage_winter` |
+| Cusp 8 | NASA JPL Horizons sidereal time and obliquity, standard spherical astronomy | 0.11 arcsec | 1.1 arcsec | `anchorage_winter` |
+| Cusp 2 | NASA JPL Horizons sidereal time and obliquity, standard spherical astronomy | 0.11 arcsec | 1.1 arcsec | `anchorage_winter` |
 | Midheaven | NASA JPL Horizons sidereal time and obliquity, standard spherical astronomy | 0.12 arcsec | 0.86 arcsec | `reykjavik_summer` |
-| Cusp 5 | NASA JPL Horizons sidereal time and obliquity, standard spherical astronomy | 0.12 arcsec | 0.73 arcsec | `reykjavik_summer` |
-| Cusp 11 | NASA JPL Horizons sidereal time and obliquity, standard spherical astronomy | 0.12 arcsec | 0.73 arcsec | `reykjavik_summer` |
+| Cusp 5 | NASA JPL Horizons sidereal time and obliquity, standard spherical astronomy | 0.12 arcsec | 0.74 arcsec | `reykjavik_summer` |
+| Cusp 11 | NASA JPL Horizons sidereal time and obliquity, standard spherical astronomy | 0.12 arcsec | 0.74 arcsec | `reykjavik_summer` |
 | Cusp 9 | NASA JPL Horizons sidereal time and obliquity, standard spherical astronomy | 0.11 arcsec | 0.73 arcsec | `reykjavik_summer` |
 | Cusp 3 | NASA JPL Horizons sidereal time and obliquity, standard spherical astronomy | 0.11 arcsec | 0.73 arcsec | `reykjavik_summer` |
-| Cusp 12 | NASA JPL Horizons sidereal time and obliquity, standard spherical astronomy | 0.12 arcsec | 0.68 arcsec | `anchorage_winter` |
-| Cusp 6 | NASA JPL Horizons sidereal time and obliquity, standard spherical astronomy | 0.12 arcsec | 0.68 arcsec | `anchorage_winter` |
+| Cusp 12 | NASA JPL Horizons sidereal time and obliquity, standard spherical astronomy | 0.12 arcsec | 0.69 arcsec | `anchorage_winter` |
+| Cusp 6 | NASA JPL Horizons sidereal time and obliquity, standard spherical astronomy | 0.12 arcsec | 0.69 arcsec | `anchorage_winter` |
 
 ### Vedic sidereal chart
 
@@ -501,33 +470,19 @@ The runner reads committed references only. The scheduled workflow reruns it eve
 | `beyonce` | Beyonce Knowles, 1981-09-04 21:47 | ayanamsa | 23.5970361 | 23.5970385 | 0.0086 arcsec | PASS |
 | `diana` | Princess Diana, 1961-07-01 19:45 | ayanamsa | 23.3170077 | 23.3170101 | 0.0086 arcsec | PASS |
 
-**Precision tiers**
-
-- 230 angles: 230 within 10 arcsec, 229 within 1 arcsec, 189 within 0.1 arcsec.
-
 **Per quantity**
-
-- RoxyAPI ayanamsa: every one of 26 cases within 0.0096 arcsec (0.0000027°) of NASA JPL Horizons with the Lahiri ayanamsa by its published definition (median 0.0087).
-- RoxyAPI Sun: every one of 26 cases within 0.3 arcsec (0.000083°) of NASA JPL Horizons with the Lahiri ayanamsa by its published definition (median 0.039).
-- RoxyAPI Moon: every one of 26 cases within 0.26 arcsec (0.000072°) of NASA JPL Horizons with the Lahiri ayanamsa by its published definition (median 0.04).
-- RoxyAPI Mars: every one of 26 cases within 0.3 arcsec (0.000083°) of NASA JPL Horizons with the Lahiri ayanamsa by its published definition (median 0.039).
-- RoxyAPI Mercury: every one of 26 cases within 0.29 arcsec (0.000081°) of NASA JPL Horizons with the Lahiri ayanamsa by its published definition (median 0.039).
-- RoxyAPI Jupiter: every one of 26 cases within 0.3 arcsec (0.000083°) of NASA JPL Horizons with the Lahiri ayanamsa by its published definition (median 0.039).
-- RoxyAPI Venus: every one of 26 cases within 0.3 arcsec (0.000083°) of NASA JPL Horizons with the Lahiri ayanamsa by its published definition (median 0.04).
-- RoxyAPI Saturn: every one of 26 cases within 0.3 arcsec (0.000083°) of NASA JPL Horizons with the Lahiri ayanamsa by its published definition (median 0.04).
-- RoxyAPI Lagna: every one of 22 cases within 1.5 arcsec (0.00042°) of NASA JPL Horizons with the Lahiri ayanamsa by its published definition (median 0.084).
 
 | Quantity | Reference | Median | Max | Worst case |
 |---|---|---:|---:|---|
 | Lagna | NASA JPL Horizons with the Lahiri ayanamsa by its published definition | 0.084 arcsec | 1.5 arcsec | `anchorage_winter` |
 | Saturn | NASA JPL Horizons with the Lahiri ayanamsa by its published definition | 0.04 arcsec | 0.3 arcsec | `einstein` |
-| Jupiter | NASA JPL Horizons with the Lahiri ayanamsa by its published definition | 0.039 arcsec | 0.29 arcsec | `einstein` |
-| Mars | NASA JPL Horizons with the Lahiri ayanamsa by its published definition | 0.039 arcsec | 0.29 arcsec | `einstein` |
-| Sun | NASA JPL Horizons with the Lahiri ayanamsa by its published definition | 0.039 arcsec | 0.29 arcsec | `einstein` |
-| Venus | NASA JPL Horizons with the Lahiri ayanamsa by its published definition | 0.04 arcsec | 0.29 arcsec | `einstein` |
+| Jupiter | NASA JPL Horizons with the Lahiri ayanamsa by its published definition | 0.039 arcsec | 0.3 arcsec | `einstein` |
+| Mars | NASA JPL Horizons with the Lahiri ayanamsa by its published definition | 0.039 arcsec | 0.3 arcsec | `einstein` |
+| Sun | NASA JPL Horizons with the Lahiri ayanamsa by its published definition | 0.039 arcsec | 0.3 arcsec | `einstein` |
+| Venus | NASA JPL Horizons with the Lahiri ayanamsa by its published definition | 0.04 arcsec | 0.3 arcsec | `einstein` |
 | Mercury | NASA JPL Horizons with the Lahiri ayanamsa by its published definition | 0.039 arcsec | 0.29 arcsec | `einstein` |
-| Moon | NASA JPL Horizons with the Lahiri ayanamsa by its published definition | 0.04 arcsec | 0.25 arcsec | `einstein` |
-| ayanamsa | NASA JPL Horizons with the Lahiri ayanamsa by its published definition | 0.0087 arcsec | 0.0095 arcsec | `greenwich_y2k` |
+| Moon | NASA JPL Horizons with the Lahiri ayanamsa by its published definition | 0.04 arcsec | 0.26 arcsec | `einstein` |
+| ayanamsa | NASA JPL Horizons with the Lahiri ayanamsa by its published definition | 0.0087 arcsec | 0.0096 arcsec | `greenwich_y2k` |
 
 ### Panchang
 
@@ -558,13 +513,7 @@ The runner reads committed references only. The scheduled workflow reruns it eve
 | `sydney-morning` | `{"date": "2026-01-15", "time": "08:15:00", "latitude": -33.8688, "longitude": 151.2093, "timezone": 11}` | tithi | `27` | `27` | 0 exact | PASS |
 | `honolulu-night` | `{"date": "2026-08-02", "time": "23:40:00", "latitude": 21.3099, "longitude": -157.8581, "timezone": -10}` | tithi | `20` | `20` | 0 exact | PASS |
 
-**Precision tiers**
-
-- 13 instants: 13 within 60 seconds, 13 within 10 seconds, 13 within 1 second.
-
 **Per quantity**
-
-- RoxyAPI sunrise: every one of 13 cases within 0 seconds of US Naval Observatory Astronomical Applications API (median 0).
 
 | Quantity | Reference | Median | Max | Worst case |
 |---|---|---:|---:|---|
@@ -599,58 +548,31 @@ The runner reads committed references only. The scheduled workflow reruns it eve
 | `mercury-enters-aries-2025-03` | `{}` | Mercury ingress | `2025-03-03T09:03:40.471+00:00` | `2025-03-03T09:03:40Z` | 0.47 seconds | PASS |
 | `mercury-reenters-pisces-2025-03` | `{}` | Mercury ingress | `2025-03-30T02:17:57.917+00:00` | `2025-03-30T02:17:59Z` | 1.1 seconds | PASS |
 
-**Precision tiers**
-
-- 29 instants: 29 within 60 seconds, 17 within 10 seconds, 10 within 1 second.
-
 **Per quantity**
-
-- RoxyAPI Sun ingress: every one of 2 cases within 1.1 seconds of NASA JPL Horizons (median 0.95).
-- RoxyAPI Sun ingress, monthly table: every one of 2 cases within 30.1 seconds of NASA JPL Horizons (median 23.5).
-- RoxyAPI Mercury ingress: every one of 2 cases within 1.1 seconds of NASA JPL Horizons (median 0.78).
-- RoxyAPI Mercury ingress, monthly table: every one of 2 cases within 19.6 seconds of NASA JPL Horizons (median 10.8).
-- RoxyAPI Venus ingress: every one of 1 cases within 2 seconds of NASA JPL Horizons (median 1.9).
-- RoxyAPI Venus ingress, monthly table: every one of 1 cases within 28 seconds of NASA JPL Horizons (median 27.9).
-- RoxyAPI Mars ingress: every one of 1 cases within 2.3 seconds of NASA JPL Horizons (median 2.3).
-- RoxyAPI Mars ingress, monthly table: every one of 1 cases within 7.8 seconds of NASA JPL Horizons (median 7.7).
-- RoxyAPI Jupiter ingress: every one of 1 cases within 5.5 seconds of NASA JPL Horizons (median 5.4).
-- RoxyAPI Jupiter ingress, monthly table: every one of 1 cases within 15.5 seconds of NASA JPL Horizons (median 15.4).
-- RoxyAPI Uranus ingress: every one of 1 cases within 25.9 seconds of NASA JPL Horizons (median 25.9).
-- RoxyAPI Uranus ingress, monthly table: every one of 1 cases within 44.9 seconds of NASA JPL Horizons (median 44.9).
-- RoxyAPI Neptune ingress: every one of 1 cases within 30.7 seconds of NASA JPL Horizons (median 30.6).
-- RoxyAPI Neptune ingress, monthly table: every one of 1 cases within 26.7 seconds of NASA JPL Horizons (median 26.6).
-- RoxyAPI Moon ingress, monthly table: every one of 2 cases within 20.2 seconds of NASA JPL Horizons (median 20).
-- RoxyAPI Mars station: every one of 1 cases within 0.84 seconds of NASA JPL Horizons (median 0.83).
-- RoxyAPI Venus station: every one of 2 cases within 0.67 seconds of NASA JPL Horizons (median 0.35).
-- RoxyAPI Mercury station: every one of 2 cases within 0.26 seconds of NASA JPL Horizons (median 0.19).
-- RoxyAPI Pluto station: every one of 1 cases within 13.8 seconds of NASA JPL Horizons (median 13.8).
-- RoxyAPI Neptune station: every one of 1 cases within 0.62 seconds of NASA JPL Horizons (median 0.62).
-- RoxyAPI Saturn station: every one of 1 cases within 0.72 seconds of NASA JPL Horizons (median 0.72).
-- RoxyAPI Sun transit: every one of 1 cases within 0.021 seconds of NASA JPL Horizons (median 0.021).
 
 | Quantity | Reference | Median | Max | Worst case |
 |---|---|---:|---:|---|
 | Uranus ingress, monthly table | NASA JPL Horizons | 44.9 seconds | 44.9 seconds | `uranus-enters-gemini-2025-07` |
-| Neptune ingress | NASA JPL Horizons | 30.6 seconds | 30.6 seconds | `neptune-enters-aries-2025-03` |
+| Neptune ingress | NASA JPL Horizons | 30.6 seconds | 30.7 seconds | `neptune-enters-aries-2025-03` |
 | Sun ingress, monthly table | NASA JPL Horizons | 23.5 seconds | 30.1 seconds | `sun-enters-aries-2025-03` |
-| Venus ingress, monthly table | NASA JPL Horizons | 27.9 seconds | 27.9 seconds | `venus-reenters-pisces-2025-03` |
-| Neptune ingress, monthly table | NASA JPL Horizons | 26.6 seconds | 26.6 seconds | `neptune-enters-aries-2025-03` |
+| Venus ingress, monthly table | NASA JPL Horizons | 27.9 seconds | 28 seconds | `venus-reenters-pisces-2025-03` |
+| Neptune ingress, monthly table | NASA JPL Horizons | 26.6 seconds | 26.7 seconds | `neptune-enters-aries-2025-03` |
 | Uranus ingress | NASA JPL Horizons | 25.9 seconds | 25.9 seconds | `uranus-enters-gemini-2025-07` |
-| Moon ingress, monthly table | NASA JPL Horizons | 20 seconds | 20.1 seconds | `moon-enters-capricorn-2025-03` |
-| Mercury ingress, monthly table | NASA JPL Horizons | 10.8 seconds | 19.5 seconds | `mercury-enters-aries-2025-03` |
-| Jupiter ingress, monthly table | NASA JPL Horizons | 15.4 seconds | 15.4 seconds | `jupiter-enters-cancer-2025-06` |
+| Moon ingress, monthly table | NASA JPL Horizons | 20 seconds | 20.2 seconds | `moon-enters-capricorn-2025-03` |
+| Mercury ingress, monthly table | NASA JPL Horizons | 10.8 seconds | 19.6 seconds | `mercury-enters-aries-2025-03` |
+| Jupiter ingress, monthly table | NASA JPL Horizons | 15.4 seconds | 15.5 seconds | `jupiter-enters-cancer-2025-06` |
 | Pluto station | NASA JPL Horizons | 13.8 seconds | 13.8 seconds | `pluto-stations-retrograde-2025-05` |
-| Mars ingress, monthly table | NASA JPL Horizons | 7.7 seconds | 7.7 seconds | `mars-enters-leo-2025-04` |
-| Jupiter ingress | NASA JPL Horizons | 5.4 seconds | 5.4 seconds | `jupiter-enters-cancer-2025-06` |
+| Mars ingress, monthly table | NASA JPL Horizons | 7.7 seconds | 7.8 seconds | `mars-enters-leo-2025-04` |
+| Jupiter ingress | NASA JPL Horizons | 5.4 seconds | 5.5 seconds | `jupiter-enters-cancer-2025-06` |
 | Mars ingress | NASA JPL Horizons | 2.3 seconds | 2.3 seconds | `mars-enters-leo-2025-04` |
-| Venus ingress | NASA JPL Horizons | 1.9 seconds | 1.9 seconds | `venus-reenters-pisces-2025-03` |
+| Venus ingress | NASA JPL Horizons | 1.9 seconds | 2 seconds | `venus-reenters-pisces-2025-03` |
 | Mercury ingress | NASA JPL Horizons | 0.78 seconds | 1.1 seconds | `mercury-reenters-pisces-2025-03` |
 | Sun ingress | NASA JPL Horizons | 0.95 seconds | 1.1 seconds | `sun-enters-aries-2025-03` |
-| Mars station | NASA JPL Horizons | 0.83 seconds | 0.83 seconds | `mars-stations-direct-2025-02` |
+| Mars station | NASA JPL Horizons | 0.83 seconds | 0.84 seconds | `mars-stations-direct-2025-02` |
 | Saturn station | NASA JPL Horizons | 0.72 seconds | 0.72 seconds | `saturn-stations-retrograde-2025-07` |
-| Venus station | NASA JPL Horizons | 0.35 seconds | 0.66 seconds | `venus-stations-direct-2025-04` |
+| Venus station | NASA JPL Horizons | 0.35 seconds | 0.67 seconds | `venus-stations-direct-2025-04` |
 | Neptune station | NASA JPL Horizons | 0.62 seconds | 0.62 seconds | `neptune-stations-retrograde-2025-07` |
-| Mercury station | NASA JPL Horizons | 0.19 seconds | 0.25 seconds | `mercury-stations-direct-2025-04` |
+| Mercury station | NASA JPL Horizons | 0.19 seconds | 0.26 seconds | `mercury-stations-direct-2025-04` |
 | Sun transit | NASA JPL Horizons | 0.021 seconds | 0.021 seconds | `sun-opposes-natal-pluto-2025-02` |
 
 ### Moon phases
@@ -705,17 +627,11 @@ The runner reads committed references only. The scheduled workflow reruns it eve
 | `jfk` | John F Kennedy, 1917-05-29 15:00 | design instant | `1917-02-28T23:54:06.349+00:00` | `1917-02-28T23:54:06.385Z` | 0.036 seconds | PASS |
 | `musk` | Elon Musk, 1971-06-28 07:30 | design instant | `1971-03-29T05:40:53.873+00:00` | `1971-03-29T05:40:53.847Z` | 0.026 seconds | PASS |
 
-**Precision tiers**
-
-- 10 instants: 10 within 60 seconds, 10 within 10 seconds, 10 within 1 second.
-
 **Per quantity**
-
-- RoxyAPI design instant: every one of 10 cases within 0.28 seconds of NASA JPL Horizons with the 88 degree solar arc and the Rave Mandala (median 0.014).
 
 | Quantity | Reference | Median | Max | Worst case |
 |---|---|---:|---:|---|
-| design instant | NASA JPL Horizons with the 88 degree solar arc and the Rave Mandala | 0.014 seconds | 0.27 seconds | `obama` |
+| design instant | NASA JPL Horizons with the 88 degree solar arc and the Rave Mandala | 0.014 seconds | 0.28 seconds | `obama` |
 
 ### Chinese calendar
 
@@ -876,7 +792,7 @@ The runner reads committed references only. The scheduled workflow reruns it eve
 
 ### Biorhythm
 
-**Authority:** sine cycles of 23, 28 and 33 days, recomputed from the published definition. **Covers:** Physical, emotional and intellectual cycles. **Endpoints:** [`POST /api/v2/biorhythm/reading`](https://roxyapi.com/api-reference#tag/biorhythm/POST/biorhythm/reading).
+**Authority:** Sine cycles of 23, 28 and 33 days, recomputed from the published definition. **Covers:** Physical, emotional and intellectual cycles. **Endpoints:** [`POST /api/v2/biorhythm/reading`](https://roxyapi.com/api-reference#tag/biorhythm/POST/biorhythm/reading).
 
 **Quantities and pass bands**
 
@@ -935,37 +851,19 @@ The runner reads committed references only. The scheduled workflow reruns it eve
 | `hemanta-sisira-after` | `{}` | ritu | `sisira` | `sisira` | 0 exact | PASS |
 | `sisira-vasanta-before` | `{}` | ritu | `sisira` | `sisira` | 0 exact | PASS |
 
-**Precision tiers**
-
-- 81 instants: 81 within 60 seconds, 56 within 10 seconds, 21 within 1 second.
-
 **Per quantity**
-
-- RoxyAPI ritu start: every one of 13 cases within 1.7 seconds of NASA JPL Horizons Sun ingress by the classical season rule, sunrise from the US Naval Observatory (median 1.5).
-- RoxyAPI ritu end: every one of 13 cases within 1.7 seconds of NASA JPL Horizons Sun ingress by the classical season rule, sunrise from the US Naval Observatory (median 1.6).
-- RoxyAPI sidereal ritu start: every one of 5 cases within 0.97 seconds of NASA JPL Horizons Sun ingress by the classical season rule, sunrise from the US Naval Observatory (median 0.71).
-- RoxyAPI sidereal ritu end: every one of 5 cases within 0.85 seconds of NASA JPL Horizons Sun ingress by the classical season rule, sunrise from the US Naval Observatory (median 0.42).
-- RoxyAPI sunrise: every one of 5 cases within 25.1 seconds of NASA JPL Horizons Sun ingress by the classical season rule, sunrise from the US Naval Observatory (median 9.3).
-- RoxyAPI sunset: every one of 5 cases within 29.6 seconds of NASA JPL Horizons Sun ingress by the classical season rule, sunrise from the US Naval Observatory (median 27.2).
-- RoxyAPI next sunrise: every one of 5 cases within 22.2 seconds of NASA JPL Horizons Sun ingress by the classical season rule, sunrise from the US Naval Observatory (median 13.3).
-- RoxyAPI brahma muhurta start: every one of 5 cases within 25.1 seconds of NASA JPL Horizons Sun ingress by the classical season rule, sunrise from the US Naval Observatory (median 9.3).
-- RoxyAPI brahma muhurta end: every one of 5 cases within 25.1 seconds of NASA JPL Horizons Sun ingress by the classical season rule, sunrise from the US Naval Observatory (median 9.3).
-- RoxyAPI day pitta start: every one of 5 cases within 19.8 seconds of NASA JPL Horizons Sun ingress by the classical season rule, sunrise from the US Naval Observatory (median 7.6).
-- RoxyAPI day vata start: every one of 5 cases within 23.5 seconds of NASA JPL Horizons Sun ingress by the classical season rule, sunrise from the US Naval Observatory (median 16.6).
-- RoxyAPI night pitta start: every one of 5 cases within 20.9 seconds of NASA JPL Horizons Sun ingress by the classical season rule, sunrise from the US Naval Observatory (median 13.7).
-- RoxyAPI night vata start: every one of 5 cases within 14.6 seconds of NASA JPL Horizons Sun ingress by the classical season rule, sunrise from the US Naval Observatory (median 5.1).
 
 | Quantity | Reference | Median | Max | Worst case |
 |---|---|---:|---:|---|
-| sunset | NASA JPL Horizons Sun ingress by the classical season rule, sunrise from the US Naval Observatory | 27.2 seconds | 29.5 seconds | `quito-equinox` |
+| sunset | NASA JPL Horizons Sun ingress by the classical season rule, sunrise from the US Naval Observatory | 27.2 seconds | 29.6 seconds | `quito-equinox` |
 | sunrise | NASA JPL Horizons Sun ingress by the classical season rule, sunrise from the US Naval Observatory | 9.3 seconds | 25.1 seconds | `reykjavik-midwinter` |
 | brahma muhurta start | NASA JPL Horizons Sun ingress by the classical season rule, sunrise from the US Naval Observatory | 9.3 seconds | 25.1 seconds | `reykjavik-midwinter` |
 | brahma muhurta end | NASA JPL Horizons Sun ingress by the classical season rule, sunrise from the US Naval Observatory | 9.3 seconds | 25.1 seconds | `reykjavik-midwinter` |
-| day vata start | NASA JPL Horizons Sun ingress by the classical season rule, sunrise from the US Naval Observatory | 16.6 seconds | 23.4 seconds | `sydney-midsummer` |
-| next sunrise | NASA JPL Horizons Sun ingress by the classical season rule, sunrise from the US Naval Observatory | 13.3 seconds | 22.1 seconds | `london-midsummer` |
+| day vata start | NASA JPL Horizons Sun ingress by the classical season rule, sunrise from the US Naval Observatory | 16.6 seconds | 23.5 seconds | `sydney-midsummer` |
+| next sunrise | NASA JPL Horizons Sun ingress by the classical season rule, sunrise from the US Naval Observatory | 13.3 seconds | 22.2 seconds | `london-midsummer` |
 | night pitta start | NASA JPL Horizons Sun ingress by the classical season rule, sunrise from the US Naval Observatory | 13.7 seconds | 20.9 seconds | `reykjavik-midwinter` |
 | day pitta start | NASA JPL Horizons Sun ingress by the classical season rule, sunrise from the US Naval Observatory | 7.6 seconds | 19.8 seconds | `sydney-midsummer` |
-| night vata start | NASA JPL Horizons Sun ingress by the classical season rule, sunrise from the US Naval Observatory | 5.1 seconds | 14.5 seconds | `reykjavik-midwinter` |
+| night vata start | NASA JPL Horizons Sun ingress by the classical season rule, sunrise from the US Naval Observatory | 5.1 seconds | 14.6 seconds | `reykjavik-midwinter` |
 | ritu start | NASA JPL Horizons Sun ingress by the classical season rule, sunrise from the US Naval Observatory | 1.5 seconds | 1.7 seconds | `vasanta-grisma-after` |
 | ritu end | NASA JPL Horizons Sun ingress by the classical season rule, sunrise from the US Naval Observatory | 1.6 seconds | 1.7 seconds | `sisira-vasanta-after` |
 | sidereal ritu start | NASA JPL Horizons Sun ingress by the classical season rule, sunrise from the US Naval Observatory | 0.71 seconds | 0.97 seconds | `sidereal-sisira-opens-before` |

@@ -14,7 +14,6 @@ from benchmark.claims import (
     quantity_stats,
     subject,
     target_host,
-    tier_figures,
     tier_sentences,
 )
 from benchmark.schema import Chart, Unit, parse_references
@@ -100,9 +99,6 @@ def test_tier_sentences_takes_the_tightest_tier_every_point_reaches() -> None:
         "For Western planets, RoxyAPI returned 4 of 4 positions within 1 arcsec (0.00028°) of "
         "NASA JPL Horizons."
     ]
-    assert tier_figures(DOMAIN["summaries"][0]) == (
-        "4 within 10 arcsec, 4 within 1 arcsec, 2 within 0.1 arcsec"
-    )
 
 
 def test_tier_sentences_is_per_domain_best_first_and_never_pooled() -> None:

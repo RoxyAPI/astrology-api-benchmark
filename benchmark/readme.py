@@ -15,6 +15,7 @@ from pathlib import Path
 from typing import Any
 
 from benchmark.claims import (
+    TIER_NOUNS,
     DomainDoc,
     QuantityStat,
     amount,
@@ -22,11 +23,9 @@ from benchmark.claims import (
     fmt,
     headline,
     labels,
-    quantity_line,
     quantity_stats,
     subject,
     target_host,
-    tier_figures,
 )
 from benchmark.diagram import coverage_map, family_labels
 from benchmark.domains import references_for
@@ -52,8 +51,7 @@ SAMPLE_ROWS = 5
 """Measurements shown per domain: the worst per unit first, then one per further case."""
 
 UNIT_NOUNS: Mapping[Unit, str] = {
-    Unit.ARCSEC: "angles",
-    Unit.SECONDS: "instants",
+    **TIER_NOUNS,
     Unit.DAYS: "calendar counts",
     Unit.EXACT: "discrete values",
 }
@@ -153,18 +151,17 @@ def _has_unit(domains: Sequence[DomainDoc], unit: Unit) -> bool:
 
 def _scorecard(domains: Sequence[DomainDoc]) -> str:
     rows = [
-        "| Domain | Authority | Values | Within band | Precision | Median | p95 | Max | Unit |",
-        "|---|---|---:|---:|---|---:|---:|---:|---|",
+        "| Domain | Authority | Values | Within band | Median | p95 | Max | Unit |",
+        "|---|---|---:|---:|---:|---:|---:|---|",
     ]
     for d in domains:
-        for s in d["summaries"]:
+        for i, s in enumerate(d["summaries"]):
             rows.append(
                 _row(
-                    f"[{d['title']}](#{_anchor(d['title'])})",
-                    d["authority"],
+                    f"[{d['title']}](#{_anchor(d['title'])})" if i == 0 else "",
+                    d["authority"] if i == 0 else "",
                     f"{s['points']:,}",
                     _within(s),
-                    tier_figures(s),
                     fmt(s["median"]),
                     fmt(s["p95"]),
                     fmt(s["max"]),
@@ -195,20 +192,9 @@ def _domain(d: Mapping[str, Any], refs: References, who: str) -> str:
         "**Sample checks from the run**",
         _samples(d, refs),
     ]
-    precision = [
-        f"- {s['points']:,} {UNIT_NOUNS[Unit(s['unit'])]}: {figures}."
-        for s in d["summaries"]
-        if (figures := tier_figures(s))
-    ]
-    if precision:
-        parts += ["**Precision tiers**", "\n".join(precision)]
     stats = quantity_stats(d, refs)
     if stats:
-        parts += [
-            "**Per quantity**",
-            "\n".join(f"- {quantity_line(q, who)}" for q in stats),
-            _per_quantity(stats),
-        ]
+        parts += ["**Per quantity**", _per_quantity(stats)]
     return "\n\n".join(parts)
 
 
@@ -289,7 +275,7 @@ def _per_quantity(stats: Sequence[QuantityStat]) -> str:
             q.quantity,
             q.reference,
             amount(q.median, q.unit),
-            amount(q.max, q.unit),
+            amount(q.max, q.unit, up=True),
             f"`{q.worst_case}`" if q.worst_case else "",
         )
         for q in sorted(stats, key=lambda q: -(q.max or 0))

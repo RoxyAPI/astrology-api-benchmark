@@ -164,14 +164,6 @@ def _join(items: Sequence[str]) -> str:
     return items[0] if len(items) == 1 else f"{', '.join(items[:-1])} and {items[-1]}"
 
 
-def tier_figures(summary: Mapping[str, Any]) -> str:
-    """``231 within 10 arcsec, 231 within 1 arcsec, ...`` or empty when the summary has none."""
-    unit = summary["unit"]
-    return ", ".join(
-        f"{t['points']:,} within {amount(t['limit'], unit)}" for t in summary.get("tiers") or ()
-    )
-
-
 @dataclass(frozen=True, slots=True)
 class QuantityStat:
     """One angle or instant quantity of a domain across every case of the run."""

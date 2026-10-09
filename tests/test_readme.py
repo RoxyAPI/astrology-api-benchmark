@@ -8,7 +8,7 @@ from typing import Any
 import pytest
 
 from benchmark.__main__ import main
-from benchmark.claims import fmt
+from benchmark.claims import amount, fmt, quantity_stats
 from benchmark.domains import discover, references_for
 from benchmark.paths import RESULTS_DIR
 from benchmark.readme import (
@@ -137,4 +137,22 @@ def test_results_without_tiers_still_render(tmp_path: Path) -> None:
     results.write_text(json.dumps(doc), encoding="utf-8")
     assert update(readme, results)
     text = readme.read_text(encoding="utf-8")
-    assert "values within tolerance" in text and "Precision tiers" not in text
+    assert "values within tolerance" in text
+
+
+def test_scorecard_lists_each_domain_once_and_drops_precision() -> None:
+    rows = committed_blocks()["scorecard"].splitlines()
+    assert "Precision" not in rows[0]
+    links = [r.split(" | ")[0] for r in rows[2:] if not r.startswith("|  |")]
+    assert len(links) == len(set(links))
+    assert any(r.startswith("|  |  | ") for r in rows[2:])
+
+
+def test_per_quantity_max_rounds_up_like_the_claim_sentences() -> None:
+    results = read_results(RESULTS_DIR / JSON_FILE)
+    refs = references_for((d["id"] for d in results["domains"]), load_charts())
+    domain = next(d for d in results["domains"] if d["id"] == "western-planets")
+    top = max(quantity_stats(domain, refs[domain["id"]]), key=lambda q: q.max or 0)
+    text = committed_blocks()["domains"]
+    assert amount(top.max, top.unit, up=True) in text
+    assert "**Precision tiers**" not in text
