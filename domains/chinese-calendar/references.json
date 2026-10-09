@@ -1,0 +1,676 @@
+{
+  "format": 1,
+  "domain": "chinese-calendar",
+  "sources": [
+    {
+      "name": "Hong Kong Observatory Gregorian-Lunar calendar conversion table",
+      "url": "https://www.hko.gov.hk/en/gts/time/conversion.htm",
+      "command": "python -m benchmark pull chinese-calendar (one text file per year)",
+      "retrieved": "2026-10-09",
+      "licence": "Hong Kong Government open data: free to reproduce for commercial and non-commercial use with attribution to the Government and DATA.GOV.HK",
+      "method": "The text file of each year lists every date with its lunar date and, on term days, the solar term. Term dates are the calendar dates in Hong Kong Time, UTC+8; the first day of the first lunar month is the lunar new year. Month pillars are placed by the dates of the twelve jie terms.",
+      "notes": "The tables publish dates, so the unit is days. The Observatory states that an event close to midnight can differ by one day for decades ahead; the listed years avoid its named cases. Each file header also names the year pillar of the lunar year.",
+      "applies_to": [
+        "bai-lu",
+        "chu-shu",
+        "chun-fen",
+        "da-han",
+        "da-shu",
+        "da-xue",
+        "dong-zhi",
+        "gu-yu",
+        "han-lu",
+        "jing-zhe",
+        "li-chun",
+        "li-dong",
+        "li-qiu",
+        "li-xia",
+        "mang-zhong",
+        "qing-ming",
+        "qiu-fen",
+        "shuang-jiang",
+        "xia-zhi",
+        "xiao-han",
+        "xiao-man",
+        "xiao-shu",
+        "xiao-xue",
+        "yu-shui",
+        "lunar_new_year",
+        "year_pillar",
+        "month_pillar"
+      ]
+    },
+    {
+      "name": "Sexagenary cycle",
+      "url": "https://en.wikipedia.org/wiki/Sexagenary_cycle",
+      "retrieved": "2026-10-09",
+      "licence": "Calendar definition, facts only; the page is CC BY-SA",
+      "method": "Day pillar by days since the jiazi day 1 October 1949, the worked example of the page. Year pillar by the rule that 4 CE is a jiazi year, applied to the solar year that opens at Li Chun. Month stem by the five tigers rule and hour stem by the five rats rule, both checked against the page tables of month and hour names. Dates are proleptic Gregorian.",
+      "applies_to": [
+        "day_pillar",
+        "hour_pillar",
+        "year_pillar",
+        "month_pillar"
+      ]
+    },
+    {
+      "name": "Ganzhi",
+      "url": "https://zh.wikipedia.org/wiki/干支",
+      "retrieved": "2026-10-09",
+      "licence": "Calendar definition, facts only; the page is CC BY-SA",
+      "method": "The worked example of the page for 18 February 1912, a jiazi day, transcribed and reproduced by the day count above.",
+      "applies_to": [
+        "day_pillar"
+      ]
+    }
+  ],
+  "families": [
+    {
+      "label": "Solar terms and Lunar New Year",
+      "quantities": [
+        "li-chun",
+        "yu-shui",
+        "jing-zhe",
+        "chun-fen",
+        "qing-ming",
+        "gu-yu",
+        "li-xia",
+        "xiao-man",
+        "mang-zhong",
+        "xia-zhi",
+        "xiao-shu",
+        "da-shu",
+        "li-qiu",
+        "chu-shu",
+        "bai-lu",
+        "qiu-fen",
+        "han-lu",
+        "shuang-jiang",
+        "li-dong",
+        "xiao-xue",
+        "da-xue",
+        "dong-zhi",
+        "xiao-han",
+        "da-han",
+        "lunar_new_year"
+      ]
+    },
+    {
+      "label": "Four pillars",
+      "quantities": [
+        "year_pillar",
+        "month_pillar",
+        "day_pillar",
+        "hour_pillar"
+      ]
+    }
+  ],
+  "tolerances": [
+    {
+      "applies_to": [
+        "year_pillar",
+        "month_pillar",
+        "day_pillar",
+        "hour_pillar"
+      ],
+      "value": 0,
+      "unit": "exact",
+      "why": "A pillar is a discrete stem and branch pair: any miss is a wrong pillar."
+    },
+    {
+      "applies_to": "*",
+      "value": 0,
+      "unit": "days",
+      "why": "The tables publish calendar dates, not instants, so a date either matches or is a whole day away."
+    }
+  ],
+  "cases": [
+    {
+      "id": "solar-terms-1950",
+      "input": {
+        "year": 1950
+      },
+      "expected": {
+        "li-chun": "1950-02-04",
+        "yu-shui": "1950-02-19",
+        "jing-zhe": "1950-03-06",
+        "chun-fen": "1950-03-21",
+        "qing-ming": "1950-04-05",
+        "gu-yu": "1950-04-20",
+        "li-xia": "1950-05-06",
+        "xiao-man": "1950-05-21",
+        "mang-zhong": "1950-06-06",
+        "xia-zhi": "1950-06-22",
+        "xiao-shu": "1950-07-08",
+        "da-shu": "1950-07-23",
+        "li-qiu": "1950-08-08",
+        "chu-shu": "1950-08-24",
+        "bai-lu": "1950-09-08",
+        "qiu-fen": "1950-09-23",
+        "han-lu": "1950-10-09",
+        "shuang-jiang": "1950-10-24",
+        "li-dong": "1950-11-08",
+        "xiao-xue": "1950-11-23",
+        "da-xue": "1950-12-08",
+        "dong-zhi": "1950-12-22",
+        "xiao-han": "1951-01-06",
+        "da-han": "1951-01-21"
+      }
+    },
+    {
+      "id": "solar-terms-1985",
+      "input": {
+        "year": 1985
+      },
+      "expected": {
+        "li-chun": "1985-02-04",
+        "yu-shui": "1985-02-19",
+        "jing-zhe": "1985-03-05",
+        "chun-fen": "1985-03-21",
+        "qing-ming": "1985-04-05",
+        "gu-yu": "1985-04-20",
+        "li-xia": "1985-05-05",
+        "xiao-man": "1985-05-21",
+        "mang-zhong": "1985-06-06",
+        "xia-zhi": "1985-06-21",
+        "xiao-shu": "1985-07-07",
+        "da-shu": "1985-07-23",
+        "li-qiu": "1985-08-07",
+        "chu-shu": "1985-08-23",
+        "bai-lu": "1985-09-08",
+        "qiu-fen": "1985-09-23",
+        "han-lu": "1985-10-08",
+        "shuang-jiang": "1985-10-23",
+        "li-dong": "1985-11-07",
+        "xiao-xue": "1985-11-22",
+        "da-xue": "1985-12-07",
+        "dong-zhi": "1985-12-22",
+        "xiao-han": "1986-01-05",
+        "da-han": "1986-01-20"
+      }
+    },
+    {
+      "id": "solar-terms-2026",
+      "input": {
+        "year": 2026
+      },
+      "expected": {
+        "li-chun": "2026-02-04",
+        "yu-shui": "2026-02-18",
+        "jing-zhe": "2026-03-05",
+        "chun-fen": "2026-03-20",
+        "qing-ming": "2026-04-05",
+        "gu-yu": "2026-04-20",
+        "li-xia": "2026-05-05",
+        "xiao-man": "2026-05-21",
+        "mang-zhong": "2026-06-05",
+        "xia-zhi": "2026-06-21",
+        "xiao-shu": "2026-07-07",
+        "da-shu": "2026-07-23",
+        "li-qiu": "2026-08-07",
+        "chu-shu": "2026-08-23",
+        "bai-lu": "2026-09-07",
+        "qiu-fen": "2026-09-23",
+        "han-lu": "2026-10-08",
+        "shuang-jiang": "2026-10-23",
+        "li-dong": "2026-11-07",
+        "xiao-xue": "2026-11-22",
+        "da-xue": "2026-12-07",
+        "dong-zhi": "2026-12-22",
+        "xiao-han": "2027-01-05",
+        "da-han": "2027-01-20"
+      }
+    },
+    {
+      "id": "solar-terms-2050",
+      "input": {
+        "year": 2050
+      },
+      "expected": {
+        "li-chun": "2050-02-03",
+        "yu-shui": "2050-02-18",
+        "jing-zhe": "2050-03-05",
+        "chun-fen": "2050-03-20",
+        "qing-ming": "2050-04-04",
+        "gu-yu": "2050-04-20",
+        "li-xia": "2050-05-05",
+        "xiao-man": "2050-05-21",
+        "mang-zhong": "2050-06-05",
+        "xia-zhi": "2050-06-21",
+        "xiao-shu": "2050-07-07",
+        "da-shu": "2050-07-22",
+        "li-qiu": "2050-08-07",
+        "chu-shu": "2050-08-23",
+        "bai-lu": "2050-09-07",
+        "qiu-fen": "2050-09-23",
+        "han-lu": "2050-10-08",
+        "shuang-jiang": "2050-10-23",
+        "li-dong": "2050-11-07",
+        "xiao-xue": "2050-11-22",
+        "da-xue": "2050-12-07",
+        "dong-zhi": "2050-12-22",
+        "xiao-han": "2051-01-05",
+        "da-han": "2051-01-20"
+      }
+    },
+    {
+      "id": "lunar-new-year-1920",
+      "input": {
+        "lunarYear": 1920,
+        "lunarMonth": 1,
+        "lunarDay": 1
+      },
+      "expected": {
+        "lunar_new_year": "1920-02-20"
+      }
+    },
+    {
+      "id": "lunar-new-year-1950",
+      "input": {
+        "lunarYear": 1950,
+        "lunarMonth": 1,
+        "lunarDay": 1
+      },
+      "expected": {
+        "lunar_new_year": "1950-02-17"
+      }
+    },
+    {
+      "id": "lunar-new-year-1985",
+      "input": {
+        "lunarYear": 1985,
+        "lunarMonth": 1,
+        "lunarDay": 1
+      },
+      "expected": {
+        "lunar_new_year": "1985-02-20"
+      }
+    },
+    {
+      "id": "lunar-new-year-2000",
+      "input": {
+        "lunarYear": 2000,
+        "lunarMonth": 1,
+        "lunarDay": 1
+      },
+      "expected": {
+        "lunar_new_year": "2000-02-05"
+      }
+    },
+    {
+      "id": "lunar-new-year-2026",
+      "input": {
+        "lunarYear": 2026,
+        "lunarMonth": 1,
+        "lunarDay": 1
+      },
+      "expected": {
+        "lunar_new_year": "2026-02-17"
+      }
+    },
+    {
+      "id": "lunar-new-year-2050",
+      "input": {
+        "lunarYear": 2050,
+        "lunarMonth": 1,
+        "lunarDay": 1
+      },
+      "expected": {
+        "lunar_new_year": "2050-01-23"
+      }
+    },
+    {
+      "id": "lunar-new-year-2099",
+      "input": {
+        "lunarYear": 2099,
+        "lunarMonth": 1,
+        "lunarDay": 1
+      },
+      "expected": {
+        "lunar_new_year": "2099-01-21"
+      }
+    },
+    {
+      "id": "pillars-spring-1950",
+      "input": {
+        "date": "1950-03-15",
+        "time": "08:30:00",
+        "timezone": 8
+      },
+      "expected": {
+        "year_pillar": "geng-yin",
+        "month_pillar": "ji-mao",
+        "day_pillar": "ji-you",
+        "hour_pillar": "wu-chen"
+      }
+    },
+    {
+      "id": "pillars-before-lichun",
+      "input": {
+        "date": "2026-02-03",
+        "time": "12:00:00",
+        "timezone": 8
+      },
+      "expected": {
+        "year_pillar": "yi-si",
+        "month_pillar": "ji-chou",
+        "day_pillar": "wu-shen",
+        "hour_pillar": "wu-wu"
+      }
+    },
+    {
+      "id": "pillars-after-lichun",
+      "input": {
+        "date": "2026-02-05",
+        "time": "12:00:00",
+        "timezone": 8
+      },
+      "expected": {
+        "year_pillar": "bing-wu",
+        "month_pillar": "geng-yin",
+        "day_pillar": "geng-xu",
+        "hour_pillar": "ren-wu"
+      }
+    },
+    {
+      "id": "pillars-first-day-2000",
+      "input": {
+        "date": "2000-01-01",
+        "time": "12:00:00",
+        "timezone": 8
+      },
+      "expected": {
+        "year_pillar": "ji-mao",
+        "month_pillar": "bing-zi",
+        "day_pillar": "wu-wu",
+        "hour_pillar": "wu-wu"
+      }
+    },
+    {
+      "id": "pillars-after-xiaohan",
+      "input": {
+        "date": "2025-01-10",
+        "time": "16:20:00",
+        "timezone": 8
+      },
+      "expected": {
+        "year_pillar": "jia-chen",
+        "month_pillar": "ding-chou",
+        "day_pillar": "ji-mao",
+        "hour_pillar": "ren-shen"
+      }
+    },
+    {
+      "id": "pillars-winter-1976",
+      "input": {
+        "date": "1976-11-20",
+        "time": "19:45:00",
+        "timezone": 8
+      },
+      "expected": {
+        "year_pillar": "bing-chen",
+        "month_pillar": "ji-hai",
+        "day_pillar": "bing-zi",
+        "hour_pillar": "wu-xu"
+      }
+    },
+    {
+      "id": "pillars-year-end-1985",
+      "input": {
+        "date": "1985-12-25",
+        "time": "14:10:00",
+        "timezone": 8
+      },
+      "expected": {
+        "year_pillar": "yi-chou",
+        "month_pillar": "wu-zi",
+        "day_pillar": "wu-xu",
+        "hour_pillar": "ji-wei"
+      }
+    },
+    {
+      "id": "pillars-autumn-2049",
+      "input": {
+        "date": "2049-08-20",
+        "time": "21:15:00",
+        "timezone": 8
+      },
+      "expected": {
+        "year_pillar": "ji-si",
+        "month_pillar": "ren-shen",
+        "day_pillar": "ding-mao",
+        "hour_pillar": "xin-hai"
+      }
+    }
+  ],
+  "cross_checks": [
+    {
+      "id": "day-1949-10-01",
+      "source": "Sexagenary cycle",
+      "input": {
+        "date": "1949-10-01"
+      },
+      "expected": {
+        "day_pillar": "jia-zi"
+      }
+    },
+    {
+      "id": "day-1912-02-18",
+      "source": "Ganzhi",
+      "input": {
+        "date": "1912-02-18"
+      },
+      "expected": {
+        "day_pillar": "jia-zi"
+      }
+    },
+    {
+      "id": "year-1984",
+      "source": "Sexagenary cycle",
+      "input": {
+        "solar_year": 1984
+      },
+      "expected": {
+        "year_pillar": "jia-zi"
+      }
+    },
+    {
+      "id": "year-1950-observatory",
+      "source": "Hong Kong Observatory Gregorian-Lunar calendar conversion table",
+      "input": {
+        "solar_year": 1950,
+        "reading": "table header, a mid year date"
+      },
+      "expected": {
+        "year_pillar": "geng-yin"
+      }
+    },
+    {
+      "id": "year-2026-observatory",
+      "source": "Hong Kong Observatory Gregorian-Lunar calendar conversion table",
+      "input": {
+        "solar_year": 2026,
+        "reading": "table header, a mid year date"
+      },
+      "expected": {
+        "year_pillar": "bing-wu"
+      }
+    },
+    {
+      "id": "year-2050-observatory",
+      "source": "Hong Kong Observatory Gregorian-Lunar calendar conversion table",
+      "input": {
+        "solar_year": 2050,
+        "reading": "table header, a mid year date"
+      },
+      "expected": {
+        "year_pillar": "geng-wu"
+      }
+    },
+    {
+      "id": "month-yin-jia-year",
+      "source": "Sexagenary cycle",
+      "input": {
+        "year_stem": "jia",
+        "month_index": 0
+      },
+      "expected": {
+        "month_pillar": "bing-yin"
+      }
+    },
+    {
+      "id": "month-zi-jia-year",
+      "source": "Sexagenary cycle",
+      "input": {
+        "year_stem": "jia",
+        "month_index": 10
+      },
+      "expected": {
+        "month_pillar": "bing-zi"
+      }
+    },
+    {
+      "id": "month-yin-yi-year",
+      "source": "Sexagenary cycle",
+      "input": {
+        "year_stem": "yi",
+        "month_index": 0
+      },
+      "expected": {
+        "month_pillar": "wu-yin"
+      }
+    },
+    {
+      "id": "month-zi-yi-year",
+      "source": "Sexagenary cycle",
+      "input": {
+        "year_stem": "yi",
+        "month_index": 10
+      },
+      "expected": {
+        "month_pillar": "wu-zi"
+      }
+    },
+    {
+      "id": "month-yin-bing-year",
+      "source": "Sexagenary cycle",
+      "input": {
+        "year_stem": "bing",
+        "month_index": 0
+      },
+      "expected": {
+        "month_pillar": "geng-yin"
+      }
+    },
+    {
+      "id": "month-zi-bing-year",
+      "source": "Sexagenary cycle",
+      "input": {
+        "year_stem": "bing",
+        "month_index": 10
+      },
+      "expected": {
+        "month_pillar": "geng-zi"
+      }
+    },
+    {
+      "id": "month-yin-ding-year",
+      "source": "Sexagenary cycle",
+      "input": {
+        "year_stem": "ding",
+        "month_index": 0
+      },
+      "expected": {
+        "month_pillar": "ren-yin"
+      }
+    },
+    {
+      "id": "month-zi-ding-year",
+      "source": "Sexagenary cycle",
+      "input": {
+        "year_stem": "ding",
+        "month_index": 10
+      },
+      "expected": {
+        "month_pillar": "ren-zi"
+      }
+    },
+    {
+      "id": "month-yin-wu-year",
+      "source": "Sexagenary cycle",
+      "input": {
+        "year_stem": "wu",
+        "month_index": 0
+      },
+      "expected": {
+        "month_pillar": "jia-yin"
+      }
+    },
+    {
+      "id": "month-zi-wu-year",
+      "source": "Sexagenary cycle",
+      "input": {
+        "year_stem": "wu",
+        "month_index": 10
+      },
+      "expected": {
+        "month_pillar": "jia-zi"
+      }
+    },
+    {
+      "id": "hour-zi-jia-day",
+      "source": "Sexagenary cycle",
+      "input": {
+        "day_stem": "jia",
+        "hour": 0
+      },
+      "expected": {
+        "hour_pillar": "jia-zi"
+      }
+    },
+    {
+      "id": "hour-zi-yi-day",
+      "source": "Sexagenary cycle",
+      "input": {
+        "day_stem": "yi",
+        "hour": 0
+      },
+      "expected": {
+        "hour_pillar": "bing-zi"
+      }
+    },
+    {
+      "id": "hour-zi-bing-day",
+      "source": "Sexagenary cycle",
+      "input": {
+        "day_stem": "bing",
+        "hour": 0
+      },
+      "expected": {
+        "hour_pillar": "wu-zi"
+      }
+    },
+    {
+      "id": "hour-zi-ding-day",
+      "source": "Sexagenary cycle",
+      "input": {
+        "day_stem": "ding",
+        "hour": 0
+      },
+      "expected": {
+        "hour_pillar": "geng-zi"
+      }
+    },
+    {
+      "id": "hour-zi-wu-day",
+      "source": "Sexagenary cycle",
+      "input": {
+        "day_stem": "wu",
+        "hour": 0
+      },
+      "expected": {
+        "hour_pillar": "ren-zi"
+      }
+    }
+  ]
+}
