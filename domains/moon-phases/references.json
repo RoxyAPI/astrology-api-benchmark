@@ -1,0 +1,155 @@
+{
+  "format": 1,
+  "domain": "moon-phases",
+  "sources": [
+    {
+      "name": "U.S. Naval Observatory Astronomical Applications moon phase service",
+      "url": "https://aa.usno.navy.mil/data/api",
+      "command": "python -m benchmark pull moon-phases (one JSON document per year)",
+      "retrieved": "2026-10-09",
+      "licence": "U.S. government work, public domain; cite the Astronomical Applications Department",
+      "method": "The primary phases of each listed year are read from the year endpoint: the phase name and the instant in Universal Time. The expected value is the calendar date of that instant in Universal Time.",
+      "notes": "The API under test names no time zone for this list and carries no parameter for one, so its dates are compared as Universal Time dates, the zone its sibling phase endpoint documents as its default. Two cases sit within an hour of midnight Universal Time, one on each side, to prove that convention; the others sit at least three hours from it.",
+      "applies_to": "*"
+    }
+  ],
+  "families": [
+    {
+      "label": "Phase dates",
+      "quantities": [
+        "date"
+      ]
+    }
+  ],
+  "tolerances": [
+    {
+      "applies_to": "*",
+      "value": 0,
+      "unit": "days",
+      "why": "A phase date is a calendar day. Away from midnight a one day miss is a wrong phase; within an hour of midnight it is a wrong time zone."
+    }
+  ],
+  "cases": [
+    {
+      "id": "new-1969-07-14",
+      "input": {
+        "startDate": "1969-07-11",
+        "count": 2,
+        "phase": "New Moon"
+      },
+      "expected": {
+        "date": "1969-07-14"
+      }
+    },
+    {
+      "id": "first-1969-07-22",
+      "input": {
+        "startDate": "1969-07-19",
+        "count": 2,
+        "phase": "First Quarter Moon"
+      },
+      "expected": {
+        "date": "1969-07-22"
+      }
+    },
+    {
+      "id": "last-1988-06-07",
+      "input": {
+        "startDate": "1988-06-04",
+        "count": 2,
+        "phase": "Third Quarter Moon"
+      },
+      "expected": {
+        "date": "1988-06-07"
+      }
+    },
+    {
+      "id": "full-1988-11-23",
+      "input": {
+        "startDate": "1988-11-20",
+        "count": 2,
+        "phase": "Full Moon"
+      },
+      "expected": {
+        "date": "1988-11-23"
+      }
+    },
+    {
+      "id": "full-2000-07-16",
+      "input": {
+        "startDate": "2000-07-13",
+        "count": 2,
+        "phase": "Full Moon"
+      },
+      "expected": {
+        "date": "2000-07-16"
+      }
+    },
+    {
+      "id": "first-2012-01-01",
+      "input": {
+        "startDate": "2011-12-29",
+        "count": 2,
+        "phase": "First Quarter Moon"
+      },
+      "expected": {
+        "date": "2012-01-01"
+      }
+    },
+    {
+      "id": "full-2012-06-04",
+      "input": {
+        "startDate": "2012-06-01",
+        "count": 2,
+        "phase": "Full Moon"
+      },
+      "expected": {
+        "date": "2012-06-04"
+      }
+    },
+    {
+      "id": "last-2019-03-28",
+      "input": {
+        "startDate": "2019-03-25",
+        "count": 2,
+        "phase": "Third Quarter Moon"
+      },
+      "expected": {
+        "date": "2019-03-28"
+      }
+    },
+    {
+      "id": "new-2019-10-28",
+      "input": {
+        "startDate": "2019-10-25",
+        "count": 2,
+        "phase": "New Moon"
+      },
+      "expected": {
+        "date": "2019-10-28"
+      }
+    },
+    {
+      "id": "new-2023-12-12",
+      "input": {
+        "startDate": "2023-12-09",
+        "count": 2,
+        "phase": "New Moon"
+      },
+      "expected": {
+        "date": "2023-12-12"
+      }
+    },
+    {
+      "id": "full-2023-12-27",
+      "input": {
+        "startDate": "2023-12-24",
+        "count": 2,
+        "phase": "Full Moon"
+      },
+      "expected": {
+        "date": "2023-12-27"
+      }
+    }
+  ]
+}
