@@ -110,7 +110,7 @@ def _spread(s: Summary, console: Console) -> str:
         return console.paint("exact match", "dim")
     if s.median is None or s.max is None:
         return console.paint("nothing measured", "red")
-    return f"median {fmt(s.median)}  max {amount(s.max, s.unit)}"
+    return f"median {fmt(s.median)}  max {amount(s.max, s.unit, up=True)}"
 
 
 def _failure(m: Measurement, console: Console) -> str:
