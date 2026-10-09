@@ -1,0 +1,761 @@
+{
+  "format": 1,
+  "domain": "forecast",
+  "sources": [
+    {
+      "name": "NASA JPL Horizons",
+      "url": "https://ssd.jpl.nasa.gov/api/horizons.api",
+      "command": "python -m benchmark pull forecast (OBSERVER table, CENTER 500@399, QUANTITIES 31, daily then hourly or ten minute step, root by bisection)",
+      "retrieved": "2026-10-09",
+      "licence": "NASA JPL data, public domain US government work; cite Horizons",
+      "method": "Apparent geocentric ecliptic longitude of date, tabulated daily over the month of the event to bracket it and hourly around the bracket to locate it. An ingress or an exact transit is the instant the longitude reaches the sign boundary or the natal point plus the aspect angle, by bisection on the cubic through the four hourly rows around the crossing. A station is the instant the longitude rate is zero, by bisection on the derivative of a degree six least squares polynomial fitted to four days of rows ten minutes apart. Interpolation follows Meeus, Astronomical Algorithms, 2nd edition, chapter 3.",
+      "notes": "Times are UT, kept to the millisecond the search resolves; the seven printed decimals bound them well under a second. Every event is in the past, where Horizons applies measured delta T. The natal point of the exact transit is the Horizons longitude at the birth instant of the chart. Sun to Mars use their own Horizons centres, Jupiter to Pluto the system barycentres, as for the planets."
+    },
+    {
+      "name": "US Naval Observatory seasons",
+      "url": "https://aa.usno.navy.mil/data/api",
+      "command": "python -m benchmark pull forecast (GET /api/seasons?year=YYYY)",
+      "retrieved": "2026-10-09",
+      "licence": "US Naval Observatory data, public domain US government work",
+      "method": "Equinox and solstice instants in UT to the minute as published. The Sun entering Aries and Cancer is the same event, so the two values are kept as cross checks of the Horizons recomputation, not as references.",
+      "applies_to": [
+        "Sun ingress",
+        "Sun ingress, monthly table"
+      ]
+    }
+  ],
+  "tolerances": [
+    {
+      "applies_to": [
+        "Sun ingress",
+        "Mercury ingress",
+        "Venus ingress",
+        "Mars ingress",
+        "Sun ingress, monthly table",
+        "Mercury ingress, monthly table",
+        "Venus ingress, monthly table",
+        "Mars ingress, monthly table",
+        "Sun transit"
+      ],
+      "value": 60,
+      "unit": "seconds",
+      "why": "A vendor-neutral pass bar, not sized to any one API. At these events the Sun, Mercury, Venus and Mars move at least half a degree a day, so a minute is at least an arcsecond of motion: wide enough for the arcsecond level disagreement between two good ephemerides, tight enough to fail a crossing read off a sampled table or a longitude in the wrong frame. The monthly table prints whole minutes, which takes up to half of this band. An exact transit also carries the natal longitude, so a natal error shows here as time."
+    },
+    {
+      "applies_to": [
+        "Moon ingress, monthly table"
+      ],
+      "value": 60,
+      "unit": "seconds",
+      "why": "The Moon moves about 13 degrees a day, so a minute is about 33 arcseconds, inside the band its position is held to. The table prints whole minutes, which takes up to half of this band."
+    },
+    {
+      "applies_to": [
+        "Jupiter ingress",
+        "Saturn ingress",
+        "Uranus ingress",
+        "Neptune ingress",
+        "Pluto ingress",
+        "Jupiter ingress, monthly table",
+        "Saturn ingress, monthly table",
+        "Uranus ingress, monthly table",
+        "Neptune ingress, monthly table",
+        "Pluto ingress, monthly table"
+      ],
+      "value": 600,
+      "unit": "seconds",
+      "why": "Jupiter to Pluto move between a few hundredths and a quarter of a degree a day, so the same arcsecond of legitimate disagreement is tens of seconds to over ten minutes of time. Ten minutes is under one arcsecond of Neptune motion and still fails a crossing read off an hourly or daily table."
+    },
+    {
+      "applies_to": [
+        "Sun station",
+        "Mercury station",
+        "Venus station",
+        "Mars station"
+      ],
+      "value": 60,
+      "unit": "seconds",
+      "why": "A station is the instant the longitude rate is zero, the vertex of a near parabola, so its time is set by the rate, not the position: within a minute of a Mars station the longitude changes by a hundred thousandth of an arcsecond. Mercury, Venus and Mars turn fast enough that a minute is a rate disagreement of 0.03 arcseconds a day for Mars to 0.35 for Mercury, which two good ephemerides stay inside."
+    },
+    {
+      "applies_to": [
+        "Jupiter station",
+        "Saturn station",
+        "Uranus station",
+        "Neptune station",
+        "Pluto station"
+      ],
+      "value": 600,
+      "unit": "seconds",
+      "why": "Saturn to Pluto turn so slowly, their rate changing by 0.0005 to 0.002 degrees a day each day, that a rate disagreement of a thousandth of an arcsecond a day moves the station by up to a minute, so the band is wider than for the fast bodies. Ten minutes still fails a station taken from a sampled table, and a longitude without the precession of date, which moves a Pluto station by about two hours."
+    }
+  ],
+  "cases": [
+    {
+      "id": "sun-enters-aries-2025-03",
+      "input": {
+        "forecast": {
+          "birthData": {
+            "date": "1961-08-04",
+            "time": "19:24:00",
+            "timezone": -10.0,
+            "latitude": 21.3,
+            "longitude": -157.8667
+          },
+          "startDate": "2025-03-18",
+          "endDate": "2025-03-22"
+        },
+        "event": {
+          "type": "sign-ingress",
+          "body": "Sun",
+          "target": "Aries"
+        },
+        "monthly": {
+          "year": 2025,
+          "month": 3,
+          "timezone": 0
+        },
+        "ingress": {
+          "planet": "Sun",
+          "toSign": "Aries"
+        }
+      },
+      "expected": {
+        "Sun ingress": "2025-03-20T09:01:30.060+00:00",
+        "Sun ingress, monthly table": "2025-03-20T09:01:30.060+00:00"
+      }
+    },
+    {
+      "id": "sun-enters-cancer-2025-06",
+      "input": {
+        "forecast": {
+          "birthData": {
+            "date": "1961-08-04",
+            "time": "19:24:00",
+            "timezone": -10.0,
+            "latitude": 21.3,
+            "longitude": -157.8667
+          },
+          "startDate": "2025-06-19",
+          "endDate": "2025-06-23"
+        },
+        "event": {
+          "type": "sign-ingress",
+          "body": "Sun",
+          "target": "Cancer"
+        },
+        "monthly": {
+          "year": 2025,
+          "month": 6,
+          "timezone": 0
+        },
+        "ingress": {
+          "planet": "Sun",
+          "toSign": "Cancer"
+        }
+      },
+      "expected": {
+        "Sun ingress": "2025-06-21T02:42:16.842+00:00",
+        "Sun ingress, monthly table": "2025-06-21T02:42:16.842+00:00"
+      }
+    },
+    {
+      "id": "mercury-enters-aries-2025-03",
+      "input": {
+        "forecast": {
+          "birthData": {
+            "date": "1961-08-04",
+            "time": "19:24:00",
+            "timezone": -10.0,
+            "latitude": 21.3,
+            "longitude": -157.8667
+          },
+          "startDate": "2025-03-01",
+          "endDate": "2025-03-05"
+        },
+        "event": {
+          "type": "sign-ingress",
+          "body": "Mercury",
+          "target": "Aries"
+        },
+        "monthly": {
+          "year": 2025,
+          "month": 3,
+          "timezone": 0
+        },
+        "ingress": {
+          "planet": "Mercury",
+          "toSign": "Aries"
+        }
+      },
+      "expected": {
+        "Mercury ingress": "2025-03-03T09:03:40.471+00:00",
+        "Mercury ingress, monthly table": "2025-03-03T09:03:40.471+00:00"
+      }
+    },
+    {
+      "id": "mercury-reenters-pisces-2025-03",
+      "input": {
+        "forecast": {
+          "birthData": {
+            "date": "1961-08-04",
+            "time": "19:24:00",
+            "timezone": -10.0,
+            "latitude": 21.3,
+            "longitude": -157.8667
+          },
+          "startDate": "2025-03-28",
+          "endDate": "2025-04-01"
+        },
+        "event": {
+          "type": "sign-ingress",
+          "body": "Mercury",
+          "target": "Pisces"
+        },
+        "monthly": {
+          "year": 2025,
+          "month": 3,
+          "timezone": 0
+        },
+        "ingress": {
+          "planet": "Mercury",
+          "toSign": "Pisces"
+        }
+      },
+      "expected": {
+        "Mercury ingress": "2025-03-30T02:17:57.917+00:00",
+        "Mercury ingress, monthly table": "2025-03-30T02:17:57.917+00:00"
+      }
+    },
+    {
+      "id": "venus-reenters-pisces-2025-03",
+      "input": {
+        "forecast": {
+          "birthData": {
+            "date": "1961-08-04",
+            "time": "19:24:00",
+            "timezone": -10.0,
+            "latitude": 21.3,
+            "longitude": -157.8667
+          },
+          "startDate": "2025-03-25",
+          "endDate": "2025-03-29"
+        },
+        "event": {
+          "type": "sign-ingress",
+          "body": "Venus",
+          "target": "Pisces"
+        },
+        "monthly": {
+          "year": 2025,
+          "month": 3,
+          "timezone": 0
+        },
+        "ingress": {
+          "planet": "Venus",
+          "toSign": "Pisces"
+        }
+      },
+      "expected": {
+        "Venus ingress": "2025-03-27T08:40:32.071+00:00",
+        "Venus ingress, monthly table": "2025-03-27T08:40:32.071+00:00"
+      }
+    },
+    {
+      "id": "mars-enters-leo-2025-04",
+      "input": {
+        "forecast": {
+          "birthData": {
+            "date": "1961-08-04",
+            "time": "19:24:00",
+            "timezone": -10.0,
+            "latitude": 21.3,
+            "longitude": -157.8667
+          },
+          "startDate": "2025-04-16",
+          "endDate": "2025-04-20"
+        },
+        "event": {
+          "type": "sign-ingress",
+          "body": "Mars",
+          "target": "Leo"
+        },
+        "monthly": {
+          "year": 2025,
+          "month": 4,
+          "timezone": 0
+        },
+        "ingress": {
+          "planet": "Mars",
+          "toSign": "Leo"
+        }
+      },
+      "expected": {
+        "Mars ingress": "2025-04-18T04:20:52.280+00:00",
+        "Mars ingress, monthly table": "2025-04-18T04:20:52.280+00:00"
+      }
+    },
+    {
+      "id": "jupiter-enters-cancer-2025-06",
+      "input": {
+        "forecast": {
+          "birthData": {
+            "date": "1961-08-04",
+            "time": "19:24:00",
+            "timezone": -10.0,
+            "latitude": 21.3,
+            "longitude": -157.8667
+          },
+          "startDate": "2025-06-07",
+          "endDate": "2025-06-11"
+        },
+        "event": {
+          "type": "sign-ingress",
+          "body": "Jupiter",
+          "target": "Cancer"
+        },
+        "monthly": {
+          "year": 2025,
+          "month": 6,
+          "timezone": 0
+        },
+        "ingress": {
+          "planet": "Jupiter",
+          "toSign": "Cancer"
+        }
+      },
+      "expected": {
+        "Jupiter ingress": "2025-06-09T21:02:15.437+00:00",
+        "Jupiter ingress, monthly table": "2025-06-09T21:02:15.437+00:00"
+      }
+    },
+    {
+      "id": "uranus-enters-gemini-2025-07",
+      "input": {
+        "forecast": {
+          "birthData": {
+            "date": "1961-08-04",
+            "time": "19:24:00",
+            "timezone": -10.0,
+            "latitude": 21.3,
+            "longitude": -157.8667
+          },
+          "startDate": "2025-07-05",
+          "endDate": "2025-07-09"
+        },
+        "event": {
+          "type": "sign-ingress",
+          "body": "Uranus",
+          "target": "Gemini"
+        },
+        "monthly": {
+          "year": 2025,
+          "month": 7,
+          "timezone": 0
+        },
+        "ingress": {
+          "planet": "Uranus",
+          "toSign": "Gemini"
+        }
+      },
+      "expected": {
+        "Uranus ingress": "2025-07-07T07:47:44.895+00:00",
+        "Uranus ingress, monthly table": "2025-07-07T07:47:44.895+00:00"
+      }
+    },
+    {
+      "id": "neptune-enters-aries-2025-03",
+      "input": {
+        "forecast": {
+          "birthData": {
+            "date": "1961-08-04",
+            "time": "19:24:00",
+            "timezone": -10.0,
+            "latitude": 21.3,
+            "longitude": -157.8667
+          },
+          "startDate": "2025-03-28",
+          "endDate": "2025-04-01"
+        },
+        "event": {
+          "type": "sign-ingress",
+          "body": "Neptune",
+          "target": "Aries"
+        },
+        "monthly": {
+          "year": 2025,
+          "month": 3,
+          "timezone": 0
+        },
+        "ingress": {
+          "planet": "Neptune",
+          "toSign": "Aries"
+        }
+      },
+      "expected": {
+        "Neptune ingress": "2025-03-30T11:58:26.631+00:00",
+        "Neptune ingress, monthly table": "2025-03-30T11:58:26.631+00:00"
+      }
+    },
+    {
+      "id": "moon-enters-virgo-2025-03",
+      "input": {
+        "monthly": {
+          "year": 2025,
+          "month": 3,
+          "timezone": 0
+        },
+        "ingress": {
+          "planet": "Moon",
+          "toSign": "Virgo"
+        }
+      },
+      "expected": {
+        "Moon ingress, monthly table": "2025-03-12T07:55:40.088+00:00"
+      }
+    },
+    {
+      "id": "moon-enters-capricorn-2025-03",
+      "input": {
+        "monthly": {
+          "year": 2025,
+          "month": 3,
+          "timezone": 0
+        },
+        "ingress": {
+          "planet": "Moon",
+          "toSign": "Capricorn"
+        }
+      },
+      "expected": {
+        "Moon ingress, monthly table": "2025-03-22T07:28:39.853+00:00"
+      }
+    },
+    {
+      "id": "mars-stations-direct-2025-02",
+      "input": {
+        "forecast": {
+          "birthData": {
+            "date": "1961-08-04",
+            "time": "19:24:00",
+            "timezone": -10.0,
+            "latitude": 21.3,
+            "longitude": -157.8667
+          },
+          "startDate": "2025-02-22",
+          "endDate": "2025-02-26"
+        },
+        "event": {
+          "type": "retrograde-station",
+          "body": "Mars",
+          "station": "direct"
+        }
+      },
+      "expected": {
+        "Mars station": "2025-02-24T01:59:49.835+00:00"
+      }
+    },
+    {
+      "id": "venus-stations-retrograde-2025-03",
+      "input": {
+        "forecast": {
+          "birthData": {
+            "date": "1961-08-04",
+            "time": "19:24:00",
+            "timezone": -10.0,
+            "latitude": 21.3,
+            "longitude": -157.8667
+          },
+          "startDate": "2025-02-28",
+          "endDate": "2025-03-04"
+        },
+        "event": {
+          "type": "retrograde-station",
+          "body": "Venus",
+          "station": "retrograde"
+        }
+      },
+      "expected": {
+        "Venus station": "2025-03-02T00:36:07.031+00:00"
+      }
+    },
+    {
+      "id": "mercury-stations-retrograde-2025-03",
+      "input": {
+        "forecast": {
+          "birthData": {
+            "date": "1961-08-04",
+            "time": "19:24:00",
+            "timezone": -10.0,
+            "latitude": 21.3,
+            "longitude": -157.8667
+          },
+          "startDate": "2025-03-13",
+          "endDate": "2025-03-17"
+        },
+        "event": {
+          "type": "retrograde-station",
+          "body": "Mercury",
+          "station": "retrograde"
+        }
+      },
+      "expected": {
+        "Mercury station": "2025-03-15T06:46:05.866+00:00"
+      }
+    },
+    {
+      "id": "mercury-stations-direct-2025-04",
+      "input": {
+        "forecast": {
+          "birthData": {
+            "date": "1961-08-04",
+            "time": "19:24:00",
+            "timezone": -10.0,
+            "latitude": 21.3,
+            "longitude": -157.8667
+          },
+          "startDate": "2025-04-05",
+          "endDate": "2025-04-09"
+        },
+        "event": {
+          "type": "retrograde-station",
+          "body": "Mercury",
+          "station": "direct"
+        }
+      },
+      "expected": {
+        "Mercury station": "2025-04-07T11:07:37.253+00:00"
+      }
+    },
+    {
+      "id": "venus-stations-direct-2025-04",
+      "input": {
+        "forecast": {
+          "birthData": {
+            "date": "1961-08-04",
+            "time": "19:24:00",
+            "timezone": -10.0,
+            "latitude": 21.3,
+            "longitude": -157.8667
+          },
+          "startDate": "2025-04-11",
+          "endDate": "2025-04-15"
+        },
+        "event": {
+          "type": "retrograde-station",
+          "body": "Venus",
+          "station": "direct"
+        }
+      },
+      "expected": {
+        "Venus station": "2025-04-13T01:02:19.664+00:00"
+      }
+    },
+    {
+      "id": "pluto-stations-retrograde-2025-05",
+      "input": {
+        "forecast": {
+          "birthData": {
+            "date": "1961-08-04",
+            "time": "19:24:00",
+            "timezone": -10.0,
+            "latitude": 21.3,
+            "longitude": -157.8667
+          },
+          "startDate": "2025-05-02",
+          "endDate": "2025-05-06"
+        },
+        "event": {
+          "type": "retrograde-station",
+          "body": "Pluto",
+          "station": "retrograde"
+        }
+      },
+      "expected": {
+        "Pluto station": "2025-05-04T15:26:32.782+00:00"
+      }
+    },
+    {
+      "id": "neptune-stations-retrograde-2025-07",
+      "input": {
+        "forecast": {
+          "birthData": {
+            "date": "1961-08-04",
+            "time": "19:24:00",
+            "timezone": -10.0,
+            "latitude": 21.3,
+            "longitude": -157.8667
+          },
+          "startDate": "2025-07-02",
+          "endDate": "2025-07-06"
+        },
+        "event": {
+          "type": "retrograde-station",
+          "body": "Neptune",
+          "station": "retrograde"
+        }
+      },
+      "expected": {
+        "Neptune station": "2025-07-04T21:33:39.620+00:00"
+      }
+    },
+    {
+      "id": "saturn-stations-retrograde-2025-07",
+      "input": {
+        "forecast": {
+          "birthData": {
+            "date": "1961-08-04",
+            "time": "19:24:00",
+            "timezone": -10.0,
+            "latitude": 21.3,
+            "longitude": -157.8667
+          },
+          "startDate": "2025-07-11",
+          "endDate": "2025-07-15"
+        },
+        "event": {
+          "type": "retrograde-station",
+          "body": "Saturn",
+          "station": "retrograde"
+        }
+      },
+      "expected": {
+        "Saturn station": "2025-07-13T04:06:42.719+00:00"
+      }
+    },
+    {
+      "id": "sun-opposes-natal-pluto-2025-02",
+      "input": {
+        "forecast": {
+          "birthData": {
+            "date": "1961-08-04",
+            "time": "19:24:00",
+            "timezone": -10.0,
+            "latitude": 21.3,
+            "longitude": -157.8667
+          },
+          "startDate": "2025-02-23",
+          "endDate": "2025-02-27"
+        },
+        "event": {
+          "type": "transit-aspect",
+          "body": "Sun",
+          "target": "Pluto",
+          "aspect": "opposition"
+        }
+      },
+      "expected": {
+        "Sun transit": "2025-02-25T08:21:25.979+00:00"
+      }
+    }
+  ],
+  "families": [
+    {
+      "label": "Sign ingress instants",
+      "quantities": [
+        "Sun ingress",
+        "Sun ingress, monthly table",
+        "Mercury ingress",
+        "Mercury ingress, monthly table",
+        "Venus ingress",
+        "Venus ingress, monthly table",
+        "Mars ingress",
+        "Mars ingress, monthly table",
+        "Jupiter ingress",
+        "Jupiter ingress, monthly table",
+        "Uranus ingress",
+        "Uranus ingress, monthly table",
+        "Neptune ingress",
+        "Neptune ingress, monthly table",
+        "Moon ingress, monthly table"
+      ]
+    },
+    {
+      "label": "Station instants",
+      "quantities": [
+        "Mars station",
+        "Venus station",
+        "Mercury station",
+        "Pluto station",
+        "Neptune station",
+        "Saturn station"
+      ]
+    },
+    {
+      "label": "Exact transit instant",
+      "quantities": [
+        "Sun transit"
+      ]
+    }
+  ],
+  "cross_checks": [
+    {
+      "source": "US Naval Observatory seasons",
+      "id": "sun-enters-aries-2025-03",
+      "input": {
+        "forecast": {
+          "birthData": {
+            "date": "1961-08-04",
+            "time": "19:24:00",
+            "timezone": -10.0,
+            "latitude": 21.3,
+            "longitude": -157.8667
+          },
+          "startDate": "2025-03-18",
+          "endDate": "2025-03-22"
+        },
+        "event": {
+          "type": "sign-ingress",
+          "body": "Sun",
+          "target": "Aries"
+        },
+        "monthly": {
+          "year": 2025,
+          "month": 3,
+          "timezone": 0
+        },
+        "ingress": {
+          "planet": "Sun",
+          "toSign": "Aries"
+        }
+      },
+      "expected": {
+        "Sun ingress": "2025-03-20T09:01:00.000+00:00"
+      }
+    },
+    {
+      "source": "US Naval Observatory seasons",
+      "id": "sun-enters-cancer-2025-06",
+      "input": {
+        "forecast": {
+          "birthData": {
+            "date": "1961-08-04",
+            "time": "19:24:00",
+            "timezone": -10.0,
+            "latitude": 21.3,
+            "longitude": -157.8667
+          },
+          "startDate": "2025-06-19",
+          "endDate": "2025-06-23"
+        },
+        "event": {
+          "type": "sign-ingress",
+          "body": "Sun",
+          "target": "Cancer"
+        },
+        "monthly": {
+          "year": 2025,
+          "month": 6,
+          "timezone": 0
+        },
+        "ingress": {
+          "planet": "Sun",
+          "toSign": "Cancer"
+        }
+      },
+      "expected": {
+        "Sun ingress": "2025-06-21T02:42:00.000+00:00"
+      }
+    }
+  ]
+}
