@@ -64,7 +64,10 @@ def test_run_stops_before_any_call_when_the_spec_drifted(
     assert not (tmp_path / "latest.json").exists()
 
 
-def test_live_spec_refuses_an_unreachable_or_foreign_document(tmp_path: Path) -> None:
+def test_live_spec_refuses_an_unreachable_or_foreign_document(
+    tmp_path: Path, monkeypatch: pytest.MonkeyPatch
+) -> None:
+    monkeypatch.setattr("benchmark.api.time.sleep", lambda _seconds: None)
     with pytest.raises(SpecError):
         spec.live_spec("http://127.0.0.1:9/openapi.json")
     other = tmp_path / "other.json"

@@ -4,6 +4,7 @@ from __future__ import annotations
 
 import json
 import threading
+import urllib.request
 from collections.abc import Iterator
 from http.server import BaseHTTPRequestHandler, ThreadingHTTPServer
 from pathlib import Path
@@ -12,7 +13,7 @@ from typing import Any
 import pytest
 
 from benchmark import ApiClient, ApiError
-from benchmark.api import HEADER_VARIABLE, KEY_VARIABLE, ConfigError, load_env_file
+from benchmark.api import HEADER_VARIABLE, KEY_VARIABLE, ConfigError, fetch_json, load_env_file
 
 SEEN: list[dict[str, Any]] = []
 FLAKY: dict[str, int] = {}
@@ -88,6 +89,12 @@ def test_get_encodes_query_parameters(api: ApiClient) -> None:
 def test_unusable_responses_raise_api_error(api: ApiClient, path: str, message: str) -> None:
     with pytest.raises(ApiError, match=message):
         api.post(path, {})
+
+
+def test_a_keyless_fetch_such_as_the_spec_retries_a_transient_status(api: ApiClient) -> None:
+    request = urllib.request.Request(f"{api.base_url}/flaky-spec")
+    assert fetch_json(request, "spec", retry_pause=0) == {"ok": True}
+    assert FLAKY["/flaky-spec"] == 3
 
 
 def test_unreachable_target_raises_api_error() -> None:

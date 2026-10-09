@@ -83,30 +83,41 @@ class ApiClient:
             data = json.dumps(body).encode("utf-8")
             headers["Content-Type"] = "application/json"
         req = urllib.request.Request(url, data=data, headers=headers, method=method)
-        for attempt in range(1, ATTEMPTS + 1):
-            last = attempt == ATTEMPTS
-            try:
-                with urllib.request.urlopen(req, timeout=self.timeout) as resp:
-                    return json.loads(resp.read().decode("utf-8"))
-            except HTTPError as e:
-                detail = e.read().decode("utf-8", "replace")[:200]
-                if last or e.code not in TRANSIENT:
-                    raise ApiError(f"{method} {path}: HTTP {e.code} {detail}") from None
-                self._pause(attempt, e.headers.get("Retry-After"))
-            except (URLError, TimeoutError) as e:
-                if last:
-                    raise ApiError(f"{method} {path}: {e}") from None
-                self._pause(attempt, None)
-            except json.JSONDecodeError:
-                raise ApiError(f"{method} {path}: response is not JSON") from None
-        raise AssertionError("unreachable")
+        return fetch_json(req, f"{method} {path}", self.timeout, self.retry_pause)
 
-    def _pause(self, attempt: int, retry_after: str | None) -> None:
-        """Back off before a retry: the server Retry-After in seconds when given, capped."""
-        wait = self.retry_pause * attempt
-        if retry_after and retry_after.isdigit():
-            wait = min(float(retry_after), MAX_RETRY_AFTER_SECONDS)
-        time.sleep(wait)
+
+def fetch_json(
+    req: urllib.request.Request,
+    what: str,
+    timeout: float = TIMEOUT_SECONDS,
+    retry_pause: float = RETRY_PAUSE_SECONDS,
+) -> Any:
+    """Open ``req`` and decode its JSON, retrying a transient status or a dropped connection."""
+    for attempt in range(1, ATTEMPTS + 1):
+        last = attempt == ATTEMPTS
+        try:
+            with urllib.request.urlopen(req, timeout=timeout) as resp:
+                return json.loads(resp.read().decode("utf-8"))
+        except HTTPError as e:
+            detail = e.read().decode("utf-8", "replace")[:200]
+            if last or e.code not in TRANSIENT:
+                raise ApiError(f"{what}: HTTP {e.code} {detail}") from None
+            _pause(retry_pause, attempt, e.headers.get("Retry-After"))
+        except (URLError, TimeoutError) as e:
+            if last:
+                raise ApiError(f"{what}: {e}") from None
+            _pause(retry_pause, attempt, None)
+        except json.JSONDecodeError:
+            raise ApiError(f"{what}: response is not JSON") from None
+    raise AssertionError("unreachable")
+
+
+def _pause(retry_pause: float, attempt: int, retry_after: str | None) -> None:
+    """Back off before a retry: the server Retry-After in seconds when given, capped."""
+    wait = retry_pause * attempt
+    if retry_after and retry_after.isdigit():
+        wait = min(float(retry_after), MAX_RETRY_AFTER_SECONDS)
+    time.sleep(wait)
 
 
 def load_env_file(path: Path) -> dict[str, str]:

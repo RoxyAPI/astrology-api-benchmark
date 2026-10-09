@@ -7,15 +7,13 @@ endpoint no longer exists there, so a renamed path or tag can never leave a dead
 
 from __future__ import annotations
 
-import json
 import re
 import urllib.parse
 import urllib.request
 from collections.abc import Iterable, Mapping
 from typing import Any
-from urllib.error import HTTPError, URLError
 
-from benchmark.api import DEFAULT_TARGET, TIMEOUT_SECONDS
+from benchmark.api import DEFAULT_TARGET, ApiError, fetch_json
 from benchmark.fetch import USER_AGENT
 from benchmark.schema import Endpoint
 
@@ -50,10 +48,9 @@ def live_spec(url: str = SPEC_URL) -> Mapping[str, Any]:
         url, headers={"User-Agent": USER_AGENT, "Accept": "application/json"}
     )
     try:
-        with urllib.request.urlopen(request, timeout=TIMEOUT_SECONDS) as response:
-            spec = json.loads(response.read().decode("utf-8"))
-    except (HTTPError, URLError, TimeoutError, json.JSONDecodeError) as e:
-        raise SpecError(f"cannot read the API spec at {url}: {e}") from None
+        spec = fetch_json(request, url)
+    except ApiError as e:
+        raise SpecError(f"cannot read the API spec: {e}") from None
     if not isinstance(spec, dict) or not isinstance(spec.get("paths"), dict):
         raise SpecError(f"{url}: not an OpenAPI document with paths")
     return spec
