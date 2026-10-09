@@ -200,7 +200,7 @@ def json_ld(model: Mapping[str, Any]) -> dict[str, Any]:
 
 
 SEARCH_CONSOLE_TOKEN = "bsKYP1JLQvbPmMzmkD64cDto9zCi2HzeRNNo4Cxthp4"
-"""Public ownership token for Google Search Console; removing it unverifies the property."""
+"""Public site-ownership token for search webmaster tools; removing it unverifies the property."""
 
 
 def head(model: Mapping[str, Any]) -> str:

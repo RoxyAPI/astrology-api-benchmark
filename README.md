@@ -20,7 +20,7 @@ The RoxyAPI Astrology API Accuracy Benchmark is an open, reproducible benchmark 
 | [Western planets](#western-planets) | NASA JPL Horizons | 231 | 231 of 231 | median 0.048, max 0.32 arcsec |
 | [Western angles and houses](#western-angles-and-houses) | NASA JPL Horizons sidereal time and obliquity, standard spherical astronomy | 200 | 200 of 200 | median 0.12, max 1.5 arcsec |
 | [Vedic sidereal chart](#vedic-sidereal-chart) | NASA JPL Horizons with the Lahiri ayanamsa by its published definition | 894 | 894 of 894 | positions median 0.039, max 1.5 arcsec; days max 0.49; 638 exact |
-| [Panchang](#panchang) | NASA JPL Horizons Sun and Moon longitudes by the classical definitions, sunrise from the US Naval Observatory | 73 | 73 of 73 | instants median 0, max 0 seconds; 60 exact |
+| [Panchang](#panchang) | NASA JPL Horizons Sun and Moon longitudes by the classical definitions, sunrise from the US Naval Observatory | 73 | 73 of 73 | 13 exact instants; 60 exact |
 | [Forecast events](#forecast-events) | NASA JPL Horizons | 29 | 29 of 29 | median 2.3, max 44.9 seconds |
 | [Moon phases](#moon-phases) | U.S. Naval Observatory primary moon phase tables, Universal Time dates | 11 | 11 of 11 | 11 exact days |
 | [Human Design bodygraph](#human-design-bodygraph) | NASA JPL Horizons with the 88 degree solar arc and the Rave Mandala | 100 | 100 of 100 | instants median 0.014, max 0.28 seconds; 90 exact |

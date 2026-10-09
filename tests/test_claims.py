@@ -202,6 +202,7 @@ def test_measured_deviation_of_a_single_unit_drops_the_noun() -> None:
     )
     assert measured_deviation([_summary("exact", 118, 0, 0)]) == "all exact"
     assert measured_deviation([_summary("days", 11, 0, 0)]) == "11 exact days"
+    assert measured_deviation([_summary("seconds", 13, 0, 0)]) == "13 exact instants"
     assert measured_deviation([_summary("days", 11, 0.1, 0.3)]) == "max 0.3 days"
 
 
