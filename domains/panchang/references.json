@@ -1,0 +1,418 @@
+{
+  "format": 1,
+  "domain": "panchang",
+  "sources": [
+    {
+      "name": "NASA JPL Horizons",
+      "url": "https://ssd.jpl.nasa.gov/api/horizons.api",
+      "command": "python -m benchmark pull panchang (OBSERVER tables: QUANTITIES 30 and 31 of the geocentric Sun and Moon)",
+      "retrieved": "2026-10-09",
+      "licence": "NASA JPL data, public domain US government work; cite Horizons",
+      "method": "Apparent geocentric ecliptic longitude of date of the Sun and Moon at the case instant. Elongation for tithi and karana, sidereal sum for yoga.",
+      "applies_to": [
+        "tithi",
+        "yoga",
+        "karana"
+      ]
+    },
+    {
+      "name": "Surya Siddhanta, Burgess translation",
+      "url": "https://archive.org/details/jstor-592174",
+      "citation": "Translation of the Surya-Siddhanta, a Text-Book of Hindu Astronomy, by Ebenezer Burgess, Journal of the American Oriental Society, volume 6, 1860: chapter 2 verses 65 to 69 (pages 235 to 238) for yoga, tithi and karana; chapter 1 verse 13 note (page 151) and verses 51 and 52 (pages 175 and 176) for the day counted from sunrise and named for its lord",
+      "retrieved": "2026-10-09",
+      "licence": "Classical text in an openly digitised 1860 translation; the rules are cited, no text is reproduced",
+      "method": "Tithi is the elongation in units of 12 degrees, karana in units of 6 degrees, yoga the sidereal sum in units of 13 degrees 20 minutes, vara the weekday of the civil date whose sunrise opens the day.",
+      "applies_to": [
+        "tithi",
+        "yoga",
+        "karana",
+        "vara"
+      ]
+    },
+    {
+      "name": "Lahiri ayanamsa, Calendar Reform Committee definition",
+      "url": "https://archive.org/details/calendar_reform_comittee_report",
+      "citation": "Report of the Calendar Reform Committee, Government of India, Council of Scientific and Industrial Research, 1955: Recommendations for the religious calendar, item 7, pages 7 and 8; general precession, page 209",
+      "retrieved": "2026-10-09",
+      "licence": "Government of India publication; the definition is cited, no text is reproduced",
+      "method": "23 deg 15 min on 21 March 1956, growing with the general precession in longitude. Held at 23 deg 15 min 00.658 sec at 0h TT as a true ayanamsa, carried by IERS Conventions 2010 equation 5.44 and the IAU 2000A nutation in longitude (Table 5.3a, downloaded on each pull). Enters yoga only.",
+      "applies_to": [
+        "yoga"
+      ]
+    },
+    {
+      "name": "Positional Astronomy Centre, Kolkata",
+      "url": "https://packolkata.imd.gov.in/download/nirlon/nlongitude.htm",
+      "retrieved": "2026-10-09",
+      "licence": "Government of India data, India Meteorological Department; values cited with attribution",
+      "method": "Published nirayana longitudes of the Sun and Moon at 0h TT, transcribed for three dates as cross checks: the limbs they give must equal the recomputed ones.",
+      "applies_to": [
+        "tithi",
+        "yoga",
+        "karana"
+      ]
+    },
+    {
+      "name": "US Naval Observatory Astronomical Applications API",
+      "url": "https://aa.usno.navy.mil/data/api",
+      "citation": "Complete Sun and Moon Data for One Day; rise and set defined at https://aa.usno.navy.mil/faq/RST_defs",
+      "command": "python -m benchmark pull panchang (GET rstt/oneday with date, coords and tz in hours)",
+      "retrieved": "2026-10-09",
+      "licence": "US Government data, public domain; cite USNO",
+      "method": "The Rise entry of the Sun data, in the local zone given. Sunrise is the upper limb of the Sun on a level sea horizon under 34 arcminutes of refraction. The service prints whole minutes.",
+      "applies_to": [
+        "sunrise"
+      ]
+    }
+  ],
+  "tolerances": [
+    {
+      "applies_to": [
+        "sunrise"
+      ],
+      "value": 90,
+      "unit": "seconds",
+      "why": "The reference prints whole minutes and so does a typical response, so two exact values can differ by up to a minute through rounding alone; the half minute beyond covers the difference between two good ephemeris implementations of the same upper limb and 34 arcminute definition. A different limb (about 4 minutes at mid latitudes) or no refraction (about 2 to 3) fails."
+    },
+    {
+      "applies_to": "*",
+      "value": 0,
+      "unit": "exact",
+      "why": "Tithi, yoga, karana and vara are discrete: a value is the definition applied to the Sun and Moon longitudes, or the weekday of the sunrise date, or it is not."
+    }
+  ],
+  "cases": [
+    {
+      "id": "mumbai-noon",
+      "input": {
+        "date": "2026-03-08",
+        "time": "12:00:00",
+        "latitude": 19.076,
+        "longitude": 72.8777,
+        "timezone": 5.5
+      },
+      "expected": {
+        "tithi": 20,
+        "yoga": 13,
+        "karana": 4,
+        "vara": "Sunday",
+        "sunrise": "2026-03-08T06:53:00+05:30"
+      }
+    },
+    {
+      "id": "new-york-evening",
+      "input": {
+        "date": "2026-11-01",
+        "time": "19:30:00",
+        "latitude": 40.7128,
+        "longitude": -74.006,
+        "timezone": -5
+      },
+      "expected": {
+        "tithi": 23,
+        "yoga": 23,
+        "karana": 3,
+        "vara": "Sunday",
+        "sunrise": "2026-11-01T06:26:00-05:00"
+      }
+    },
+    {
+      "id": "sydney-morning",
+      "input": {
+        "date": "2026-01-15",
+        "time": "08:15:00",
+        "latitude": -33.8688,
+        "longitude": 151.2093,
+        "timezone": 11
+      },
+      "expected": {
+        "tithi": 27,
+        "yoga": 11,
+        "karana": 3,
+        "vara": "Thursday",
+        "sunrise": "2026-01-15T05:59:00+11:00"
+      }
+    },
+    {
+      "id": "honolulu-night",
+      "input": {
+        "date": "2026-08-02",
+        "time": "23:40:00",
+        "latitude": 21.3099,
+        "longitude": -157.8581,
+        "timezone": -10
+      },
+      "expected": {
+        "tithi": 20,
+        "yoga": 7,
+        "karana": 4,
+        "vara": "Sunday",
+        "sunrise": "2026-08-02T06:05:00-10:00"
+      }
+    },
+    {
+      "id": "reykjavik-solstice",
+      "input": {
+        "date": "2026-06-21",
+        "time": "12:00:00",
+        "latitude": 64.1466,
+        "longitude": -21.9426,
+        "timezone": 0
+      },
+      "expected": {
+        "tithi": 8,
+        "yoga": 17,
+        "karana": 7,
+        "vara": "Sunday",
+        "sunrise": "2026-06-21T02:55:00+00:00"
+      }
+    },
+    {
+      "id": "tromso-may",
+      "input": {
+        "date": "2026-05-12",
+        "time": "12:00:00",
+        "latitude": 69.6492,
+        "longitude": 18.9553,
+        "timezone": 2
+      },
+      "expected": {
+        "tithi": 26,
+        "yoga": 27,
+        "karana": 1,
+        "vara": "Tuesday",
+        "sunrise": "2026-05-12T02:10:00+02:00"
+      }
+    },
+    {
+      "id": "delhi-purnima",
+      "input": {
+        "date": "2026-10-26",
+        "time": "02:00:00",
+        "latitude": 28.6139,
+        "longitude": 77.209,
+        "timezone": 5.5
+      },
+      "expected": {
+        "tithi": 15,
+        "yoga": 15,
+        "karana": 1,
+        "vara": "Monday",
+        "sunrise": "2026-10-26T06:29:00+05:30"
+      }
+    },
+    {
+      "id": "delhi-shakuni",
+      "input": {
+        "date": "2026-11-08",
+        "time": "05:00:00",
+        "latitude": 28.6139,
+        "longitude": 77.209,
+        "timezone": 5.5
+      },
+      "expected": {
+        "tithi": 29,
+        "yoga": 3,
+        "karana": 8,
+        "vara": "Sunday",
+        "sunrise": "2026-11-08T06:38:00+05:30"
+      }
+    },
+    {
+      "id": "delhi-amavasya",
+      "input": {
+        "date": "2026-11-09",
+        "time": "12:00:00",
+        "latitude": 28.6139,
+        "longitude": 77.209,
+        "timezone": 5.5
+      },
+      "expected": {
+        "tithi": 30,
+        "yoga": 4,
+        "vara": "Monday",
+        "sunrise": "2026-11-09T06:39:00+05:30"
+      }
+    },
+    {
+      "id": "delhi-kimstughna",
+      "input": {
+        "date": "2026-11-09",
+        "time": "21:00:00",
+        "latitude": 28.6139,
+        "longitude": 77.209,
+        "timezone": 5.5
+      },
+      "expected": {
+        "tithi": 1,
+        "yoga": 4,
+        "karana": 11,
+        "vara": "Monday",
+        "sunrise": "2026-11-09T06:39:00+05:30"
+      }
+    },
+    {
+      "id": "mumbai-tithi-edge",
+      "input": {
+        "date": "2026-02-20",
+        "time": "14:40:11",
+        "latitude": 19.076,
+        "longitude": 72.8777,
+        "timezone": 5.5
+      },
+      "expected": {
+        "tithi": 4,
+        "yoga": 22,
+        "karana": 6,
+        "vara": "Friday",
+        "sunrise": "2026-02-20T07:04:00+05:30"
+      }
+    },
+    {
+      "id": "london-karana-edge",
+      "input": {
+        "date": "2026-10-28",
+        "time": "09:08:02",
+        "latitude": 51.5074,
+        "longitude": -0.1278,
+        "timezone": 0
+      },
+      "expected": {
+        "tithi": 18,
+        "yoga": 18,
+        "karana": 7,
+        "vara": "Wednesday",
+        "sunrise": "2026-10-28T06:47:00+00:00"
+      }
+    },
+    {
+      "id": "tokyo-yoga-edge",
+      "input": {
+        "date": "2026-10-31",
+        "time": "00:12:18",
+        "latitude": 35.6762,
+        "longitude": 139.6503,
+        "timezone": 9
+      },
+      "expected": {
+        "tithi": 21,
+        "yoga": 21,
+        "karana": 5,
+        "vara": "Saturday",
+        "sunrise": "2026-10-31T06:02:00+09:00"
+      }
+    },
+    {
+      "id": "pac-2026-01-01",
+      "input": {
+        "date": "2025-12-31",
+        "time": "23:58:51",
+        "latitude": 23.1765,
+        "longitude": 75.7885,
+        "timezone": 0
+      },
+      "expected": {
+        "tithi": 13,
+        "yoga": 23,
+        "karana": 3
+      }
+    },
+    {
+      "id": "pac-2026-04-15",
+      "input": {
+        "date": "2026-04-14",
+        "time": "23:58:51",
+        "latitude": 23.1765,
+        "longitude": 75.7885,
+        "timezone": 0
+      },
+      "expected": {
+        "tithi": 28,
+        "yoga": 25,
+        "karana": 5
+      }
+    },
+    {
+      "id": "pac-2026-07-01",
+      "input": {
+        "date": "2026-06-30",
+        "time": "23:58:51",
+        "latitude": 23.1765,
+        "longitude": 75.7885,
+        "timezone": 0
+      },
+      "expected": {
+        "tithi": 16,
+        "yoga": 26,
+        "karana": 3
+      }
+    }
+  ],
+  "cross_checks": [
+    {
+      "id": "pac-2026-01-01",
+      "source": "Positional Astronomy Centre, Kolkata",
+      "input": {
+        "date": "2025-12-31",
+        "time": "23:58:51",
+        "latitude": 23.1765,
+        "longitude": 75.7885,
+        "timezone": 0
+      },
+      "expected": {
+        "tithi": 13,
+        "yoga": 23,
+        "karana": 3
+      }
+    },
+    {
+      "id": "pac-2026-04-15",
+      "source": "Positional Astronomy Centre, Kolkata",
+      "input": {
+        "date": "2026-04-14",
+        "time": "23:58:51",
+        "latitude": 23.1765,
+        "longitude": 75.7885,
+        "timezone": 0
+      },
+      "expected": {
+        "tithi": 28,
+        "yoga": 25,
+        "karana": 5
+      }
+    },
+    {
+      "id": "pac-2026-07-01",
+      "source": "Positional Astronomy Centre, Kolkata",
+      "input": {
+        "date": "2026-06-30",
+        "time": "23:58:51",
+        "latitude": 23.1765,
+        "longitude": 75.7885,
+        "timezone": 0
+      },
+      "expected": {
+        "tithi": 16,
+        "yoga": 26,
+        "karana": 3
+      }
+    }
+  ],
+  "families": [
+    {
+      "label": "Tithi, yoga, karana and vara",
+      "quantities": [
+        "tithi",
+        "yoga",
+        "karana",
+        "vara"
+      ]
+    },
+    {
+      "label": "Sunrise",
+      "quantities": [
+        "sunrise"
+      ]
+    }
+  ]
+}
