@@ -1,0 +1,46 @@
+# Archives each run as a release: the dated PDF report with the results it was printed from.
+name: release
+
+on:
+  workflow_dispatch:
+  push:
+    branches: [main]
+    paths:
+      - "results/**"
+      - "site/**"
+      - "README.md"
+
+permissions: {}
+
+concurrency:
+  group: release
+  cancel-in-progress: false
+
+jobs:
+  release:
+    runs-on: ubuntu-24.04
+    timeout-minutes: 15
+    permissions:
+      contents: write
+    steps:
+      - uses: actions/checkout@v7.0.1
+        with:
+          persist-credentials: false
+      - uses: astral-sh/setup-uv@v10.2.0
+      - run: uv sync --locked --group report
+      - run: uv run playwright install --with-deps chromium
+      - run: uv run python -m benchmark site
+      - id: run
+        run: echo "date=$(jq -r .run.date results/latest.json)" >> "$GITHUB_OUTPUT"
+      - run: uv run python -m benchmark.report --pdf "dist/roxyapi-accuracy-report-${RUN_DATE}.pdf"
+        env:
+          RUN_DATE: ${{ steps.run.outputs.date }}
+      - uses: softprops/action-gh-release@v3.0.3
+        with:
+          tag_name: run-${{ steps.run.outputs.date }}
+          name: Run ${{ steps.run.outputs.date }}
+          body: Accuracy report and results of the run on ${{ steps.run.outputs.date }}. The latest report is always at https://roxyapi.github.io/astrology-api-benchmark/
+          files: |
+            dist/roxyapi-accuracy-report-${{ steps.run.outputs.date }}.pdf
+            results/latest.json
+            results/latest.csv

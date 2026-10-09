@@ -1,0 +1,34 @@
+# Lint, types, tests, the public-content guard, the report page build and the README drift
+# check. Holds no secret and never calls the API.
+name: ci
+
+on:
+  push:
+  pull_request:
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+concurrency:
+  group: ci-${{ github.ref }}
+  cancel-in-progress: true
+
+jobs:
+  check:
+    runs-on: ubuntu-24.04
+    timeout-minutes: 10
+    steps:
+      - uses: actions/checkout@v7.0.1
+        with:
+          persist-credentials: false
+      - uses: astral-sh/setup-uv@v10.2.0
+      # The report group carries the types the capture module is checked against; no browser.
+      - run: uv sync --locked --dev --group report
+      - run: uv run ruff check .
+      - run: uv run ruff format --check .
+      - run: uv run mypy
+      - run: uv run pytest
+      - run: uv run python -m benchmark site
+      - run: uv run python -m benchmark readme --check
+      - run: uv run actionlint

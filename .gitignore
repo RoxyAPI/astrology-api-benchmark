@@ -1,8 +1,14 @@
 __pycache__/
 *.pyc
 *.pyo
-.python-version
 .venv/
 venv/
 .env
+.env.local
 .DS_Store
+.mypy_cache/
+.ruff_cache/
+.pytest_cache/
+dist/
+CLAUDE.md
+lefthook-local.yml

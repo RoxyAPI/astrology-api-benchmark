@@ -1,0 +1,233 @@
+{
+  "openapi": "3.1.0",
+  "info": {
+    "title": "RoxyAPI",
+    "version": "2.0.0"
+  },
+  "paths": {
+    "/astrology/moon-phase/upcoming": {
+      "get": {
+        "operationId": "getUpcomingMoonPhases",
+        "tags": [
+          "Western Astrology"
+        ]
+      }
+    },
+    "/astrology/natal-chart": {
+      "post": {
+        "operationId": "generateNatalChart",
+        "tags": [
+          "Western Astrology"
+        ]
+      }
+    },
+    "/astrology/transits/monthly": {
+      "post": {
+        "operationId": "getMonthlyTropicalTransits",
+        "tags": [
+          "Western Astrology"
+        ]
+      }
+    },
+    "/biorhythm/reading": {
+      "post": {
+        "operationId": "getReading",
+        "tags": [
+          "Biorhythm"
+        ]
+      }
+    },
+    "/chinese-astrology/bazi/chart": {
+      "post": {
+        "operationId": "generateBaziChart",
+        "tags": [
+          "Chinese Astrology"
+        ]
+      }
+    },
+    "/chinese-astrology/calendar/lunar-date": {
+      "post": {
+        "operationId": "calculateLunarDate",
+        "tags": [
+          "Chinese Astrology"
+        ]
+      }
+    },
+    "/chinese-astrology/calendar/solar-terms/{year}": {
+      "get": {
+        "operationId": "listSolarTerms",
+        "tags": [
+          "Chinese Astrology"
+        ]
+      }
+    },
+    "/forecast/transits": {
+      "post": {
+        "operationId": "forecastTransits",
+        "tags": [
+          "Forecast"
+        ]
+      }
+    },
+    "/human-design/bodygraph": {
+      "post": {
+        "operationId": "generateBodygraph",
+        "tags": [
+          "Human Design"
+        ]
+      }
+    },
+    "/iching/hexagrams/lookup": {
+      "get": {
+        "operationId": "lookupHexagram",
+        "tags": [
+          "I-Ching"
+        ]
+      }
+    },
+    "/iching/hexagrams/{number}": {
+      "get": {
+        "operationId": "getHexagram",
+        "tags": [
+          "I-Ching"
+        ]
+      }
+    },
+    "/iching/trigrams/{id}": {
+      "get": {
+        "operationId": "getTrigram",
+        "tags": [
+          "I-Ching"
+        ]
+      }
+    },
+    "/location/search": {
+      "get": {
+        "operationId": "searchCities",
+        "tags": [
+          "Location and Timezone"
+        ]
+      }
+    },
+    "/mesoamerican-astrology/mayan/chart": {
+      "post": {
+        "operationId": "generateMayanChart",
+        "tags": [
+          "Mesoamerican Astrology"
+        ]
+      }
+    },
+    "/numerology/chart": {
+      "post": {
+        "operationId": "generateNumerologyChart",
+        "tags": [
+          "Numerology"
+        ]
+      }
+    },
+    "/vedic-astrology/birth-chart": {
+      "post": {
+        "operationId": "generateBirthChart",
+        "tags": [
+          "Vedic Astrology"
+        ]
+      }
+    },
+    "/vedic-astrology/dasha/major": {
+      "post": {
+        "operationId": "getMajorDashas",
+        "tags": [
+          "Vedic Astrology"
+        ]
+      }
+    },
+    "/vedic-astrology/navamsa": {
+      "post": {
+        "operationId": "generateNavamsa",
+        "tags": [
+          "Vedic Astrology"
+        ]
+      }
+    },
+    "/vedic-astrology/panchang/basic": {
+      "post": {
+        "operationId": "getBasicPanchang",
+        "tags": [
+          "Vedic Astrology"
+        ]
+      }
+    },
+    "/vedic-astrology/panchang/detailed": {
+      "post": {
+        "operationId": "getDetailedPanchang",
+        "tags": [
+          "Vedic Astrology"
+        ]
+      }
+    },
+    "/kabbalah/gematria": {
+      "post": {
+        "operationId": "calculateGematria",
+        "tags": [
+          "Kabbalah"
+        ]
+      }
+    },
+    "/kabbalah/birth-profile": {
+      "post": {
+        "operationId": "generateBirthProfile",
+        "tags": [
+          "Kabbalah"
+        ]
+      }
+    },
+    "/vastu/entrance": {
+      "post": {
+        "operationId": "calculateEntrancePada",
+        "tags": [
+          "Vastu"
+        ]
+      }
+    },
+    "/ayurveda/ritucharya": {
+      "post": {
+        "operationId": "getRitucharya",
+        "tags": [
+          "Ayurveda"
+        ]
+      }
+    },
+    "/ayurveda/dinacharya": {
+      "post": {
+        "operationId": "getDinacharyaSchedule",
+        "tags": [
+          "Ayurveda"
+        ]
+      }
+    },
+    "/feng-shui/kua": {
+      "post": {
+        "operationId": "calculateKuaNumber",
+        "tags": [
+          "Feng Shui"
+        ]
+      }
+    },
+    "/feng-shui/flying-stars/annual/{year}": {
+      "get": {
+        "operationId": "getAnnualFlyingStars",
+        "tags": [
+          "Feng Shui"
+        ]
+      }
+    },
+    "/feng-shui/flying-stars/natal": {
+      "post": {
+        "operationId": "generateFlyingStarChart",
+        "tags": [
+          "Feng Shui"
+        ]
+      }
+    }
+  }
+}

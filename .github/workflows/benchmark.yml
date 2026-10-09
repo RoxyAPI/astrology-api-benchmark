@@ -1,0 +1,64 @@
+# Monthly run against the live API. The only workflow that reads the API key secret, so it runs
+# on a schedule or by hand and never on a push or a pull request, where a fork could reach it.
+# A failed run is the alert: nothing is committed unless every step passes.
+name: benchmark
+
+on:
+  schedule:
+    - cron: "17 5 1 * *"
+  workflow_dispatch:
+
+permissions: {}
+
+concurrency:
+  group: benchmark
+  cancel-in-progress: false
+
+jobs:
+  run:
+    runs-on: ubuntu-24.04
+    timeout-minutes: 30
+    permissions:
+      contents: write
+      actions: write
+    steps:
+      - uses: actions/checkout@v7.0.1
+        with:
+          ref: main
+      - uses: astral-sh/setup-uv@v10.2.0
+      - run: uv sync --locked --group report
+      - run: uv run playwright install --with-deps chromium
+      - name: Run the benchmark
+        run: uv run python -m benchmark run --target https://roxyapi.com/api/v2
+        env:
+          ROXY_API_KEY: ${{ secrets.ROXY_API_KEY }}
+      - run: uv run python -m benchmark site
+      - run: uv run python -m benchmark.report --png assets/report.png
+      - run: uv run python -m benchmark readme
+      # Records the same command on a terminal; the key reaches it from the step environment only.
+      - name: Record the run
+        uses: charmbracelet/vhs-action@v2.1.1
+        with:
+          path: demo.tape
+          version: v0.12.1
+        env:
+          ROXY_API_KEY: ${{ secrets.ROXY_API_KEY }}
+      - name: Commit the run
+        run: |
+          git add results README.md assets/report.png assets/run.gif
+          if git diff --cached --quiet; then
+            echo "nothing changed"
+            exit 0
+          fi
+          run_date="$(jq -r .run.date results/latest.json)"
+          git -c user.name="github-actions[bot]" \
+            -c user.email="41898282+github-actions[bot]@users.noreply.github.com" \
+            commit -m "results: run ${run_date}"
+          git push origin HEAD:main
+      # A push made with the workflow token starts no other workflow, so publish explicitly.
+      - name: Publish the page and the release
+        run: |
+          gh workflow run pages.yml --ref main
+          gh workflow run release.yml --ref main
+        env:
+          GH_TOKEN: ${{ github.token }}

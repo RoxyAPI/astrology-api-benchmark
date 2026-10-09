@@ -1,0 +1,44 @@
+[project]
+name = "astrology-api-benchmark"
+version = "2.0.0"
+description = "Open accuracy benchmark for astrology and insight APIs: one folder per domain, every reference value cited to a named source."
+readme = "README.md"
+license = "MIT"
+requires-python = ">=3.13"
+dependencies = []
+
+[dependency-groups]
+dev = [
+    "actionlint-py>=1.7.12",
+    "lefthook>=2.1.6",
+    "mypy>=2.4.0",
+    "pytest>=9.1.1",
+    "ruff>=0.16.10",
+    "tzdata==2026.5",
+]
+report = [
+    "playwright>=1.63.0",
+    "pypdf>=6.20.0",
+]
+
+[tool.uv]
+package = false
+default-groups = ["dev"]
+
+[tool.ruff]
+line-length = 100
+target-version = "py313"
+
+[tool.ruff.lint]
+select = ["E", "F", "W", "I", "UP", "B", "SIM", "RUF", "PTH", "N"]
+
+[tool.mypy]
+strict = true
+python_version = "3.13"
+files = ["benchmark", "tests"]
+warn_unreachable = true
+
+[tool.pytest.ini_options]
+testpaths = ["tests"]
+pythonpath = ["."]
+addopts = "-ra"

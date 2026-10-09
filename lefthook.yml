@@ -1,0 +1,47 @@
+# The same gates as ci.yml, run locally: pre-commit fixes and checks what is staged, pre-push runs
+# the full suite. Install once with `uv run lefthook install`.
+glob_matcher: doublestar
+
+pre-commit:
+  parallel: true
+  commands:
+    ruff-format:
+      glob: "**/*.py"
+      run: uv run ruff format {staged_files}
+      stage_fixed: true
+    ruff-check:
+      glob: "**/*.py"
+      run: uv run ruff check --fix {staged_files}
+      stage_fixed: true
+    # mypy checks the whole configured tree; the glob only decides whether a commit runs it.
+    mypy:
+      glob: "**/*.py"
+      run: uv run mypy
+    public-content:
+      glob: "**/*.{md,py,yml,yaml,toml,html,cff}"
+      run: uv run pytest -q tests/test_public_content.py
+    actionlint:
+      glob: ".github/workflows/*.yml"
+      run: uv run actionlint
+
+pre-push:
+  parallel: false
+  commands:
+    ruff:
+      run: uv run ruff check . && uv run ruff format --check .
+      priority: 1
+    mypy:
+      run: uv run mypy
+      priority: 2
+    pytest:
+      run: uv run pytest -q
+      priority: 3
+    site:
+      run: uv run python -m benchmark site
+      priority: 4
+    readme:
+      run: uv run python -m benchmark readme --check
+      priority: 5
+    actionlint:
+      run: uv run actionlint
+      priority: 6
