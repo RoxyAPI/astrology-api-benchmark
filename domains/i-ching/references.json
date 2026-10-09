@@ -1,0 +1,1153 @@
+{
+  "format": 1,
+  "domain": "i-ching",
+  "sources": [
+    {
+      "name": "List of hexagrams of the I Ching",
+      "url": "https://en.wikipedia.org/wiki/List_of_hexagrams_of_the_I_Ching",
+      "command": "python -m benchmark pull i-ching",
+      "retrieved": "2026-10-09",
+      "licence": "King Wen sequence, facts only; the page is CC BY-SA",
+      "method": "The lower and upper trigram of each of the 64 hexagrams in King Wen order were transcribed from the list. The line pattern of a hexagram is its lower trigram followed by its upper trigram, bottom line first, and its number is its place in the list. The relating hexagram is the primary with each changing line (6 or 9) turned into its opposite.",
+      "applies_to": [
+        "hexagram_lines",
+        "hexagram_lower_trigram",
+        "hexagram_upper_trigram",
+        "primary_hexagram",
+        "primary_lower_trigram",
+        "primary_upper_trigram",
+        "relating_hexagram"
+      ],
+      "notes": "The sequence is a published table with no formula. Only casts that give the line values directly are measured: the casting endpoints draw their lines from a seed, so their output has no independent reference."
+    },
+    {
+      "name": "The Unicode Standard, trigram and hexagram blocks",
+      "url": "https://www.unicode.org/charts/PDF/U4DC0.pdf",
+      "retrieved": "2026-10-09",
+      "licence": "Unicode character names and order, public specification",
+      "method": "The eight trigram code points U+2630 to U+2637 are named for Heaven, Lake, Fire, Thunder, Wind, Water, Mountain and Earth in the traditional order, which counts down from three solid lines to three broken lines. The line pattern of each trigram is recomputed from that order. The 64 hexagram code points from U+4DC0 follow the King Wen sequence, so the symbol of hexagram n is the code point U+4DC0 plus n minus 1.",
+      "applies_to": [
+        "trigram_lines",
+        "hexagram_symbol"
+      ]
+    },
+    {
+      "name": "Legge, The Yi King, Sacred Books of the East vol. 16",
+      "url": "https://archive.org/details/mlbd.sacredbooksofeas0000fmax.vol.16",
+      "retrieved": "2026-10-09",
+      "licence": "Public domain translation, Oxford, 1899; values only",
+      "method": "The line values 9 old yang, 8 young yin, 7 young yang and 6 old yin follow Appendix V chapter 2 note, p. 423. The trigrams of each hexagram are the ones named in the Great Symbolism, Appendix II, and the recomputed table is asserted to agree with every one the scanned copy states.",
+      "citation": "James Legge, The Yi King, Sacred Books of the East vol. 16, Oxford, 1899, Appendix II and Appendix V",
+      "applies_to": [
+        "primary_hexagram",
+        "relating_hexagram"
+      ]
+    }
+  ],
+  "families": [
+    {
+      "label": "King Wen hexagrams and trigrams",
+      "quantities": [
+        "primary_hexagram",
+        "primary_lower_trigram",
+        "primary_upper_trigram",
+        "relating_hexagram",
+        "trigram_lines",
+        "hexagram_lines",
+        "hexagram_lower_trigram",
+        "hexagram_upper_trigram",
+        "hexagram_symbol"
+      ]
+    }
+  ],
+  "tolerances": [
+    {
+      "applies_to": "*",
+      "value": 0,
+      "unit": "exact",
+      "why": "A hexagram number, a trigram and a line pattern are discrete: a transposed pair of trigrams or a reversed line order names a different hexagram."
+    }
+  ],
+  "cases": [
+    {
+      "id": "hexagram-1",
+      "input": {
+        "line_values": [
+          7,
+          7,
+          7,
+          7,
+          7,
+          7
+        ],
+        "primary_lines": "111111"
+      },
+      "expected": {
+        "primary_hexagram": 1,
+        "primary_lower_trigram": "Heaven",
+        "primary_upper_trigram": "Heaven"
+      }
+    },
+    {
+      "id": "hexagram-2",
+      "input": {
+        "line_values": [
+          8,
+          8,
+          8,
+          8,
+          8,
+          8
+        ],
+        "primary_lines": "000000"
+      },
+      "expected": {
+        "primary_hexagram": 2,
+        "primary_lower_trigram": "Earth",
+        "primary_upper_trigram": "Earth"
+      }
+    },
+    {
+      "id": "all-lines-changing-yang",
+      "input": {
+        "line_values": [
+          9,
+          9,
+          9,
+          9,
+          9,
+          9
+        ],
+        "primary_lines": "111111",
+        "relating_lines": "000000"
+      },
+      "expected": {
+        "primary_hexagram": 1,
+        "primary_lower_trigram": "Heaven",
+        "primary_upper_trigram": "Heaven",
+        "relating_hexagram": 2
+      }
+    },
+    {
+      "id": "all-lines-changing-yin",
+      "input": {
+        "line_values": [
+          6,
+          6,
+          6,
+          6,
+          6,
+          6
+        ],
+        "primary_lines": "000000",
+        "relating_lines": "111111"
+      },
+      "expected": {
+        "primary_hexagram": 2,
+        "primary_lower_trigram": "Earth",
+        "primary_upper_trigram": "Earth",
+        "relating_hexagram": 1
+      }
+    },
+    {
+      "id": "peace",
+      "input": {
+        "line_values": [
+          7,
+          7,
+          7,
+          8,
+          8,
+          8
+        ],
+        "primary_lines": "111000"
+      },
+      "expected": {
+        "primary_hexagram": 11,
+        "primary_lower_trigram": "Heaven",
+        "primary_upper_trigram": "Earth"
+      }
+    },
+    {
+      "id": "standstill",
+      "input": {
+        "line_values": [
+          8,
+          8,
+          8,
+          7,
+          7,
+          7
+        ],
+        "primary_lines": "000111"
+      },
+      "expected": {
+        "primary_hexagram": 12,
+        "primary_lower_trigram": "Earth",
+        "primary_upper_trigram": "Heaven"
+      }
+    },
+    {
+      "id": "after-completion",
+      "input": {
+        "line_values": [
+          7,
+          8,
+          7,
+          8,
+          7,
+          8
+        ],
+        "primary_lines": "101010"
+      },
+      "expected": {
+        "primary_hexagram": 63,
+        "primary_lower_trigram": "Fire",
+        "primary_upper_trigram": "Water"
+      }
+    },
+    {
+      "id": "bottom-line-changing",
+      "input": {
+        "line_values": [
+          6,
+          8,
+          8,
+          8,
+          8,
+          8
+        ],
+        "primary_lines": "000000",
+        "relating_lines": "100000"
+      },
+      "expected": {
+        "primary_hexagram": 2,
+        "primary_lower_trigram": "Earth",
+        "primary_upper_trigram": "Earth",
+        "relating_hexagram": 24
+      }
+    },
+    {
+      "id": "top-line-changing",
+      "input": {
+        "line_values": [
+          7,
+          7,
+          7,
+          7,
+          7,
+          9
+        ],
+        "primary_lines": "111111",
+        "relating_lines": "111110"
+      },
+      "expected": {
+        "primary_hexagram": 1,
+        "primary_lower_trigram": "Heaven",
+        "primary_upper_trigram": "Heaven",
+        "relating_hexagram": 43
+      }
+    },
+    {
+      "id": "mixed-two-changing",
+      "input": {
+        "line_values": [
+          9,
+          8,
+          7,
+          8,
+          6,
+          7
+        ],
+        "primary_lines": "101001",
+        "relating_lines": "001011"
+      },
+      "expected": {
+        "primary_hexagram": 22,
+        "primary_lower_trigram": "Fire",
+        "primary_upper_trigram": "Mountain",
+        "relating_hexagram": 53
+      }
+    },
+    {
+      "id": "mixed-three-changing",
+      "input": {
+        "line_values": [
+          6,
+          7,
+          9,
+          8,
+          8,
+          6
+        ],
+        "primary_lines": "011000",
+        "relating_lines": "110001"
+      },
+      "expected": {
+        "primary_hexagram": 46,
+        "primary_lower_trigram": "Wind",
+        "primary_upper_trigram": "Earth",
+        "relating_hexagram": 41
+      }
+    },
+    {
+      "id": "no-change-mixed",
+      "input": {
+        "line_values": [
+          8,
+          7,
+          8,
+          7,
+          8,
+          7
+        ],
+        "primary_lines": "010101"
+      },
+      "expected": {
+        "primary_hexagram": 64,
+        "primary_lower_trigram": "Water",
+        "primary_upper_trigram": "Fire"
+      }
+    },
+    {
+      "id": "trigram-heaven",
+      "input": {
+        "trigram": "Heaven"
+      },
+      "expected": {
+        "trigram_lines": "111"
+      }
+    },
+    {
+      "id": "trigram-lake",
+      "input": {
+        "trigram": "Lake"
+      },
+      "expected": {
+        "trigram_lines": "110"
+      }
+    },
+    {
+      "id": "trigram-fire",
+      "input": {
+        "trigram": "Fire"
+      },
+      "expected": {
+        "trigram_lines": "101"
+      }
+    },
+    {
+      "id": "trigram-thunder",
+      "input": {
+        "trigram": "Thunder"
+      },
+      "expected": {
+        "trigram_lines": "100"
+      }
+    },
+    {
+      "id": "trigram-wind",
+      "input": {
+        "trigram": "Wind"
+      },
+      "expected": {
+        "trigram_lines": "011"
+      }
+    },
+    {
+      "id": "trigram-water",
+      "input": {
+        "trigram": "Water"
+      },
+      "expected": {
+        "trigram_lines": "010"
+      }
+    },
+    {
+      "id": "trigram-mountain",
+      "input": {
+        "trigram": "Mountain"
+      },
+      "expected": {
+        "trigram_lines": "001"
+      }
+    },
+    {
+      "id": "trigram-earth",
+      "input": {
+        "trigram": "Earth"
+      },
+      "expected": {
+        "trigram_lines": "000"
+      }
+    },
+    {
+      "id": "king-wen-1",
+      "input": {
+        "hexagram": 1
+      },
+      "expected": {
+        "hexagram_lines": "111111",
+        "hexagram_lower_trigram": "Heaven",
+        "hexagram_upper_trigram": "Heaven",
+        "hexagram_symbol": "䷀"
+      }
+    },
+    {
+      "id": "king-wen-2",
+      "input": {
+        "hexagram": 2
+      },
+      "expected": {
+        "hexagram_lines": "000000",
+        "hexagram_lower_trigram": "Earth",
+        "hexagram_upper_trigram": "Earth",
+        "hexagram_symbol": "䷁"
+      }
+    },
+    {
+      "id": "king-wen-3",
+      "input": {
+        "hexagram": 3
+      },
+      "expected": {
+        "hexagram_lines": "100010",
+        "hexagram_lower_trigram": "Thunder",
+        "hexagram_upper_trigram": "Water",
+        "hexagram_symbol": "䷂"
+      }
+    },
+    {
+      "id": "king-wen-4",
+      "input": {
+        "hexagram": 4
+      },
+      "expected": {
+        "hexagram_lines": "010001",
+        "hexagram_lower_trigram": "Water",
+        "hexagram_upper_trigram": "Mountain",
+        "hexagram_symbol": "䷃"
+      }
+    },
+    {
+      "id": "king-wen-5",
+      "input": {
+        "hexagram": 5
+      },
+      "expected": {
+        "hexagram_lines": "111010",
+        "hexagram_lower_trigram": "Heaven",
+        "hexagram_upper_trigram": "Water",
+        "hexagram_symbol": "䷄"
+      }
+    },
+    {
+      "id": "king-wen-6",
+      "input": {
+        "hexagram": 6
+      },
+      "expected": {
+        "hexagram_lines": "010111",
+        "hexagram_lower_trigram": "Water",
+        "hexagram_upper_trigram": "Heaven",
+        "hexagram_symbol": "䷅"
+      }
+    },
+    {
+      "id": "king-wen-7",
+      "input": {
+        "hexagram": 7
+      },
+      "expected": {
+        "hexagram_lines": "010000",
+        "hexagram_lower_trigram": "Water",
+        "hexagram_upper_trigram": "Earth",
+        "hexagram_symbol": "䷆"
+      }
+    },
+    {
+      "id": "king-wen-8",
+      "input": {
+        "hexagram": 8
+      },
+      "expected": {
+        "hexagram_lines": "000010",
+        "hexagram_lower_trigram": "Earth",
+        "hexagram_upper_trigram": "Water",
+        "hexagram_symbol": "䷇"
+      }
+    },
+    {
+      "id": "king-wen-9",
+      "input": {
+        "hexagram": 9
+      },
+      "expected": {
+        "hexagram_lines": "111011",
+        "hexagram_lower_trigram": "Heaven",
+        "hexagram_upper_trigram": "Wind",
+        "hexagram_symbol": "䷈"
+      }
+    },
+    {
+      "id": "king-wen-10",
+      "input": {
+        "hexagram": 10
+      },
+      "expected": {
+        "hexagram_lines": "110111",
+        "hexagram_lower_trigram": "Lake",
+        "hexagram_upper_trigram": "Heaven",
+        "hexagram_symbol": "䷉"
+      }
+    },
+    {
+      "id": "king-wen-11",
+      "input": {
+        "hexagram": 11
+      },
+      "expected": {
+        "hexagram_lines": "111000",
+        "hexagram_lower_trigram": "Heaven",
+        "hexagram_upper_trigram": "Earth",
+        "hexagram_symbol": "䷊"
+      }
+    },
+    {
+      "id": "king-wen-12",
+      "input": {
+        "hexagram": 12
+      },
+      "expected": {
+        "hexagram_lines": "000111",
+        "hexagram_lower_trigram": "Earth",
+        "hexagram_upper_trigram": "Heaven",
+        "hexagram_symbol": "䷋"
+      }
+    },
+    {
+      "id": "king-wen-13",
+      "input": {
+        "hexagram": 13
+      },
+      "expected": {
+        "hexagram_lines": "101111",
+        "hexagram_lower_trigram": "Fire",
+        "hexagram_upper_trigram": "Heaven",
+        "hexagram_symbol": "䷌"
+      }
+    },
+    {
+      "id": "king-wen-14",
+      "input": {
+        "hexagram": 14
+      },
+      "expected": {
+        "hexagram_lines": "111101",
+        "hexagram_lower_trigram": "Heaven",
+        "hexagram_upper_trigram": "Fire",
+        "hexagram_symbol": "䷍"
+      }
+    },
+    {
+      "id": "king-wen-15",
+      "input": {
+        "hexagram": 15
+      },
+      "expected": {
+        "hexagram_lines": "001000",
+        "hexagram_lower_trigram": "Mountain",
+        "hexagram_upper_trigram": "Earth",
+        "hexagram_symbol": "䷎"
+      }
+    },
+    {
+      "id": "king-wen-16",
+      "input": {
+        "hexagram": 16
+      },
+      "expected": {
+        "hexagram_lines": "000100",
+        "hexagram_lower_trigram": "Earth",
+        "hexagram_upper_trigram": "Thunder",
+        "hexagram_symbol": "䷏"
+      }
+    },
+    {
+      "id": "king-wen-17",
+      "input": {
+        "hexagram": 17
+      },
+      "expected": {
+        "hexagram_lines": "100110",
+        "hexagram_lower_trigram": "Thunder",
+        "hexagram_upper_trigram": "Lake",
+        "hexagram_symbol": "䷐"
+      }
+    },
+    {
+      "id": "king-wen-18",
+      "input": {
+        "hexagram": 18
+      },
+      "expected": {
+        "hexagram_lines": "011001",
+        "hexagram_lower_trigram": "Wind",
+        "hexagram_upper_trigram": "Mountain",
+        "hexagram_symbol": "䷑"
+      }
+    },
+    {
+      "id": "king-wen-19",
+      "input": {
+        "hexagram": 19
+      },
+      "expected": {
+        "hexagram_lines": "110000",
+        "hexagram_lower_trigram": "Lake",
+        "hexagram_upper_trigram": "Earth",
+        "hexagram_symbol": "䷒"
+      }
+    },
+    {
+      "id": "king-wen-20",
+      "input": {
+        "hexagram": 20
+      },
+      "expected": {
+        "hexagram_lines": "000011",
+        "hexagram_lower_trigram": "Earth",
+        "hexagram_upper_trigram": "Wind",
+        "hexagram_symbol": "䷓"
+      }
+    },
+    {
+      "id": "king-wen-21",
+      "input": {
+        "hexagram": 21
+      },
+      "expected": {
+        "hexagram_lines": "100101",
+        "hexagram_lower_trigram": "Thunder",
+        "hexagram_upper_trigram": "Fire",
+        "hexagram_symbol": "䷔"
+      }
+    },
+    {
+      "id": "king-wen-22",
+      "input": {
+        "hexagram": 22
+      },
+      "expected": {
+        "hexagram_lines": "101001",
+        "hexagram_lower_trigram": "Fire",
+        "hexagram_upper_trigram": "Mountain",
+        "hexagram_symbol": "䷕"
+      }
+    },
+    {
+      "id": "king-wen-23",
+      "input": {
+        "hexagram": 23
+      },
+      "expected": {
+        "hexagram_lines": "000001",
+        "hexagram_lower_trigram": "Earth",
+        "hexagram_upper_trigram": "Mountain",
+        "hexagram_symbol": "䷖"
+      }
+    },
+    {
+      "id": "king-wen-24",
+      "input": {
+        "hexagram": 24
+      },
+      "expected": {
+        "hexagram_lines": "100000",
+        "hexagram_lower_trigram": "Thunder",
+        "hexagram_upper_trigram": "Earth",
+        "hexagram_symbol": "䷗"
+      }
+    },
+    {
+      "id": "king-wen-25",
+      "input": {
+        "hexagram": 25
+      },
+      "expected": {
+        "hexagram_lines": "100111",
+        "hexagram_lower_trigram": "Thunder",
+        "hexagram_upper_trigram": "Heaven",
+        "hexagram_symbol": "䷘"
+      }
+    },
+    {
+      "id": "king-wen-26",
+      "input": {
+        "hexagram": 26
+      },
+      "expected": {
+        "hexagram_lines": "111001",
+        "hexagram_lower_trigram": "Heaven",
+        "hexagram_upper_trigram": "Mountain",
+        "hexagram_symbol": "䷙"
+      }
+    },
+    {
+      "id": "king-wen-27",
+      "input": {
+        "hexagram": 27
+      },
+      "expected": {
+        "hexagram_lines": "100001",
+        "hexagram_lower_trigram": "Thunder",
+        "hexagram_upper_trigram": "Mountain",
+        "hexagram_symbol": "䷚"
+      }
+    },
+    {
+      "id": "king-wen-28",
+      "input": {
+        "hexagram": 28
+      },
+      "expected": {
+        "hexagram_lines": "011110",
+        "hexagram_lower_trigram": "Wind",
+        "hexagram_upper_trigram": "Lake",
+        "hexagram_symbol": "䷛"
+      }
+    },
+    {
+      "id": "king-wen-29",
+      "input": {
+        "hexagram": 29
+      },
+      "expected": {
+        "hexagram_lines": "010010",
+        "hexagram_lower_trigram": "Water",
+        "hexagram_upper_trigram": "Water",
+        "hexagram_symbol": "䷜"
+      }
+    },
+    {
+      "id": "king-wen-30",
+      "input": {
+        "hexagram": 30
+      },
+      "expected": {
+        "hexagram_lines": "101101",
+        "hexagram_lower_trigram": "Fire",
+        "hexagram_upper_trigram": "Fire",
+        "hexagram_symbol": "䷝"
+      }
+    },
+    {
+      "id": "king-wen-31",
+      "input": {
+        "hexagram": 31
+      },
+      "expected": {
+        "hexagram_lines": "001110",
+        "hexagram_lower_trigram": "Mountain",
+        "hexagram_upper_trigram": "Lake",
+        "hexagram_symbol": "䷞"
+      }
+    },
+    {
+      "id": "king-wen-32",
+      "input": {
+        "hexagram": 32
+      },
+      "expected": {
+        "hexagram_lines": "011100",
+        "hexagram_lower_trigram": "Wind",
+        "hexagram_upper_trigram": "Thunder",
+        "hexagram_symbol": "䷟"
+      }
+    },
+    {
+      "id": "king-wen-33",
+      "input": {
+        "hexagram": 33
+      },
+      "expected": {
+        "hexagram_lines": "001111",
+        "hexagram_lower_trigram": "Mountain",
+        "hexagram_upper_trigram": "Heaven",
+        "hexagram_symbol": "䷠"
+      }
+    },
+    {
+      "id": "king-wen-34",
+      "input": {
+        "hexagram": 34
+      },
+      "expected": {
+        "hexagram_lines": "111100",
+        "hexagram_lower_trigram": "Heaven",
+        "hexagram_upper_trigram": "Thunder",
+        "hexagram_symbol": "䷡"
+      }
+    },
+    {
+      "id": "king-wen-35",
+      "input": {
+        "hexagram": 35
+      },
+      "expected": {
+        "hexagram_lines": "000101",
+        "hexagram_lower_trigram": "Earth",
+        "hexagram_upper_trigram": "Fire",
+        "hexagram_symbol": "䷢"
+      }
+    },
+    {
+      "id": "king-wen-36",
+      "input": {
+        "hexagram": 36
+      },
+      "expected": {
+        "hexagram_lines": "101000",
+        "hexagram_lower_trigram": "Fire",
+        "hexagram_upper_trigram": "Earth",
+        "hexagram_symbol": "䷣"
+      }
+    },
+    {
+      "id": "king-wen-37",
+      "input": {
+        "hexagram": 37
+      },
+      "expected": {
+        "hexagram_lines": "101011",
+        "hexagram_lower_trigram": "Fire",
+        "hexagram_upper_trigram": "Wind",
+        "hexagram_symbol": "䷤"
+      }
+    },
+    {
+      "id": "king-wen-38",
+      "input": {
+        "hexagram": 38
+      },
+      "expected": {
+        "hexagram_lines": "110101",
+        "hexagram_lower_trigram": "Lake",
+        "hexagram_upper_trigram": "Fire",
+        "hexagram_symbol": "䷥"
+      }
+    },
+    {
+      "id": "king-wen-39",
+      "input": {
+        "hexagram": 39
+      },
+      "expected": {
+        "hexagram_lines": "001010",
+        "hexagram_lower_trigram": "Mountain",
+        "hexagram_upper_trigram": "Water",
+        "hexagram_symbol": "䷦"
+      }
+    },
+    {
+      "id": "king-wen-40",
+      "input": {
+        "hexagram": 40
+      },
+      "expected": {
+        "hexagram_lines": "010100",
+        "hexagram_lower_trigram": "Water",
+        "hexagram_upper_trigram": "Thunder",
+        "hexagram_symbol": "䷧"
+      }
+    },
+    {
+      "id": "king-wen-41",
+      "input": {
+        "hexagram": 41
+      },
+      "expected": {
+        "hexagram_lines": "110001",
+        "hexagram_lower_trigram": "Lake",
+        "hexagram_upper_trigram": "Mountain",
+        "hexagram_symbol": "䷨"
+      }
+    },
+    {
+      "id": "king-wen-42",
+      "input": {
+        "hexagram": 42
+      },
+      "expected": {
+        "hexagram_lines": "100011",
+        "hexagram_lower_trigram": "Thunder",
+        "hexagram_upper_trigram": "Wind",
+        "hexagram_symbol": "䷩"
+      }
+    },
+    {
+      "id": "king-wen-43",
+      "input": {
+        "hexagram": 43
+      },
+      "expected": {
+        "hexagram_lines": "111110",
+        "hexagram_lower_trigram": "Heaven",
+        "hexagram_upper_trigram": "Lake",
+        "hexagram_symbol": "䷪"
+      }
+    },
+    {
+      "id": "king-wen-44",
+      "input": {
+        "hexagram": 44
+      },
+      "expected": {
+        "hexagram_lines": "011111",
+        "hexagram_lower_trigram": "Wind",
+        "hexagram_upper_trigram": "Heaven",
+        "hexagram_symbol": "䷫"
+      }
+    },
+    {
+      "id": "king-wen-45",
+      "input": {
+        "hexagram": 45
+      },
+      "expected": {
+        "hexagram_lines": "000110",
+        "hexagram_lower_trigram": "Earth",
+        "hexagram_upper_trigram": "Lake",
+        "hexagram_symbol": "䷬"
+      }
+    },
+    {
+      "id": "king-wen-46",
+      "input": {
+        "hexagram": 46
+      },
+      "expected": {
+        "hexagram_lines": "011000",
+        "hexagram_lower_trigram": "Wind",
+        "hexagram_upper_trigram": "Earth",
+        "hexagram_symbol": "䷭"
+      }
+    },
+    {
+      "id": "king-wen-47",
+      "input": {
+        "hexagram": 47
+      },
+      "expected": {
+        "hexagram_lines": "010110",
+        "hexagram_lower_trigram": "Water",
+        "hexagram_upper_trigram": "Lake",
+        "hexagram_symbol": "䷮"
+      }
+    },
+    {
+      "id": "king-wen-48",
+      "input": {
+        "hexagram": 48
+      },
+      "expected": {
+        "hexagram_lines": "011010",
+        "hexagram_lower_trigram": "Wind",
+        "hexagram_upper_trigram": "Water",
+        "hexagram_symbol": "䷯"
+      }
+    },
+    {
+      "id": "king-wen-49",
+      "input": {
+        "hexagram": 49
+      },
+      "expected": {
+        "hexagram_lines": "101110",
+        "hexagram_lower_trigram": "Fire",
+        "hexagram_upper_trigram": "Lake",
+        "hexagram_symbol": "䷰"
+      }
+    },
+    {
+      "id": "king-wen-50",
+      "input": {
+        "hexagram": 50
+      },
+      "expected": {
+        "hexagram_lines": "011101",
+        "hexagram_lower_trigram": "Wind",
+        "hexagram_upper_trigram": "Fire",
+        "hexagram_symbol": "䷱"
+      }
+    },
+    {
+      "id": "king-wen-51",
+      "input": {
+        "hexagram": 51
+      },
+      "expected": {
+        "hexagram_lines": "100100",
+        "hexagram_lower_trigram": "Thunder",
+        "hexagram_upper_trigram": "Thunder",
+        "hexagram_symbol": "䷲"
+      }
+    },
+    {
+      "id": "king-wen-52",
+      "input": {
+        "hexagram": 52
+      },
+      "expected": {
+        "hexagram_lines": "001001",
+        "hexagram_lower_trigram": "Mountain",
+        "hexagram_upper_trigram": "Mountain",
+        "hexagram_symbol": "䷳"
+      }
+    },
+    {
+      "id": "king-wen-53",
+      "input": {
+        "hexagram": 53
+      },
+      "expected": {
+        "hexagram_lines": "001011",
+        "hexagram_lower_trigram": "Mountain",
+        "hexagram_upper_trigram": "Wind",
+        "hexagram_symbol": "䷴"
+      }
+    },
+    {
+      "id": "king-wen-54",
+      "input": {
+        "hexagram": 54
+      },
+      "expected": {
+        "hexagram_lines": "110100",
+        "hexagram_lower_trigram": "Lake",
+        "hexagram_upper_trigram": "Thunder",
+        "hexagram_symbol": "䷵"
+      }
+    },
+    {
+      "id": "king-wen-55",
+      "input": {
+        "hexagram": 55
+      },
+      "expected": {
+        "hexagram_lines": "101100",
+        "hexagram_lower_trigram": "Fire",
+        "hexagram_upper_trigram": "Thunder",
+        "hexagram_symbol": "䷶"
+      }
+    },
+    {
+      "id": "king-wen-56",
+      "input": {
+        "hexagram": 56
+      },
+      "expected": {
+        "hexagram_lines": "001101",
+        "hexagram_lower_trigram": "Mountain",
+        "hexagram_upper_trigram": "Fire",
+        "hexagram_symbol": "䷷"
+      }
+    },
+    {
+      "id": "king-wen-57",
+      "input": {
+        "hexagram": 57
+      },
+      "expected": {
+        "hexagram_lines": "011011",
+        "hexagram_lower_trigram": "Wind",
+        "hexagram_upper_trigram": "Wind",
+        "hexagram_symbol": "䷸"
+      }
+    },
+    {
+      "id": "king-wen-58",
+      "input": {
+        "hexagram": 58
+      },
+      "expected": {
+        "hexagram_lines": "110110",
+        "hexagram_lower_trigram": "Lake",
+        "hexagram_upper_trigram": "Lake",
+        "hexagram_symbol": "䷹"
+      }
+    },
+    {
+      "id": "king-wen-59",
+      "input": {
+        "hexagram": 59
+      },
+      "expected": {
+        "hexagram_lines": "010011",
+        "hexagram_lower_trigram": "Water",
+        "hexagram_upper_trigram": "Wind",
+        "hexagram_symbol": "䷺"
+      }
+    },
+    {
+      "id": "king-wen-60",
+      "input": {
+        "hexagram": 60
+      },
+      "expected": {
+        "hexagram_lines": "110010",
+        "hexagram_lower_trigram": "Lake",
+        "hexagram_upper_trigram": "Water",
+        "hexagram_symbol": "䷻"
+      }
+    },
+    {
+      "id": "king-wen-61",
+      "input": {
+        "hexagram": 61
+      },
+      "expected": {
+        "hexagram_lines": "110011",
+        "hexagram_lower_trigram": "Lake",
+        "hexagram_upper_trigram": "Wind",
+        "hexagram_symbol": "䷼"
+      }
+    },
+    {
+      "id": "king-wen-62",
+      "input": {
+        "hexagram": 62
+      },
+      "expected": {
+        "hexagram_lines": "001100",
+        "hexagram_lower_trigram": "Mountain",
+        "hexagram_upper_trigram": "Thunder",
+        "hexagram_symbol": "䷽"
+      }
+    },
+    {
+      "id": "king-wen-63",
+      "input": {
+        "hexagram": 63
+      },
+      "expected": {
+        "hexagram_lines": "101010",
+        "hexagram_lower_trigram": "Fire",
+        "hexagram_upper_trigram": "Water",
+        "hexagram_symbol": "䷾"
+      }
+    },
+    {
+      "id": "king-wen-64",
+      "input": {
+        "hexagram": 64
+      },
+      "expected": {
+        "hexagram_lines": "010101",
+        "hexagram_lower_trigram": "Water",
+        "hexagram_upper_trigram": "Fire",
+        "hexagram_symbol": "䷿"
+      }
+    }
+  ]
+}
