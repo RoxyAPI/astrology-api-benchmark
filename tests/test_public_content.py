@@ -2,8 +2,9 @@
 
 Scans the prose of every tracked or new file: markdown and citation metadata in full (code
 excluded), the comments and docstrings of Python, YAML and TOML, and the visible text, readable
-attributes and inline scripts of HTML. Other code and JSON strings are not prose and are not
-scanned. An inline script is scanned whole, so its strings use double quotes or backticks.
+attributes and inline scripts of HTML, and the built report page, whose sentences are generated
+by Python. Other code and JSON strings are not prose and are not scanned. An inline script is
+scanned whole, so its strings use double quotes or backticks.
 """
 
 from __future__ import annotations
@@ -20,6 +21,7 @@ from pathlib import Path
 import pytest
 
 from benchmark.paths import ROOT
+from benchmark.site import build
 
 RULES: dict[str, re.Pattern[str]] = {
     "apostrophe": re.compile("['\u2018\u2019\u02bc]"),
@@ -108,7 +110,7 @@ class _Visible(HTMLParser):
     """Collects what a reader or a script can show: text, readable attributes, inline scripts."""
 
     ATTRIBUTES = frozenset({"alt", "title", "aria-label", "content", "placeholder"})
-    SKIPPED = frozenset({"style", "application/json"})
+    SKIPPED = frozenset({"style", "application/json", "application/ld+json"})
 
     def __init__(self) -> None:
         super().__init__(convert_charrefs=True)
@@ -144,6 +146,12 @@ FILES = [p for p in tracked_files() if p.suffix in SUFFIXES]
 @pytest.mark.parametrize("path", FILES, ids=lambda p: str(p.relative_to(ROOT)))
 def test_public_prose(path: Path) -> None:
     found = violations(prose(path))
+    assert not found, "\n".join(found)
+
+
+def test_built_page_prose(tmp_path: Path) -> None:
+    """The generated sentences, tables and head of the report page, which no tracked file holds."""
+    found = violations(_html(build(out_dir=tmp_path).read_text(encoding="utf-8")))
     assert not found, "\n".join(found)
 
 

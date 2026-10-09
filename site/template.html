@@ -3,8 +3,7 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<title>RoxyAPI Accuracy Report</title>
-<meta name="description" content="Open accuracy benchmark: every value the RoxyAPI returns compared with a named reference source.">
+__HEAD__
 <meta name="author" content="RoxyAPI">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -156,6 +155,7 @@
     .tile .value { font-size: 18pt; }
     .avoid-break { break-inside: avoid; }
     body a { color: var(--ink); }
+    body .files a { color: inherit; }
 
     .cover {
       display: flex; flex-direction: column; justify-content: space-between;
@@ -173,21 +173,26 @@
     body .cover a { color: #f1f5f9; }
   }
 </style>
+<noscript><style>
+  [data-toggle], .coverage-map { display: none !important; }
+  .chart-box { height: auto !important; }
+  @media screen { [data-coverage-table] { display: block; } }
+</style></noscript>
 </head>
 <body>
 <script id="report-data" type="application/json">__REPORT_DATA__</script>
 
 <section class="cover" aria-hidden="true">
   <div>
-    <img class="logo" data-logo alt="">
+    <img class="logo" src="__LOGO__" alt="">
     <h1>Roxy<span class="wordmark-api">API</span> Accuracy Report</h1>
     <p class="sub">Every value the API returns, compared with a named reference source and a stated pass band.</p>
   </div>
-  <p class="headline" data-headline></p>
+  <p class="headline">__HEADLINE__</p>
   <dl>
-    <dt>Run date</dt><dd data-run-date></dd>
-    <dt>API under test</dt><dd data-target></dd>
-    <dt>Latest report</dt><dd><a data-page-link></a></dd>
+    <dt>Run date</dt><dd>__RUN_DATE__</dd>
+    <dt>API under test</dt><dd>__TARGET__</dd>
+    <dt>Latest report</dt><dd>__PAGE_LINK__</dd>
     <dt>Publisher</dt><dd>Roxy<span class="wordmark-api">API</span>, roxyapi.com</dd>
   </dl>
 </section>
@@ -196,16 +201,16 @@
   <div class="wrap mx-auto max-w-6xl px-4 sm:px-6">
     <nav class="flex items-center justify-between gap-3 py-3">
       <a href="https://roxyapi.com" class="flex items-center gap-2" style="color: var(--ink);">
-        <img data-logo alt="RoxyAPI" width="28" height="28" style="border-radius: 6px;">
+        <img data-logo src="__LOGO__" alt="RoxyAPI" width="28" height="28" style="border-radius: 6px;">
         <span class="font-semibold">Roxy<span class="wordmark-api">API</span></span>
       </a>
-      <div class="flex flex-wrap items-center justify-end gap-2" data-downloads></div>
+      <div class="flex flex-wrap items-center justify-end gap-2">__DOWNLOADS__</div>
     </nav>
     <div class="py-8 sm:py-10">
       <p class="eyebrow">Open accuracy benchmark</p>
       <h1 class="mt-2 text-3xl sm:text-4xl font-bold" style="letter-spacing: -0.025em;">Accuracy report</h1>
-      <p class="mt-3 text-lg ink-2 max-w-3xl" data-headline></p>
-      <p class="mt-3 text-sm muted">Run <span data-run-date></span> against <code data-target></code></p>
+      <p class="mt-3 text-lg ink-2 max-w-3xl">__HEADLINE__</p>
+      <p class="mt-3 text-sm muted">Run __RUN_DATE__ against <code>__TARGET__</code></p>
     </div>
   </div>
 </header>
@@ -214,22 +219,22 @@
   <section id="summary" aria-labelledby="summary-title">
     <p class="eyebrow print-only">Section 1</p>
     <h2 id="summary-title">Executive summary</h2>
-    <p class="mt-2 ink-2 print-only" data-headline></p>
+    <p class="mt-2 ink-2 print-only">__HEADLINE__</p>
     <p class="mt-2 ink-2">Every figure here is computed from the run itself, and anyone can reproduce it from the open repository.</p>
-    <div class="mt-5 grid grid-cols-1 sm:grid-cols-3 gap-4" data-tiles></div>
+    <div class="mt-5 grid grid-cols-1 sm:grid-cols-3 gap-4">__TILES__</div>
     <div class="panel mt-5 overflow-x-auto">
       <table class="data">
         <thead><tr>
           <th>Domain</th><th>Authority</th><th class="r">Points</th><th>Within tolerance</th><th>Precision</th>
           <th class="r">Median</th><th class="r">p95</th><th class="r">Max</th><th>Unit</th>
         </tr></thead>
-        <tbody data-scorecard></tbody>
+        <tbody>__SCORECARD__</tbody>
       </table>
     </div>
-    <p class="mt-3 text-sm muted" data-unit-note></p>
+    <p class="mt-3 text-sm muted">Median, p95 and max are deviations from the reference in the unit of each row; the Method section defines each unit.</p>
     <div class="mt-6 avoid-break">
       <h3>What was checked</h3>
-      <ul class="mt-3 space-y-2" data-checked></ul>
+      <ul class="mt-3 space-y-2">__CHECKED__</ul>
     </div>
   </section>
 
@@ -238,29 +243,23 @@
     <h2 id="coverage-title">Coverage map</h2>
     <p class="mt-2 ink-2">Each reference authority, the domain it checks and the quantities compared, drawn from the references of every domain in this run.</p>
     <div class="panel mt-4 p-4 coverage-map avoid-break" data-coverage></div>
-    <div class="print-only mt-4" data-coverage-table></div>
+    <div class="print-only mt-4" data-coverage-table>__COVERAGE_TABLE__</div>
   </section>
 
   <section id="method" class="page" aria-labelledby="method-title">
     <p class="eyebrow print-only">Section 3</p>
     <h2 id="method-title">Method</h2>
-    <div class="panel mt-4 p-5 sm:p-6 space-y-3 ink-2">
-      <p>Each domain holds reference values from a named source, pulled from that source or recomputed from its published definition by a script in the open repository. The runner sends every case to the API under test, reads the returned value and compares it with the reference.</p>
-      <p>A value passes when its deviation is within the pass band set for that quantity. Every pass band is vendor neutral: it states why it has its size, and none is sized to any one API. A value the API did not return is counted as missing, and a missing value fails the run.</p>
-      <p>Read the largest deviation per quantity, not only the pass count. A pass band is a floor, so a drift that stays inside the band still passes; it shows first in the per quantity maxima.</p>
-      <ul class="space-y-1" data-units></ul>
-      <p>Anyone can rerun the benchmark: clone the repository, set an API key and run <code class="whitespace-nowrap">python -m benchmark run</code>. Point <code class="whitespace-nowrap">--target</code> at another API and adapt a domain check to compare it against the same references.</p>
-    </div>
-    <div class="mt-6 space-y-6" data-method-domains></div>
+    <div class="panel mt-4 p-5 sm:p-6 space-y-3 ink-2">__METHOD__</div>
+    <div class="mt-6 space-y-6">__METHOD_DOMAINS__</div>
   </section>
 
-  <div data-domains class="space-y-8"></div>
+  <div class="space-y-8">__DOMAINS__</div>
 
   <section id="sources" class="page" aria-labelledby="sources-title">
     <p class="eyebrow print-only">Appendix</p>
     <h2 id="sources-title">Sources and credits</h2>
     <p class="mt-2 ink-2">Reference data crosses into this benchmark with attribution; no third party code or text does.</p>
-    <div class="mt-5 space-y-6" data-sources></div>
+    <div class="mt-5 space-y-6">__SOURCES__</div>
   </section>
 </main>
 
@@ -275,188 +274,39 @@
 (() => {
   const data = JSON.parse(document.getElementById("report-data").textContent);
 
-  const UNITS = {
-    arcsec: { label: "arcsec", explain: "Angles are decimal degrees; the deviation is the shortest angular distance in arcseconds." },
-    seconds: { label: "seconds", explain: "Instants carry a UTC offset; the deviation is the difference in seconds." },
-    days: { label: "days", explain: "Calendar counts are whole days from a fixed epoch; the deviation is in days." },
-    exact: { label: "exact", explain: "Discrete values such as a day sign or a calendar label: the deviation is 0 on a match and 1 otherwise, and the pass band is 0." },
-  };
-  const ICON_PASS = `<svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><circle cx="8" cy="8" r="6.5"/><path d="M5 8.2l2 2 4-4.2" stroke-linecap="round" stroke-linejoin="round"/></svg>`;
-  const ICON_FAIL = `<svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><circle cx="8" cy="8" r="6.5"/><path d="M5.8 5.8l4.4 4.4M10.2 5.8l-4.4 4.4" stroke-linecap="round"/></svg>`;
-  const ICON_DOWN = `<svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.8" aria-hidden="true"><path d="M8 2.5v8M4.5 7.5L8 11l3.5-3.5M3 13.5h10" stroke-linecap="round" stroke-linejoin="round"/></svg>`;
-
   const esc = (s) => String(s).replace(/[&<>"]/g, (c) => ({ "&": "&amp;", "<": "&lt;", ">": "&gt;", "\"": "&quot;" })[c]);
-  const int = new Intl.NumberFormat("en-US");
   const sig = new Intl.NumberFormat("en-US", { maximumSignificantDigits: 2 });
   const dec = new Intl.NumberFormat("en-US", { maximumFractionDigits: 1 });
   const fmt = (v) => (v === null || v === undefined ? "n/a" : v === 0 ? "0" : Math.abs(v) < 10 ? sig.format(v) : dec.format(v));
-  const unitLabel = (u) => (UNITS[u] ? UNITS[u].label : u);
   const shown = (v, unit) => {
     if (v === null || v === undefined) return "n/a";
     if (typeof v === "number" && unit === "arcsec") return v.toFixed(7);
     return String(v);
   };
-  const fill = (sel, html) => document.querySelectorAll(sel).forEach((el) => { el.innerHTML = html; });
-  const text = (sel, value) => document.querySelectorAll(sel).forEach((el) => { el.textContent = value; });
+  const logo = document.querySelector("[data-logo]").src;
 
-  const summaries = data.domains.flatMap((d) => d.summaries);
-  const totals = summaries.reduce(
-    (t, s) => ({ points: t.points + s.points, passed: t.passed + s.passed, failed: t.failed + s.failed, missing: t.missing + s.missing }),
-    { points: 0, passed: 0, failed: 0, missing: 0 },
-  );
-  const headline = data.headline;
-
-  document.title = `RoxyAPI Accuracy Report ${data.run.date}`;
-  document.querySelector("meta[name=description]").setAttribute("content", headline);
-  document.querySelectorAll("[data-logo]").forEach((img) => { img.src = data.logo; });
-  text("[data-headline]", headline);
-  text("[data-run-date]", data.run.date);
-  text("[data-target]", data.target_host);
-  document.querySelectorAll("[data-page-link]").forEach((a) => { a.href = data.links.page; a.textContent = data.links.page.replace("https://", ""); });
-
-  fill("[data-downloads]", [["pdf", "PDF report"], ["json", "JSON"], ["csv", "CSV"]]
-    .map(([key, label]) => `<a class="btn" href="${esc(data.links[key])}" download>${ICON_DOWN}${label}</a>`).join(""));
-
-  const status = (s) => {
-    const bad = s.failed + s.missing;
-    if (!bad) return `<span class="status pass">${ICON_PASS}${int.format(s.passed)} of ${int.format(s.points)}</span>`;
-    const parts = [s.failed && `${int.format(s.failed)} fail`, s.missing && `${int.format(s.missing)} missing`].filter(Boolean).join(", ");
-    return `<span class="status fail">${ICON_FAIL}${int.format(s.passed)} of ${int.format(s.points)}, ${parts}</span>`;
-  };
-
-  const tile = (value, label) => `<div class="panel tile p-4 sm:p-5"><div class="value">${value}</div><div class="label mt-1">${label}</div></div>`;
-  fill("[data-tiles]", [
-    tile(int.format(data.domains.length), data.domains.length === 1 ? "Domain checked" : "Domains checked"),
-    tile(int.format(totals.points), "Values compared with a reference"),
-    tile(`${int.format(totals.passed)}`, totals.passed === totals.points ? "Within tolerance, every one" : `Within tolerance, ${int.format(totals.points - totals.passed)} not`),
-  ].join(""));
-
-  const endpoints = (d) => d.endpoint_links.map((e) => `<a href="${esc(e.url)}"><code>${esc(e.label)}</code></a>`).join(" ");
-  const tiers = (s) => (s.tiers || []).map((t) => `<span class="whitespace-nowrap">${int.format(t.points)} &le; ${fmt(t.limit)}</span>`).join(", ");
-
-  fill("[data-scorecard]", data.domains.flatMap((d) => d.summaries.map((s, i) => `
-    <tr>
-      <td>${i === 0 ? `<a href="#domain-${esc(d.id)}" style="color: var(--ink); font-weight: 600;">${esc(d.title)}</a>` : ""}</td>
-      <td class="ink-2">${i === 0 ? esc(d.authority) : ""}</td>
-      <td class="r">${int.format(s.points)}</td>
-      <td>${status(s)}</td>
-      <td class="ink-2">${tiers(s)}</td>
-      <td class="r">${fmt(s.median)}</td>
-      <td class="r">${fmt(s.p95)}</td>
-      <td class="r">${fmt(s.max)}</td>
-      <td class="muted">${esc(unitLabel(s.unit))}</td>
-    </tr>`)).join(""));
-
-  const unitsUsed = [...new Set(summaries.map((s) => s.unit))];
-  text("[data-unit-note]", "Median, p95 and max are deviations from the reference in the unit of each row; the Method section defines each unit.");
-  fill("[data-units]", unitsUsed.filter((u) => UNITS[u]).map((u) => `<li><span class="font-semibold" style="color: var(--ink);">${esc(UNITS[u].label)}.</span> ${esc(UNITS[u].explain)}</li>`).join(""));
-
-  fill("[data-checked]", data.domains.map((d) => `
-    <li class="flex flex-col sm:flex-row sm:gap-3">
-      <span class="font-semibold sm:w-56 shrink-0">${esc(d.title)}</span>
-      <span class="ink-2">against ${esc(d.authority)}, through ${endpoints(d)}</span>
-    </li>`).join(""));
-
-  const appliesTo = (sel, others) => (sel === "*" ? (others ? "Every other quantity" : "Every quantity") : sel.join(", "));
-  const tolerances = (d) => d.tolerances.map((t) => ({ ...t, who: appliesTo(t.applies_to, d.tolerances.length > 1) }));
-
-  fill("[data-method-domains]", data.domains.map((d) => `
-    <div class="avoid-break">
-      <h3>${esc(d.title)}</h3>
-      <div class="mt-2 space-y-2 ink-2">${d.sources.map((s) => `<p><span class="font-semibold" style="color: var(--ink);">${esc(s.name)}.</span> ${esc(s.method)}</p>`).join("")}</div>
-      <div class="panel mt-3 overflow-x-auto">
-        <table class="data">
-          <thead><tr><th>Applies to</th><th class="r">Pass band</th><th>Why this size</th></tr></thead>
-          <tbody>${tolerances(d).map((t) => `<tr><td>${esc(t.who)}</td><td class="r">${fmt(t.value)} ${esc(unitLabel(t.unit))}</td><td class="ink-2">${esc(t.why)}</td></tr>`).join("")}</tbody>
-        </table>
-      </div>
-    </div>`).join(""));
-
-  const chartSpecs = [];
-  fill("[data-domains]", data.domains.map((d, di) => {
-    const bands = tolerances(d).map((t) => `<span class="chip">${esc(t.who)}: ${fmt(t.value)} ${esc(unitLabel(t.unit))}</span>`).join(" ");
-    const blocks = d.summaries.map((s, si) => {
-      const moving = s.per_quantity_max.some((w) => w.deviation > 0);
-      if (!moving) {
-        return `<div class="rule pt-4"><p class="eyebrow">${esc(unitLabel(s.unit))}</p><p class="mt-2 ink-2"><span class="status pass">${ICON_PASS}</span> All ${int.format(s.points)} values match the reference exactly, a deviation of 0 on every case.</p></div>`;
-      }
-      const id = `chart-${di}-${si}`;
-      chartSpecs.push({ id, unit: s.unit, rows: s.per_quantity_max });
-      return `<div class="rule pt-4 avoid-break">
-        <p class="eyebrow">Largest deviation per quantity, ${esc(unitLabel(s.unit))}</p>
-        <p class="mt-1 text-sm muted">Worst case across every subject. Median ${fmt(s.median)}, p95 ${fmt(s.p95)}, max ${fmt(s.max)} ${esc(unitLabel(s.unit))}.</p>
-        <div class="chart-box mt-3" style="height: ${s.per_quantity_max.length * 26 + 44}px;"><canvas id="${id}" role="img" aria-label="Largest deviation per quantity in ${esc(unitLabel(s.unit))}"></canvas></div>
-      </div>`;
-    }).join("");
-    const tableId = `measurements-${di}`;
-    const rows = d.measurements.map((m) => `<tr class="${m.status === "PASS" ? "" : "is-fail"}">
-      <td>${esc(m.case)}</td><td>${esc(m.quantity)}</td>
-      <td class="r mono">${esc(shown(m.expected, m.unit))}</td><td class="r mono">${esc(shown(m.actual, m.unit))}</td>
-      <td class="r">${fmt(m.deviation)}</td><td class="r">${fmt(m.tolerance)}</td><td class="muted">${esc(unitLabel(m.unit))}</td>
-      <td>${m.status === "PASS" ? `<span class="status pass">${ICON_PASS}Pass</span>` : `<span class="status fail" title="${esc(m.note)}">${ICON_FAIL}${m.status === "FAIL" ? "Fail" : "Missing"}</span>`}</td>
-    </tr>`).join("");
-    const points = d.measurements.length;
-    return `<section id="domain-${esc(d.id)}" class="page" aria-labelledby="domain-${esc(d.id)}-title">
-      <p class="eyebrow print-only">Domain ${di + 1} of ${data.domains.length}</p>
-      <div class="panel p-5 sm:p-6 space-y-4">
-        <div class="flex flex-wrap items-start justify-between gap-3">
-          <div>
-            <h2 id="domain-${esc(d.id)}-title">${esc(d.title)}</h2>
-            <p class="mt-1 ink-2">Authority: ${esc(d.authority)}</p>
-            <p class="mt-1 ink-2">Covers: ${esc(d.covers.join("; "))}</p>
-            <p class="mt-1 text-sm muted">${endpoints(d)}</p>
-          </div>
-          <div class="flex flex-col items-end gap-1">${d.summaries.map(status).join("")}</div>
-        </div>
-        <div class="flex flex-wrap gap-2">${bands}</div>
-        ${d.quantity_lines.length ? `<div class="rule pt-4 avoid-break"><p class="eyebrow">Per quantity</p><ul class="mt-2 space-y-1 ink-2">${d.quantity_lines.map((line) => `<li>${esc(line)}</li>`).join("")}</ul></div>` : ""}
-        ${blocks}
-        <div class="rule pt-4">
-          <button type="button" class="btn screen-only" aria-expanded="false" aria-controls="${tableId}" data-toggle>Show all ${int.format(points)} measurements</button>
-          <p class="print-only ink-2">All ${int.format(points)} measurements of this domain, case by case, are in ${esc(data.links.csv.replace("https://", ""))} and ${esc(data.links.json.replace("https://", ""))}.</p>
-          <div id="${tableId}" class="measurements mt-3 overflow-x-auto" hidden>
-            <table class="data dense">
-              <thead><tr><th>Case</th><th>Quantity</th><th class="r">Expected</th><th class="r">Returned</th><th class="r">Deviation</th><th class="r">Band</th><th>Unit</th><th>Status</th></tr></thead>
-              <tbody>${rows}</tbody>
-            </table>
-          </div>
-        </div>
-      </div>
-    </section>`;
-  }).join(""));
+  const measurementRow = (m) => `<tr class="${m.status === "PASS" ? "" : "is-fail"}">
+    <td>${esc(m.case)}</td><td>${esc(m.quantity)}</td>
+    <td class="r mono">${esc(shown(m.expected, m.unit))}</td><td class="r mono">${esc(shown(m.actual, m.unit))}</td>
+    <td class="r">${fmt(m.deviation)}</td><td class="r">${fmt(m.tolerance)}</td><td class="muted">${esc(m.unit)}</td>
+    <td>${m.status === "PASS" ? `<span class="status pass">${data.icons.pass}Pass</span>` : `<span class="status fail" title="${esc(m.note)}">${data.icons.fail}${m.status === "FAIL" ? "Fail" : "Missing"}</span>`}</td>
+  </tr>`;
 
   document.querySelectorAll("[data-toggle]").forEach((btn) => btn.addEventListener("click", () => {
     const box = document.getElementById(btn.getAttribute("aria-controls"));
+    const body = box.querySelector("tbody");
+    if (!body.children.length) body.innerHTML = data.domains[Number(btn.dataset.toggle)].measurements.map(measurementRow).join("");
     const open = box.hidden;
     box.hidden = !open;
     btn.setAttribute("aria-expanded", String(open));
     btn.textContent = btn.textContent.replace(open ? "Show" : "Hide", open ? "Hide" : "Show");
   }));
 
-  fill("[data-sources]", data.domains.map((d) => `
-    <div class="avoid-break">
-      <h3>${esc(d.title)}</h3>
-      <div class="mt-3 space-y-3">${d.sources.map((s) => `
-        <div class="panel p-4 sm:p-5">
-          <p class="font-semibold">${s.url ? `<a href="${esc(s.url)}">${esc(s.name)}</a>` : esc(s.name)}</p>
-          ${s.url ? `<p class="text-sm muted mono" style="overflow-wrap: anywhere;">${esc(s.url)}</p>` : ""}
-          <dl class="mt-2 grid grid-cols-1 sm:grid-cols-[9rem_1fr] gap-x-4 gap-y-1 text-sm">
-            <dt class="muted">Licence</dt><dd class="ink-2">${esc(s.licence)}</dd>
-            <dt class="muted">Retrieved</dt><dd class="ink-2 num">${esc(s.retrieved)}</dd>
-            ${s.citation ? `<dt class="muted">Citation</dt><dd class="ink-2">${esc(s.citation)}</dd>` : ""}
-            ${s.command ? `<dt class="muted">Regenerate</dt><dd><code>${esc(s.command)}</code></dd>` : ""}
-            ${s.notes ? `<dt class="muted">Notes</dt><dd class="ink-2">${esc(s.notes)}</dd>` : ""}
-            ${s.applies_to === "*" ? "" : `<dt class="muted">Covers</dt><dd class="ink-2">${esc(s.applies_to.join(", "))}</dd>`}
-          </dl>
-        </div>`).join("")}
-      </div>
-    </div>`).join(""));
-
   // A margin box holds one text style, so the running head draws the logo and the wordmark (Roxy
   // in the heading weight, API in normal weight and muted) as one image, units of 0.1 mm.
   const runningHead = () => {
     const svg = `<svg xmlns="http://www.w3.org/2000/svg" width="80mm" height="4.5mm" viewBox="0 0 800 45">` +
-      `<image href="${data.logo}" width="45" height="45"/>` +
+      `<image href="${logo}" width="45" height="45"/>` +
       `<text x="62" y="31" font-family="Fira Sans, Helvetica, Arial, sans-serif" font-size="26.5" fill="#0f172a">` +
       `<tspan font-weight="600">Roxy</tspan><tspan fill="#5b6577">API</tspan><tspan font-weight="600"> Accuracy Report</tspan></text></svg>`;
     return `url("data:image/svg+xml;base64,${btoa(svg)}")`;
@@ -497,11 +347,14 @@
         ctx.restore();
       },
     };
-    charts = chartSpecs.map((spec) => new Chart(document.getElementById(spec.id), {
+    charts = [...document.querySelectorAll("canvas[data-chart]")].map((canvas) => {
+      const [di, si] = canvas.dataset.chart.split(" ").map(Number);
+      return { canvas, ...data.domains[di].summaries[si] };
+    }).map((spec) => new Chart(spec.canvas, {
       type: "bar",
       data: {
-        labels: spec.rows.map((w) => w.quantity),
-        datasets: [{ data: spec.rows.map((w) => w.deviation), backgroundColor: accent, borderRadius: 4, borderSkipped: "start", maxBarThickness: 16, categoryPercentage: 0.8, barPercentage: 0.9 }],
+        labels: spec.per_quantity_max.map((w) => w.quantity),
+        datasets: [{ data: spec.per_quantity_max.map((w) => w.deviation), backgroundColor: accent, borderRadius: 4, borderSkipped: "start", maxBarThickness: 16, categoryPercentage: 0.8, barPercentage: 0.9 }],
       },
       options: {
         indexAxis: "y",
@@ -511,21 +364,16 @@
         layout: { padding: { right: 44 } },
         plugins: {
           legend: { display: false },
-          tooltip: { callbacks: { label: (c) => `${spec.rows[c.dataIndex].case}: ${fmt(c.parsed.x)} ${unitLabel(spec.unit)}` } },
+          tooltip: { callbacks: { label: (c) => `${spec.per_quantity_max[c.dataIndex].case}: ${fmt(c.parsed.x)} ${spec.unit}` } },
         },
         scales: {
-          x: { beginAtZero: true, grid: { color: grid }, border: { display: false }, ticks: { color: muted, font: { size: 11 } }, title: { display: true, text: unitLabel(spec.unit), color: muted, font: { size: 11 } } },
+          x: { beginAtZero: true, grid: { color: grid }, border: { display: false }, ticks: { color: muted, font: { size: 11 } }, title: { display: true, text: spec.unit, color: muted, font: { size: 11 } } },
           y: { grid: { display: false }, border: { color: grid }, ticks: { color: ink, font: { size: 12 } } },
         },
       },
       plugins: [tipLabels],
     }));
   };
-
-  document.querySelector("[data-coverage-table]").innerHTML = `<table class="data dense">
-    <thead><tr><th>Domain</th><th>Reference authorities</th><th>Covers</th></tr></thead>
-    <tbody>${data.domains.map((d) => `<tr><td><strong>${esc(d.title)}</strong></td><td>${d.sources.map((src) => esc(src.name)).join("; ")}</td><td>${d.covers.map(esc).join("; ")}</td></tr>`).join("")}</tbody>
-  </table>`;
 
   const drawCoverage = async () => {
     const host = document.querySelector("[data-coverage]");
