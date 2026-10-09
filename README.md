@@ -15,34 +15,25 @@ The RoxyAPI Astrology API Accuracy Benchmark is an open, reproducible benchmark 
 <!-- generated:claim:end -->
 
 <!-- generated:scorecard:begin python -m benchmark readme, do not edit -->
-| Domain | Authority | Values | Within band | Median | p95 | Max | Unit |
-|---|---|---:|---:|---:|---:|---:|---|
-| [Western planets](#western-planets) | NASA JPL Horizons | 231 | 231 of 231 | 0.048 | 0.24 | 0.32 | arcsec |
-| [Western angles and houses](#western-angles-and-houses) | NASA JPL Horizons sidereal time and obliquity, standard spherical astronomy | 200 | 200 of 200 | 0.12 | 0.62 | 1.5 | arcsec |
-| [Vedic sidereal chart](#vedic-sidereal-chart) | NASA JPL Horizons with the Lahiri ayanamsa by its published definition | 230 | 230 of 230 | 0.039 | 0.23 | 1.5 | arcsec |
-|  |  | 26 | 26 of 26 | 0.2 | 0.48 | 0.49 | days |
-|  |  | 638 | 638 of 638 | 0 | 0 | 0 | exact |
-| [Panchang](#panchang) | NASA JPL Horizons Sun and Moon longitudes by the classical definitions, sunrise from the US Naval Observatory | 13 | 13 of 13 | 0 | 0 | 0 | seconds |
-|  |  | 60 | 60 of 60 | 0 | 0 | 0 | exact |
-| [Forecast events](#forecast-events) | NASA JPL Horizons | 29 | 29 of 29 | 2.3 | 30.6 | 44.9 | seconds |
-| [Moon phases](#moon-phases) | U.S. Naval Observatory primary moon phase tables, Universal Time dates | 11 | 11 of 11 | 0 | 0 | 0 | days |
-| [Human Design bodygraph](#human-design-bodygraph) | NASA JPL Horizons with the 88 degree solar arc and the Rave Mandala | 10 | 10 of 10 | 0.014 | 0.27 | 0.28 | seconds |
-|  |  | 90 | 90 of 90 | 0 | 0 | 0 | exact |
-| [Chinese calendar](#chinese-calendar) | Hong Kong Observatory Gregorian-Lunar conversion tables, sexagenary cycle from a published anchor day | 103 | 103 of 103 | 0 | 0 | 0 | days |
-|  |  | 32 | 32 of 32 | 0 | 0 | 0 | exact |
-| [Feng shui](#feng-shui) | Printed Qing almanac and Xuan Kong rules recomputed, Hong Kong Observatory Li Chun dates | 13 | 13 of 13 | 0 | 0 | 0 | days |
-|  |  | 243 | 243 of 243 | 0 | 0 | 0 | exact |
-| [Mesoamerican calendar](#mesoamerican-calendar) | GMT correlation 584283, cross-checked against the FAMSI converter | 16 | 16 of 16 | 0 | 0 | 0 | days |
-|  |  | 40 | 40 of 40 | 0 | 0 | 0 | exact |
-| [Vastu](#vastu) | Brihat Samhita chapter 53 in the Iyer and Kern translations | 118 | 118 of 118 | 0 | 0 | 0 | exact |
-| [Numerology](#numerology) | Pythagorean rules recomputed, cross-checked against published worked examples | 21 | 21 of 21 | 0 | 0 | 0 | exact |
-| [Kabbalah](#kabbalah) | Published gematria letter table and the arithmetic Hebrew calendar | 72 | 72 of 72 | 0 | 0 | 0 | exact |
-| [Biorhythm](#biorhythm) | Sine cycles of 23, 28 and 33 days, recomputed from the published definition | 10 | 10 of 10 | 0 | 0 | 0 | days |
-|  |  | 60 | 60 of 60 | 0 | 0 | 0 | exact |
-| [Ayurveda](#ayurveda) | NASA JPL Horizons Sun ingress by the classical season rule, sunrise from the US Naval Observatory | 81 | 81 of 81 | 1.7 | 25.1 | 29.6 | seconds |
-|  |  | 24 | 24 of 24 | 0 | 0 | 0 | exact |
-| [I Ching](#i-ching) | King Wen sequence, cross-checked against Legge and the Unicode Standard | 306 | 306 of 306 | 0 | 0 | 0 | exact |
-| [Location](#location) | IANA Time Zone Database | 24 | 24 of 24 | 0 | 0 | 0 | exact |
+| Domain | Authority | Values | Within band | Measured deviation |
+|---|---|---:|---:|---|
+| [Western planets](#western-planets) | NASA JPL Horizons | 231 | 231 of 231 | median 0.048, max 0.32 arcsec |
+| [Western angles and houses](#western-angles-and-houses) | NASA JPL Horizons sidereal time and obliquity, standard spherical astronomy | 200 | 200 of 200 | median 0.12, max 1.5 arcsec |
+| [Vedic sidereal chart](#vedic-sidereal-chart) | NASA JPL Horizons with the Lahiri ayanamsa by its published definition | 894 | 894 of 894 | positions median 0.039, max 1.5 arcsec; days max 0.49; 638 exact |
+| [Panchang](#panchang) | NASA JPL Horizons Sun and Moon longitudes by the classical definitions, sunrise from the US Naval Observatory | 73 | 73 of 73 | instants median 0, max 0 seconds; 60 exact |
+| [Forecast events](#forecast-events) | NASA JPL Horizons | 29 | 29 of 29 | median 2.3, max 44.9 seconds |
+| [Moon phases](#moon-phases) | U.S. Naval Observatory primary moon phase tables, Universal Time dates | 11 | 11 of 11 | 11 exact days |
+| [Human Design bodygraph](#human-design-bodygraph) | NASA JPL Horizons with the 88 degree solar arc and the Rave Mandala | 100 | 100 of 100 | instants median 0.014, max 0.28 seconds; 90 exact |
+| [Chinese calendar](#chinese-calendar) | Hong Kong Observatory Gregorian-Lunar conversion tables, sexagenary cycle from a published anchor day | 135 | 135 of 135 | 103 exact days; 32 exact |
+| [Feng shui](#feng-shui) | Printed Qing almanac and Xuan Kong rules recomputed, Hong Kong Observatory Li Chun dates | 256 | 256 of 256 | 13 exact days; 243 exact |
+| [Mesoamerican calendar](#mesoamerican-calendar) | GMT correlation 584283, cross-checked against the FAMSI converter | 56 | 56 of 56 | 16 exact days; 40 exact |
+| [Vastu](#vastu) | Brihat Samhita chapter 53 in the Iyer and Kern translations | 118 | 118 of 118 | all exact |
+| [Numerology](#numerology) | Pythagorean rules recomputed, cross-checked against published worked examples | 21 | 21 of 21 | all exact |
+| [Kabbalah](#kabbalah) | Published gematria letter table and the arithmetic Hebrew calendar | 72 | 72 of 72 | all exact |
+| [Biorhythm](#biorhythm) | Sine cycles of 23, 28 and 33 days, recomputed from the published definition | 70 | 70 of 70 | 10 exact days; 60 exact |
+| [Ayurveda](#ayurveda) | NASA JPL Horizons Sun ingress by the classical season rule, sunrise from the US Naval Observatory | 105 | 105 of 105 | instants median 1.7, max 29.6 seconds; 24 exact |
+| [I Ching](#i-ching) | King Wen sequence, cross-checked against Legge and the Unicode Standard | 306 | 306 of 306 | all exact |
+| [Location](#location) | IANA Time Zone Database | 24 | 24 of 24 | all exact |
 <!-- generated:scorecard:end -->
 
 [![Terminal recording of the RoxyAPI benchmark run: a green check mark per domain with the pass count, median and largest deviation, then the boxed scorecard and the precision tier sentence](https://raw.githubusercontent.com/RoxyAPI/astrology-api-benchmark/main/assets/run.gif)](https://roxyapi.github.io/astrology-api-benchmark/)

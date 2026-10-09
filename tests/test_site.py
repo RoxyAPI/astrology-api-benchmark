@@ -10,8 +10,9 @@ from typing import Any
 import pytest
 
 from benchmark.__main__ import main
-from benchmark.claims import headline, labels
+from benchmark.claims import headline, labels, measured_deviation
 from benchmark.domains import DomainError, references_for
+from benchmark.page import esc
 from benchmark.paths import RESULTS_DIR, TEMPLATE_PATH
 from benchmark.results import CSV_FILE, JSON_FILE, ResultsError
 from benchmark.schema import load_charts
@@ -19,6 +20,7 @@ from benchmark.site import (
     PDF_FILE,
     PLACEHOLDER,
     ROBOTS_FILE,
+    SEARCH_CONSOLE_TOKEN,
     SITE_URL,
     SITEMAP_FILE,
     SiteError,
@@ -107,6 +109,7 @@ def test_page_reads_in_full_without_scripts(built: tuple[Path, str]) -> None:
             assert e["label"] in text and f'href="{e["url"]}"' in html
         for s in domain["summaries"]:
             assert f"{s['passed']:,} of {s['points']:,}" in text
+        assert esc(measured_deviation(domain["summaries"])) in text
     assert any(
         line.startswith("RoxyAPI Chiron: ")
         for d in model["domains"]
@@ -122,6 +125,8 @@ def test_head_carries_canonical_social_and_alternates(built: tuple[Path, str]) -
     assert f'<link rel="canonical" href="{SITE_URL}">' in head
     for media in ("application/pdf", "application/json", "text/csv"):
         assert f'<link rel="alternate" type="{media}"' in head
+    assert f'<meta name="google-site-verification" content="{SEARCH_CONSOLE_TOKEN}">' in head
+    assert SEARCH_CONSOLE_TOKEN == "bsKYP1JLQvbPmMzmkD64cDto9zCi2HzeRNNo4Cxthp4"
     for prop in ("og:title", "og:description", "og:type", "og:url", "og:image"):
         assert f'property="{prop}"' in head
     description = re.search(r'<meta name="description" content="([^"]*)">', head)

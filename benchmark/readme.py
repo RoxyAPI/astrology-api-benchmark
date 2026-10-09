@@ -14,15 +14,15 @@ from pathlib import Path
 from typing import Any
 
 from benchmark.claims import (
-    TIER_NOUNS,
+    UNIT_NOUNS,
     DomainDoc,
     QuantityStat,
     amount,
+    combined,
     deviations,
-    fmt,
-    fmt_up,
     headline,
     labels,
+    measured_deviation,
     quantity_stats,
     subject,
     target_host,
@@ -44,12 +44,6 @@ from benchmark.stats import median
 
 BLOCKS = ("claim", "scorecard", "coverage", "domains", "credits")
 """The generated blocks, in the order they appear in the README."""
-
-UNIT_NOUNS: Mapping[Unit, str] = {
-    **TIER_NOUNS,
-    Unit.DAYS: "calendar counts",
-    Unit.EXACT: "discrete values",
-}
 
 
 class ReadmeError(Exception):
@@ -146,27 +140,24 @@ def _has_unit(domains: Sequence[DomainDoc], unit: Unit) -> bool:
 
 def _scorecard(domains: Sequence[DomainDoc]) -> str:
     rows = [
-        "| Domain | Authority | Values | Within band | Median | p95 | Max | Unit |",
-        "|---|---|---:|---:|---:|---:|---:|---|",
+        "| Domain | Authority | Values | Within band | Measured deviation |",
+        "|---|---|---:|---:|---|",
     ]
     for d in domains:
-        for i, s in enumerate(d["summaries"]):
-            rows.append(
-                _row(
-                    f"[{d['title']}](#{_anchor(d['title'])})" if i == 0 else "",
-                    d["authority"] if i == 0 else "",
-                    f"{s['points']:,}",
-                    _within(s),
-                    fmt(s["median"]),
-                    fmt(s["p95"]),
-                    fmt_up(s["max"]),
-                    s["unit"],
-                )
+        total = combined(d["summaries"])
+        rows.append(
+            _row(
+                f"[{d['title']}](#{_anchor(d['title'])})",
+                d["authority"],
+                f"{total['points']:,}",
+                _within(total),
+                measured_deviation(d["summaries"]),
             )
+        )
     return "\n".join(rows)
 
 
-def _within(summary: Mapping[str, Any]) -> str:
+def _within(summary: Mapping[str, int]) -> str:
     text = f"{summary['passed']:,} of {summary['points']:,}"
     misses = [f"{summary[key]:,} {key}" for key in ("failed", "missing") if summary[key]]
     return f"{text}, {', '.join(misses)}" if misses else text

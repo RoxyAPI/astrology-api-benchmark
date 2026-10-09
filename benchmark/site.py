@@ -199,6 +199,10 @@ def json_ld(model: Mapping[str, Any]) -> dict[str, Any]:
     return {"@context": "https://schema.org", "@graph": [PUBLISHER, dataset, report]}
 
 
+SEARCH_CONSOLE_TOKEN = "bsKYP1JLQvbPmMzmkD64cDto9zCi2HzeRNNo4Cxthp4"
+"""Public ownership token for Google Search Console; removing it unverifies the property."""
+
+
 def head(model: Mapping[str, Any]) -> str:
     """Title, description, canonical, alternates, Open Graph and the JSON-LD block."""
     esc, links = page.esc, model["links"]
@@ -222,6 +226,7 @@ def head(model: Mapping[str, Any]) -> str:
             ),
             *(f'<meta property="{k}" content="{esc(v)}">' for k, v in meta.items()),
             '<meta name="twitter:card" content="summary_large_image">',
+            f'<meta name="google-site-verification" content="{SEARCH_CONSOLE_TOKEN}">',
             f'<script type="application/ld+json">{graph}</script>',
         ]
     )

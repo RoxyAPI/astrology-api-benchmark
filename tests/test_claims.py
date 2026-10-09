@@ -9,6 +9,7 @@ from benchmark.claims import (
     amount,
     fmt_up,
     headline,
+    measured_deviation,
     quantity_line,
     quantity_reference,
     quantity_stats,
@@ -170,3 +171,39 @@ def test_quantity_lines_bound_the_max_and_name_a_dedicated_source(
 def test_target_host_drops_scheme_and_path() -> None:
     assert target_host("https://roxyapi.com/api/v2") == "roxyapi.com"
     assert target_host("http://localhost:3000/api/v2") == "localhost:3000"
+
+
+def _summary(
+    unit: str, points: int, median: float, top: float, passed: int | None = None
+) -> dict[str, Any]:
+    return {
+        "unit": unit,
+        "points": points,
+        "passed": points if passed is None else passed,
+        "median": median,
+        "max": top,
+    }
+
+
+def test_measured_deviation_names_each_unit_in_canonical_order() -> None:
+    mixed = [
+        _summary("exact", 638, 0, 0),
+        _summary("days", 26, 0.2, 0.486),
+        _summary("arcsec", 230, 0.0394, 1.4819),
+    ]
+    assert measured_deviation(mixed) == (
+        "positions median 0.039, max 1.5 arcsec; days max 0.49; 638 exact"
+    )
+
+
+def test_measured_deviation_of_a_single_unit_drops_the_noun() -> None:
+    assert measured_deviation([_summary("arcsec", 231, 0.0483, 0.3143)]) == (
+        "median 0.048, max 0.32 arcsec"
+    )
+    assert measured_deviation([_summary("exact", 118, 0, 0)]) == "all exact"
+    assert measured_deviation([_summary("days", 11, 0, 0)]) == "11 exact days"
+    assert measured_deviation([_summary("days", 11, 0.1, 0.3)]) == "max 0.3 days"
+
+
+def test_measured_deviation_counts_exact_misses() -> None:
+    assert measured_deviation([_summary("exact", 10, 0, 1, passed=9)]) == "9 of 10 exact"

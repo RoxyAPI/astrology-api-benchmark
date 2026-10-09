@@ -12,7 +12,7 @@ import html
 from collections.abc import Mapping, Sequence
 from typing import Any
 
-from benchmark.claims import fmt, fmt_up
+from benchmark.claims import combined, fmt, fmt_up, measured_deviation
 from benchmark.schema import ALL, Unit
 
 type Model = Mapping[str, Any]
@@ -149,29 +149,19 @@ def endpoints(domain: Model) -> str:
     )
 
 
-def tiers(summary: Mapping[str, Any]) -> str:
-    return ", ".join(
-        f'<span class="whitespace-nowrap">{t["points"]:,} &le; {fmt(t["limit"])}</span>'
-        for t in summary.get("tiers") or ()
-    )
-
-
 def scorecard(domains: Sequence[Model]) -> str:
     rows = []
     for d in domains:
-        for i, s in enumerate(d["summaries"]):
-            title = (
-                f'<a href="#domain-{esc(d["id"])}" style="color: var(--ink); font-weight: 600;">'
-                f"{esc(d['title'])}</a>"
-            )
-            rows.append(
-                f"<tr><td>{title if i == 0 else ''}</td>"
-                f'<td class="ink-2">{esc(d["authority"]) if i == 0 else ""}</td>'
-                f'<td class="r">{s["points"]:,}</td><td>{status(s)}</td>'
-                f'<td class="ink-2">{tiers(s)}</td><td class="r">{fmt(s["median"])}</td>'
-                f'<td class="r">{fmt(s["p95"])}</td><td class="r">{fmt_up(s["max"])}</td>'
-                f'<td class="muted">{esc(s["unit"])}</td></tr>'
-            )
+        total = combined(d["summaries"])
+        title = (
+            f'<a href="#domain-{esc(d["id"])}" style="color: var(--ink); font-weight: 600;">'
+            f"{esc(d['title'])}</a>"
+        )
+        rows.append(
+            f'<tr><td>{title}</td><td class="ink-2">{esc(d["authority"])}</td>'
+            f'<td class="r">{total["points"]:,}</td><td>{status(total)}</td>'
+            f'<td class="ink-2">{esc(measured_deviation(d["summaries"]))}</td></tr>'
+        )
     return "".join(rows)
 
 

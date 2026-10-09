@@ -28,6 +28,12 @@ CONTINUOUS = (Unit.ARCSEC, Unit.SECONDS)
 
 TIER_NOUNS: Mapping[Unit, str] = {Unit.ARCSEC: "positions", Unit.SECONDS: "instants"}
 
+UNIT_NOUNS: Mapping[Unit, str] = {
+    **TIER_NOUNS,
+    Unit.DAYS: "calendar counts",
+    Unit.EXACT: "discrete values",
+}
+
 
 def fmt(value: float | None) -> str:
     """Two significant digits below 10, else one decimal: the same rule as the report page."""
@@ -259,3 +265,36 @@ def all_within(summary: Mapping[str, Any]) -> float | None:
     if summary.get("missing") or summary.get("max") is None:
         return None
     return float(summary["max"])
+
+
+def combined(summaries: Sequence[Mapping[str, Any]]) -> dict[str, int]:
+    """The point counts of a domain across its units, for one "N of M" cell."""
+    return {k: sum(int(s[k]) for s in summaries) for k in ("points", "passed", "failed", "missing")}
+
+
+def measured_deviation(summaries: Sequence[Mapping[str, Any]]) -> str:
+    """One phrase for a domain: each unit in canonical order, joined by semicolons.
+
+    Angles and instants read "median X, max Y unit" (maximum rounded up), a calendar count that
+    never deviated "N exact days", a discrete unit "N exact" or "all exact" when it stands alone.
+    A unit name leads each phrase only when the domain has several.
+    """
+    order = list(Unit)
+    ranked = sorted(summaries, key=lambda s: order.index(Unit(s["unit"])))
+    several = len(ranked) > 1
+    return "; ".join(_unit_phrase(s, several) for s in ranked)
+
+
+def _unit_phrase(summary: Mapping[str, Any], several: bool) -> str:
+    unit, points, passed = Unit(summary["unit"]), int(summary["points"]), int(summary["passed"])
+    if unit is Unit.EXACT:
+        if passed == points:
+            return f"{points:,} exact" if several else "all exact"
+        return f"{passed:,} of {points:,} exact"
+    top = fmt_up(summary["max"])
+    if unit is Unit.DAYS:
+        if summary["max"] == 0:
+            return f"{points:,} exact days"
+        return f"days max {top}" if several else f"max {top} days"
+    noun = f"{TIER_NOUNS[unit]} " if several else ""
+    return f"{noun}median {fmt(summary['median'])}, max {top} {unit}"

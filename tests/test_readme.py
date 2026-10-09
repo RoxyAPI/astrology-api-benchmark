@@ -9,7 +9,7 @@ from typing import Any
 import pytest
 
 from benchmark.__main__ import main
-from benchmark.claims import amount, fmt, quantity_stats
+from benchmark.claims import amount, fmt, measured_deviation, quantity_stats
 from benchmark.domains import discover, references_for
 from benchmark.paths import RESULTS_DIR, ROOT
 from benchmark.readme import (
@@ -141,12 +141,16 @@ def test_results_without_tiers_still_render(tmp_path: Path) -> None:
     assert "values within tolerance" in text
 
 
-def test_scorecard_lists_each_domain_once_and_drops_precision() -> None:
+def test_scorecard_is_one_row_per_domain_with_no_blank_cell() -> None:
     rows = committed_blocks()["scorecard"].splitlines()
-    assert "Precision" not in rows[0]
-    links = [r.split(" | ")[0] for r in rows[2:] if not r.startswith("|  |")]
-    assert len(links) == len(set(links))
-    assert any(r.startswith("|  |  | ") for r in rows[2:])
+    assert rows[0].split(" | ")[-1] == "Measured deviation |"
+    body = rows[2:]
+    results = read_results(RESULTS_DIR / JSON_FILE)
+    assert len(body) == len(results["domains"])
+    for row, d in zip(body, results["domains"], strict=True):
+        cells = [c.strip() for c in row.strip("|").split(" | ")]
+        assert all(cells) and len(cells) == 5
+        assert cells[4] == measured_deviation(d["summaries"])
 
 
 def test_per_quantity_max_rounds_up_like_the_claim_sentences() -> None:
@@ -161,7 +165,7 @@ def test_per_quantity_max_rounds_up_like_the_claim_sentences() -> None:
 
 def test_scorecard_max_rounds_up_and_domains_link_the_report_card() -> None:
     blocks = committed_blocks()
-    assert "| 0.32 | arcsec |" in blocks["scorecard"]
+    assert "median 0.048, max 0.32 arcsec" in blocks["scorecard"]
     assert (
         "(https://roxyapi.github.io/astrology-api-benchmark/#domain-western-planets)"
         in (blocks["domains"])
