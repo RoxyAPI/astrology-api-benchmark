@@ -28,6 +28,15 @@ CONTINUOUS = (Unit.ARCSEC, Unit.SECONDS)
 
 TIER_NOUNS: Mapping[Unit, str] = {Unit.ARCSEC: "positions", Unit.SECONDS: "instants"}
 
+CASES = (
+    "The cases are built to break formulas, not to resemble everyday birth data: births on a leap "
+    "day and inside a daylight saving change, high latitudes such as Reykjavik and Tromso, "
+    "instants seconds from a sign, nakshatra, tithi or gate boundary, a planet at its station, "
+    "and calendar year edges such as Li Chun, so an ordinary chart is an easier test than any of "
+    "them."
+)
+"""What the reference cases are chosen to do, on the README and the report page alike."""
+
 UNIT_NOUNS: Mapping[Unit, str] = {
     **TIER_NOUNS,
     Unit.DAYS: "calendar counts",

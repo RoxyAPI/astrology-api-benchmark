@@ -9,7 +9,7 @@ from typing import Any
 import pytest
 
 from benchmark.__main__ import main
-from benchmark.claims import amount, fmt, measured_deviation, quantity_stats
+from benchmark.claims import CASES, amount, fmt, measured_deviation, quantity_stats
 from benchmark.domains import discover, references_for
 from benchmark.paths import RESULTS_DIR, ROOT
 from benchmark.readme import (
@@ -170,6 +170,11 @@ def test_scorecard_max_rounds_up_and_domains_link_the_report_card() -> None:
         "(https://roxyapi.github.io/astrology-api-benchmark/#domain-western-planets)"
         in (blocks["domains"])
     )
+
+
+def test_readme_intro_states_what_the_cases_are_chosen_to_do() -> None:
+    intro = (ROOT / "README.md").read_text(encoding="utf-8").split("<!-- generated:claim:begin")[0]
+    assert CASES in intro
 
 
 def test_every_readme_image_is_an_absolute_url() -> None:
