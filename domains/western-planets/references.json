@@ -1,0 +1,431 @@
+{
+  "format": 1,
+  "domain": "western-planets",
+  "sources": [
+    {
+      "name": "NASA JPL Horizons",
+      "url": "https://ssd.jpl.nasa.gov/api/horizons.api",
+      "command": "python -m benchmark pull western-planets (OBSERVER table, CENTER 500@399, QUANTITIES 31, one minute step)",
+      "retrieved": "2026-10-09",
+      "licence": "NASA JPL data, public domain US government work; cite Horizons",
+      "method": "Apparent geocentric ecliptic longitude of date at the chart instant converted to UT, read from the Observer Ecliptic Longitude column, seven decimal degrees as printed.",
+      "notes": "Sun to Mars use their own Horizons centres. Jupiter to Pluto use the Horizons system barycentres 5 to 9: the planetary ephemeris integrates the system barycentres, while the planet centres come from separate satellite solutions that sit off it by thousands of kilometres.",
+      "applies_to": [
+        "Sun",
+        "Moon",
+        "Mercury",
+        "Venus",
+        "Mars",
+        "Jupiter",
+        "Saturn",
+        "Uranus",
+        "Neptune",
+        "Pluto"
+      ]
+    },
+    {
+      "name": "NASA JPL Horizons small-body integration",
+      "url": "https://ssd.jpl.nasa.gov/api/horizons.api",
+      "command": "python -m benchmark pull western-planets (OBSERVER table, CENTER 500@399, QUANTITIES 31, one minute step)",
+      "retrieved": "2026-10-09",
+      "licence": "NASA JPL data, public domain US government work; cite Horizons",
+      "method": "Apparent geocentric ecliptic longitude of the small body 2060 Chiron at the chart instant converted to UT, which Horizons integrates on demand from the initial conditions of its orbit solution, read from the same column as the planets.",
+      "applies_to": [
+        "Chiron"
+      ]
+    }
+  ],
+  "families": [
+    {
+      "label": "Sun, Moon, planets and Chiron",
+      "quantities": [
+        "Sun",
+        "Moon",
+        "Mercury",
+        "Venus",
+        "Mars",
+        "Jupiter",
+        "Saturn",
+        "Uranus",
+        "Neptune",
+        "Pluto",
+        "Chiron"
+      ]
+    }
+  ],
+  "tolerances": [
+    {
+      "applies_to": [
+        "Moon"
+      ],
+      "value": 72,
+      "unit": "arcsec",
+      "why": "The Moon moves about 13 degrees a day, so this absorbs a couple of minutes of birth time interpretation. A vendor-neutral pass bar, not sized to any one API."
+    },
+    {
+      "applies_to": "*",
+      "value": 36,
+      "unit": "arcsec",
+      "why": "A vendor-neutral pass bar, not sized to any one API. Wide enough for the legitimate arcsecond level disagreement between two good ephemeris implementations, tight enough to fail a geometric rather than an apparent ephemeris, a wrong timezone resolution or a wrong epoch element set. Read the per body maxima for regressions: a body drifting from 0.1 to 20 arcseconds still passes."
+    }
+  ],
+  "cases": [
+    {
+      "id": "obama",
+      "chart": "obama",
+      "expected": {
+        "Sun": 132.5479089,
+        "Moon": 63.3573772,
+        "Mercury": 122.3315919,
+        "Venus": 91.789345,
+        "Mars": 172.5765892,
+        "Jupiter": 300.8586164,
+        "Saturn": 295.3307379,
+        "Uranus": 145.2708224,
+        "Neptune": 218.6059384,
+        "Pluto": 156.9777457,
+        "Chiron": 335.3170207
+      }
+    },
+    {
+      "id": "beyonce",
+      "chart": "beyonce",
+      "expected": {
+        "Sun": 162.4555603,
+        "Moon": 236.734471,
+        "Mercury": 183.280368,
+        "Venus": 200.8013598,
+        "Mars": 121.9290966,
+        "Jupiter": 192.4870598,
+        "Saturn": 189.1073997,
+        "Uranus": 236.4817511,
+        "Neptune": 262.0873425,
+        "Pluto": 202.673607,
+        "Chiron": 52.8281164
+      }
+    },
+    {
+      "id": "diana",
+      "chart": "diana",
+      "expected": {
+        "Sun": 99.6630446,
+        "Moon": 325.0378776,
+        "Mercury": 93.2013895,
+        "Venus": 54.399828,
+        "Mars": 151.6457017,
+        "Jupiter": 305.0970717,
+        "Saturn": 297.813995,
+        "Uranus": 143.3360159,
+        "Neptune": 218.6366654,
+        "Pluto": 156.0440228,
+        "Chiron": 336.4679698
+      }
+    },
+    {
+      "id": "einstein",
+      "chart": "einstein",
+      "expected": {
+        "Sun": 353.5076637,
+        "Moon": 254.5258305,
+        "Mercury": 3.1438013,
+        "Venus": 16.9849259,
+        "Mars": 296.9141384,
+        "Jupiter": 327.484016,
+        "Saturn": 4.1897439,
+        "Uranus": 151.2885153,
+        "Neptune": 37.8718798,
+        "Pluto": 54.7254767,
+        "Chiron": 35.544628
+      }
+    },
+    {
+      "id": "jobs",
+      "chart": "jobs",
+      "expected": {
+        "Sun": 335.748104,
+        "Moon": 7.7471988,
+        "Mercury": 314.3617059,
+        "Venus": 291.1718389,
+        "Mars": 29.0904584,
+        "Jupiter": 110.5079366,
+        "Saturn": 231.1626577,
+        "Uranus": 114.1349401,
+        "Neptune": 208.051262,
+        "Pluto": 145.3226727,
+        "Chiron": 302.3322529
+      }
+    },
+    {
+      "id": "musk",
+      "chart": "musk",
+      "expected": {
+        "Sun": 95.8906134,
+        "Moon": 158.2426882,
+        "Mercury": 104.066546,
+        "Venus": 79.3967741,
+        "Mars": 320.905632,
+        "Jupiter": 237.6479341,
+        "Saturn": 61.1226209,
+        "Uranus": 189.4820802,
+        "Neptune": 240.8134543,
+        "Pluto": 177.0933431,
+        "Chiron": 13.6971764
+      }
+    },
+    {
+      "id": "monroe",
+      "chart": "monroe",
+      "expected": {
+        "Sun": 70.4443169,
+        "Moon": 319.0983445,
+        "Mercury": 66.7786082,
+        "Venus": 28.7503787,
+        "Mars": 350.7315327,
+        "Jupiter": 326.8256679,
+        "Saturn": 231.4416124,
+        "Uranus": 358.9948372,
+        "Neptune": 142.2227343,
+        "Pluto": 103.39157,
+        "Chiron": 30.3946359
+      }
+    },
+    {
+      "id": "jfk",
+      "chart": "jfk",
+      "expected": {
+        "Sun": 67.8434874,
+        "Moon": 167.2089821,
+        "Mercury": 50.5934101,
+        "Venus": 76.7448886,
+        "Mars": 48.4311027,
+        "Jupiter": 53.0471865,
+        "Saturn": 117.1611446,
+        "Uranus": 323.7186981,
+        "Neptune": 122.6717533,
+        "Pluto": 93.268468,
+        "Chiron": 359.428106
+      }
+    },
+    {
+      "id": "reykjavik_summer",
+      "chart": "reykjavik_summer",
+      "expected": {
+        "Sun": 90.0502759,
+        "Moon": 125.7288169,
+        "Mercury": 105.7090619,
+        "Venus": 44.5514187,
+        "Mars": 98.0056436,
+        "Jupiter": 316.5282698,
+        "Saturn": 232.3815132,
+        "Uranus": 255.3931896,
+        "Neptune": 272.3022597,
+        "Pluto": 212.0443117,
+        "Chiron": 70.5408236
+      }
+    },
+    {
+      "id": "ushuaia_winter",
+      "chart": "ushuaia_winter",
+      "expected": {
+        "Sun": 269.5703009,
+        "Moon": 26.2200561,
+        "Mercury": 248.6937412,
+        "Venus": 262.5922735,
+        "Mars": 214.1336706,
+        "Jupiter": 316.0843517,
+        "Saturn": 244.0245362,
+        "Uranus": 258.8773383,
+        "Neptune": 273.1893236,
+        "Pluto": 216.6474934,
+        "Chiron": 70.9690977
+      }
+    },
+    {
+      "id": "quito_equinox",
+      "chart": "quito_equinox",
+      "expected": {
+        "Sun": 180.1951341,
+        "Moon": 167.8743557,
+        "Mercury": 200.0874122,
+        "Venus": 189.3248335,
+        "Mars": 221.0180866,
+        "Jupiter": 249.3872368,
+        "Saturn": 350.6437003,
+        "Uranus": 296.5943617,
+        "Neptune": 292.8099825,
+        "Pluto": 238.4007552,
+        "Chiron": 182.0401762
+      }
+    },
+    {
+      "id": "ny_dst_spring",
+      "chart": "ny_dst_spring",
+      "expected": {
+        "Sun": 13.6420626,
+        "Moon": 300.5846694,
+        "Mercury": 5.2758524,
+        "Venus": 14.4496751,
+        "Mars": 309.8132624,
+        "Jupiter": 194.0136131,
+        "Saturn": 110.5309588,
+        "Uranus": 338.7855857,
+        "Neptune": 317.020122,
+        "Pluto": 264.5009608,
+        "Chiron": 302.5117733
+      }
+    },
+    {
+      "id": "ny_dst_fall",
+      "chart": "ny_dst_fall",
+      "expected": {
+        "Sun": 216.8924634,
+        "Moon": 183.7179837,
+        "Mercury": 239.8269683,
+        "Venus": 263.8269943,
+        "Mars": 47.8702032,
+        "Jupiter": 210.8943475,
+        "Saturn": 130.8151796,
+        "Uranus": 336.9605584,
+        "Neptune": 314.8198348,
+        "Pluto": 262.6889821,
+        "Chiron": 298.1837972
+      }
+    },
+    {
+      "id": "tromso_midnight_sun",
+      "chart": "tromso_midnight_sun",
+      "expected": {
+        "Sun": 91.2800246,
+        "Moon": 331.0787833,
+        "Mercury": 109.9282603,
+        "Venus": 94.2873406,
+        "Mars": 93.9476004,
+        "Jupiter": 58.317288,
+        "Saturn": 55.7011045,
+        "Uranus": 320.5144792,
+        "Neptune": 306.0678504,
+        "Pluto": 250.9956472,
+        "Chiron": 252.8978584
+      }
+    },
+    {
+      "id": "mumbai_2000",
+      "chart": "mumbai_2000",
+      "expected": {
+        "Sun": 294.5121723,
+        "Moon": 34.8297157,
+        "Mercury": 294.0810454,
+        "Venus": 258.4311962,
+        "Mars": 338.7193609,
+        "Jupiter": 26.1341791,
+        "Saturn": 40.2979037,
+        "Uranus": 315.5443997,
+        "Neptune": 303.7026572,
+        "Pluto": 251.9140708,
+        "Chiron": 253.1323371
+      }
+    },
+    {
+      "id": "sydney_2010",
+      "chart": "sydney_2010",
+      "expected": {
+        "Sun": 273.1123477,
+        "Moon": 141.501738,
+        "Mercury": 261.9748318,
+        "Venus": 227.1158885,
+        "Mars": 283.0039656,
+        "Jupiter": 355.6819228,
+        "Saturn": 196.3128625,
+        "Uranus": 356.826188,
+        "Neptune": 326.547261,
+        "Pluto": 275.0805721,
+        "Chiron": 327.2772385
+      }
+    },
+    {
+      "id": "tokyo_1990",
+      "chart": "tokyo_1990",
+      "expected": {
+        "Sun": 38.3056107,
+        "Moon": 90.2108201,
+        "Mercury": 46.173688,
+        "Venus": 354.1130408,
+        "Mars": 335.9459241,
+        "Jupiter": 96.5880484,
+        "Saturn": 295.3086195,
+        "Uranus": 279.4950071,
+        "Neptune": 284.5326905,
+        "Pluto": 226.632393,
+        "Chiron": 102.0225954
+      }
+    },
+    {
+      "id": "boston_1900",
+      "chart": "boston_1900",
+      "expected": {
+        "Sun": 102.2130791,
+        "Moon": 188.916622,
+        "Mercury": 128.2459833,
+        "Venus": 108.1031507,
+        "Mars": 65.1770509,
+        "Jupiter": 241.9071048,
+        "Saturn": 270.945875,
+        "Uranus": 249.2150183,
+        "Neptune": 87.3185894,
+        "Pluto": 76.7936012,
+        "Chiron": 260.5423989
+      }
+    },
+    {
+      "id": "greenwich_y2k",
+      "chart": "greenwich_y2k",
+      "expected": {
+        "Sun": 279.8592049,
+        "Moon": 217.2933209,
+        "Mercury": 271.1117994,
+        "Venus": 240.9614017,
+        "Mars": 327.5754592,
+        "Jupiter": 25.2331157,
+        "Saturn": 40.40585,
+        "Uranus": 314.7840584,
+        "Neptune": 303.175242,
+        "Pluto": 251.4371568,
+        "Chiron": 251.5603761
+      }
+    },
+    {
+      "id": "samoa_skipped_day",
+      "chart": "samoa_skipped_day",
+      "expected": {
+        "Sun": 278.8965694,
+        "Moon": 354.5383616,
+        "Mercury": 258.4530448,
+        "Venus": 312.5438692,
+        "Mars": 169.857182,
+        "Jupiter": 30.4087656,
+        "Saturn": 208.2230905,
+        "Uranus": 0.8248057,
+        "Neptune": 328.8606567,
+        "Pluto": 277.2863734,
+        "Chiron": 331.8539187
+      }
+    },
+    {
+      "id": "anchorage_winter",
+      "chart": "anchorage_winter",
+      "expected": {
+        "Sun": 269.9521496,
+        "Moon": 30.6509029,
+        "Mercury": 249.1538367,
+        "Venus": 263.064139,
+        "Mars": 214.3642474,
+        "Jupiter": 316.1593333,
+        "Saturn": 244.0662479,
+        "Uranus": 258.8999315,
+        "Neptune": 273.2034983,
+        "Pluto": 216.6578431,
+        "Chiron": 70.9486925
+      }
+    }
+  ]
+}
