@@ -57,7 +57,7 @@ def test_run_stops_before_any_call_when_the_spec_drifted(
     renamed = copy.deepcopy(SPEC)
     del renamed["paths"]["/astrology/natal-chart"]
     monkeypatch.setattr("benchmark.__main__.live_spec", lambda: renamed)
-    monkeypatch.setenv("ROXY_API_KEY", "test-key")
+    monkeypatch.setenv("BENCHMARK_API_KEY", "test-key")
     code = main(["run", "--domain", "western-planets", "--out", str(tmp_path)])
     assert code == 2
     assert "POST /astrology/natal-chart is not in the spec" in capsys.readouterr().err

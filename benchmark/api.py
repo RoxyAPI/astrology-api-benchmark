@@ -15,7 +15,9 @@ from urllib.error import HTTPError, URLError
 from benchmark.fetch import USER_AGENT
 
 DEFAULT_TARGET = "https://roxyapi.com/api/v2"
-KEY_VARIABLE = "ROXY_API_KEY"
+KEY_VARIABLE = "BENCHMARK_API_KEY"
+HEADER_VARIABLE = "BENCHMARK_API_KEY_HEADER"
+DEFAULT_KEY_HEADER = "X-API-Key"
 TIMEOUT_SECONDS = 30.0
 ATTEMPTS = 3
 RETRY_PAUSE_SECONDS = 2.0
@@ -33,7 +35,7 @@ class ConfigError(Exception):
 
 
 class ApiClient:
-    """Calls ``{base_url}{path}`` with the ``X-API-Key`` header."""
+    """Calls ``{base_url}{path}`` with the API key in ``key_header`` (``X-API-Key`` by default)."""
 
     def __init__(
         self,
@@ -41,19 +43,26 @@ class ApiClient:
         api_key: str,
         timeout: float = TIMEOUT_SECONDS,
         retry_pause: float = RETRY_PAUSE_SECONDS,
+        key_header: str = DEFAULT_KEY_HEADER,
     ) -> None:
         self.base_url = base_url.rstrip("/")
         self.api_key = api_key
+        self.key_header = key_header
         self.timeout = timeout
         self.retry_pause = retry_pause
 
     @classmethod
     def from_env(cls, base_url: str, env_file: Path) -> ApiClient:
-        """Read the key from the environment, else from ``env_file`` (KEY=VALUE lines)."""
-        key = os.environ.get(KEY_VARIABLE) or load_env_file(env_file).get(KEY_VARIABLE, "")
-        if not key.strip():
+        """Read the key, and optionally its header name, from the environment, else ``env_file``."""
+        file_values = load_env_file(env_file)
+
+        def setting(name: str) -> str:
+            return (os.environ.get(name) or file_values.get(name, "")).strip()
+
+        key = setting(KEY_VARIABLE)
+        if not key:
             raise ConfigError(f"set {KEY_VARIABLE} in the environment or in {env_file.name}")
-        return cls(base_url, key.strip())
+        return cls(base_url, key, key_header=setting(HEADER_VARIABLE) or DEFAULT_KEY_HEADER)
 
     def get(self, path: str, params: Mapping[str, str | int | float] | None = None) -> Any:
         query = f"?{urllib.parse.urlencode(params)}" if params else ""
@@ -65,7 +74,7 @@ class ApiClient:
     def request(self, method: str, path: str, body: Mapping[str, Any] | None = None) -> Any:
         url = f"{self.base_url}{path}"
         headers = {
-            "X-API-Key": self.api_key,
+            self.key_header: self.api_key,
             "Accept": "application/json",
             "User-Agent": USER_AGENT,
         }

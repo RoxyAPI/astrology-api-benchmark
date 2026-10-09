@@ -31,7 +31,7 @@ jobs:
       - name: Run the benchmark
         run: uv run python -m benchmark run --target https://roxyapi.com/api/v2
         env:
-          ROXY_API_KEY: ${{ secrets.ROXY_API_KEY }}
+          BENCHMARK_API_KEY: ${{ secrets.BENCHMARK_API_KEY }}
       - run: uv run python -m benchmark site
       - run: uv run python -m benchmark.report --png assets/report.png
       - run: uv run python -m benchmark readme
@@ -42,7 +42,7 @@ jobs:
           path: demo.tape
           version: v0.12.1
         env:
-          ROXY_API_KEY: ${{ secrets.ROXY_API_KEY }}
+          BENCHMARK_API_KEY: ${{ secrets.BENCHMARK_API_KEY }}
       - name: Commit the run
         run: |
           git add results README.md assets/report.png assets/run.gif

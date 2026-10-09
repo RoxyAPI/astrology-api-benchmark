@@ -12,7 +12,7 @@ from typing import Any
 import pytest
 
 from benchmark import ApiClient, ApiError
-from benchmark.api import KEY_VARIABLE, ConfigError, load_env_file
+from benchmark.api import HEADER_VARIABLE, KEY_VARIABLE, ConfigError, load_env_file
 
 SEEN: list[dict[str, Any]] = []
 FLAKY: dict[str, int] = {}
@@ -28,7 +28,10 @@ class _Handler(BaseHTTPRequestHandler):
     def _answer(self) -> None:
         length = int(self.headers.get("Content-Length") or 0)
         body = self.rfile.read(length).decode("utf-8") if length else ""
-        SEEN.append({"path": self.path, "key": self.headers["X-API-Key"], "body": body})
+        seen = {"path": self.path, "key": self.headers["X-API-Key"], "body": body}
+        if self.headers["X-Custom-Key"] is not None:
+            seen["custom"] = self.headers["X-Custom-Key"]
+        SEEN.append(seen)
         if self.path.startswith("/flaky"):
             FLAKY[self.path] = FLAKY.get(self.path, 0) + 1
             if FLAKY[self.path] < 3:
@@ -130,3 +133,16 @@ def test_a_client_error_is_not_retried(api: ApiClient) -> None:
     with pytest.raises(ApiError, match="HTTP 422"):
         api.post("/fail", {})
     assert len(SEEN) == 1
+
+
+def test_key_header_is_configurable(
+    api: ApiClient, tmp_path: Path, monkeypatch: pytest.MonkeyPatch
+) -> None:
+    monkeypatch.setenv(KEY_VARIABLE, "k-2")
+    monkeypatch.setenv(HEADER_VARIABLE, "X-Custom-Key")
+    client = ApiClient.from_env(api.base_url, tmp_path / "missing.env")
+    client.retry_pause = 0
+    assert client.get("/x") == {"ok": True}
+    assert SEEN[-1]["custom"] == "k-2" and SEEN[-1]["key"] is None
+    monkeypatch.delenv(HEADER_VARIABLE)
+    assert ApiClient.from_env(api.base_url, tmp_path / "missing.env").key_header == "X-API-Key"

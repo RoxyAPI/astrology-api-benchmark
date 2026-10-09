@@ -277,10 +277,10 @@ cd astrology-api-benchmark
 uv sync
 ```
 
-**3. Add your key** to a file named `.env.local` in the repository root. It is gitignored.
+**3. Add your key.** Copy the sample and set `BENCHMARK_API_KEY`; every other setting has its default. `.env.local` is gitignored.
 
 ```bash
-ROXY_API_KEY=your_key_here
+cp .env.example .env.local
 ```
 
 **4. Run every domain.** This writes `results/latest.json` and `results/latest.csv`, and exits nonzero when any value fails or is missing.
@@ -318,7 +318,7 @@ uv run python -m benchmark run --domain western-planets --domain western-angles
 
 ### Against another base URL
 
-1. Set that provider key as `ROXY_API_KEY` in `.env.local`; the runner sends it in the `X-API-Key` header. A provider that expects another header needs one line changed in `benchmark/api.py`.
+1. Set that provider key as `BENCHMARK_API_KEY` in `.env.local`. The runner sends it in the `X-API-Key` header; a provider that expects another one sets `BENCHMARK_API_KEY_HEADER` too, with no code change.
 2. Adapt the `check()` function in `domains/{id}/check.py` for each domain you run. It is the one place a response is read, mapping it to the quantity names in `references.json`.
 3. Run that domain against the provider and keep its results apart:
 

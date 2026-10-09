@@ -3,8 +3,8 @@ __pycache__/
 *.pyo
 .venv/
 venv/
-.env
-.env.local
+.env*
+!.env.example
 .DS_Store
 .mypy_cache/
 .ruff_cache/

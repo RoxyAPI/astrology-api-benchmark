@@ -179,7 +179,7 @@ def test_cli_run_without_a_key_is_a_usage_error(
     domains = tmp_path / "domains"
     shutil.copytree(FIXTURE_DOMAINS, domains)
     monkeypatch.setattr("benchmark.__main__.DOMAINS_DIR", domains)
-    monkeypatch.delenv("ROXY_API_KEY", raising=False)
+    monkeypatch.delenv("BENCHMARK_API_KEY", raising=False)
     code = main(["run", "--env-file", str(tmp_path / "absent"), "--out", str(tmp_path / "r")])
     assert code == 2
-    assert "ROXY_API_KEY" in capsys.readouterr().err
+    assert "BENCHMARK_API_KEY" in capsys.readouterr().err
