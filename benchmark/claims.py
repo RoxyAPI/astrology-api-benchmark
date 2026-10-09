@@ -40,8 +40,10 @@ def fmt(value: float | None) -> str:
     return f"{value:,.1f}".removesuffix(".0")
 
 
-def fmt_up(value: float) -> str:
+def fmt_up(value: float | None) -> str:
     """``fmt`` rounded up, never down, so "within X" stays true of the value it bounds."""
+    if value is None:
+        return "n/a"
     if value <= 0:
         return "0"
     places = 1 if value >= 10 else 1 - math.floor(math.log10(value))

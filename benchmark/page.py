@@ -12,7 +12,7 @@ import html
 from collections.abc import Mapping, Sequence
 from typing import Any
 
-from benchmark.claims import fmt
+from benchmark.claims import fmt, fmt_up
 from benchmark.schema import ALL, Unit
 
 type Model = Mapping[str, Any]
@@ -169,7 +169,7 @@ def scorecard(domains: Sequence[Model]) -> str:
                 f'<td class="ink-2">{esc(d["authority"]) if i == 0 else ""}</td>'
                 f'<td class="r">{s["points"]:,}</td><td>{status(s)}</td>'
                 f'<td class="ink-2">{tiers(s)}</td><td class="r">{fmt(s["median"])}</td>'
-                f'<td class="r">{fmt(s["p95"])}</td><td class="r">{fmt(s["max"])}</td>'
+                f'<td class="r">{fmt(s["p95"])}</td><td class="r">{fmt_up(s["max"])}</td>'
                 f'<td class="muted">{esc(s["unit"])}</td></tr>'
             )
     return "".join(rows)
@@ -259,14 +259,14 @@ def summary_block(summary: Mapping[str, Any], di: int, si: int) -> str:
             "the reference exactly, a deviation of 0 on every case.</p></div>"
         )
     rows = "".join(
-        f'<tr><td>{esc(w["quantity"])}</td><td class="r">{fmt(w["deviation"])}</td>'
+        f'<tr><td>{esc(w["quantity"])}</td><td class="r">{fmt_up(w["deviation"])}</td>'
         f"<td>{esc(w['case'])}</td></tr>"
         for w in worst
     )
     return (
         f'<div class="rule pt-4 avoid-break"><p class="eyebrow">Largest deviation per quantity, '
         f'{unit}</p><p class="mt-1 text-sm muted">Worst case across every subject. Median '
-        f"{fmt(summary['median'])}, p95 {fmt(summary['p95'])}, max {fmt(summary['max'])} {unit}."
+        f"{fmt(summary['median'])}, p95 {fmt(summary['p95'])}, max {fmt_up(summary['max'])} {unit}."
         f'</p><div class="chart-box mt-3" style="height: {len(worst) * 26 + 44}px;">'
         f'<canvas id="chart-{di}-{si}" data-chart="{di} {si}" role="img" '
         f'aria-label="Largest deviation per quantity in {unit}"><table class="data dense">'

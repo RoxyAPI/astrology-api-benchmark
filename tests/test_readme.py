@@ -156,3 +156,12 @@ def test_per_quantity_max_rounds_up_like_the_claim_sentences() -> None:
     text = committed_blocks()["domains"]
     assert amount(top.max, top.unit, up=True) in text
     assert "**Precision tiers**" not in text
+
+
+def test_scorecard_max_rounds_up_and_domains_link_the_report_card() -> None:
+    blocks = committed_blocks()
+    assert "| 0.32 | arcsec |" in blocks["scorecard"]
+    assert (
+        "(https://roxyapi.github.io/astrology-api-benchmark/#domain-western-planets)"
+        in (blocks["domains"])
+    )
