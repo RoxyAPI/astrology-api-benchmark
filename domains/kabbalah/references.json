@@ -1,0 +1,631 @@
+{
+  "format": 1,
+  "domain": "kabbalah",
+  "sources": [
+    {
+      "name": "Mispar Hechrachi letter table",
+      "url": "https://en.wikipedia.org/wiki/Gematria",
+      "command": "python -m benchmark pull kabbalah",
+      "retrieved": "2026-10-09",
+      "licence": "Letter values, facts only; the page is CC BY-SA",
+      "method": "Recomputed from the published letter table: the 22 letters carry 1 to 9, 10 to 90 and 100 to 400, and the five final forms count as the regular letter they are a form of, which is Mispar Hechrachi. Mispar Gadol continues the sequence with the final forms at 500 to 900. Vowel points and cantillation marks carry no value and are removed first.",
+      "applies_to": [
+        "mispar_hechrachi",
+        "mispar_gadol"
+      ],
+      "notes": "Final letters in Mispar Hechrachi take the regular value: the page states that the final forms are given their own values from 500 to 900 only in Mispar Gadol."
+    },
+    {
+      "name": "Dershowitz and Reingold, Calendrical Calculations",
+      "url": "https://www.cambridge.org/core/books/calendrical-calculations/B897CA3260110348F1F7D906B8D9480D",
+      "citation": "Dershowitz and Reingold, Calendrical Calculations, Cambridge University Press, chapter 8 The Hebrew Calendar",
+      "retrieved": "2026-10-09",
+      "licence": "Published algorithm, recomputed; no text or code copied",
+      "method": "The arithmetic Hebrew calendar: leap years by (7y + 1) mod 19 < 7, the molad of Tishri from the mean lunation 29 days 12 hours 793 parts, the four postponement rules, and month lengths set by the year length. The Hebrew day begins at sunset, so a civil date from midnight is dated directly and a moment after nightfall takes the next civil date.",
+      "applies_to": [
+        "hebrew_year",
+        "month_number",
+        "day",
+        "leap_year"
+      ],
+      "notes": "Dates are proleptic Gregorian for every year."
+    },
+    {
+      "name": "Hebcal date converter",
+      "url": "https://www.hebcal.com/converter",
+      "retrieved": "2026-10-09",
+      "licence": "Published tool output, values only",
+      "method": "The Gregorian date, with the after sunset option where noted, entered in the converter; the Hebrew year, month and day it printed were transcribed. The recomputation above is asserted to reproduce every value.",
+      "applies_to": [
+        "hebrew_year",
+        "month_number",
+        "day",
+        "leap_year"
+      ]
+    }
+  ],
+  "families": [
+    {
+      "label": "Mispar Hechrachi and Mispar Gadol word values",
+      "quantities": [
+        "mispar_hechrachi",
+        "mispar_gadol"
+      ]
+    },
+    {
+      "label": "Hebrew year, month and day, with the leap year flag",
+      "quantities": [
+        "hebrew_year",
+        "month_number",
+        "day",
+        "leap_year"
+      ]
+    }
+  ],
+  "tolerances": [
+    {
+      "applies_to": "*",
+      "value": 0,
+      "unit": "exact",
+      "why": "A word value is a sum of integers and a calendar date is a discrete day count, so one letter or one day off is a wrong answer."
+    }
+  ],
+  "cases": [
+    {
+      "id": "shalom",
+      "input": {
+        "gematria": {
+          "textHebrew": "שלום",
+          "includeMatches": false
+        }
+      },
+      "expected": {
+        "mispar_hechrachi": 376,
+        "mispar_gadol": 936
+      }
+    },
+    {
+      "id": "wine",
+      "input": {
+        "gematria": {
+          "textHebrew": "יין",
+          "includeMatches": false
+        }
+      },
+      "expected": {
+        "mispar_hechrachi": 70,
+        "mispar_gadol": 720
+      }
+    },
+    {
+      "id": "secret",
+      "input": {
+        "gematria": {
+          "textHebrew": "סוד",
+          "includeMatches": false
+        }
+      },
+      "expected": {
+        "mispar_hechrachi": 70,
+        "mispar_gadol": 70
+      }
+    },
+    {
+      "id": "life",
+      "input": {
+        "gematria": {
+          "textHebrew": "חי",
+          "includeMatches": false
+        }
+      },
+      "expected": {
+        "mispar_hechrachi": 18,
+        "mispar_gadol": 18
+      }
+    },
+    {
+      "id": "truth",
+      "input": {
+        "gematria": {
+          "textHebrew": "אֶמֶת",
+          "includeMatches": false
+        }
+      },
+      "expected": {
+        "mispar_hechrachi": 441,
+        "mispar_gadol": 441
+      }
+    },
+    {
+      "id": "king",
+      "input": {
+        "gematria": {
+          "textHebrew": "מלך",
+          "includeMatches": false
+        }
+      },
+      "expected": {
+        "mispar_hechrachi": 90,
+        "mispar_gadol": 570
+      }
+    },
+    {
+      "id": "land",
+      "input": {
+        "gematria": {
+          "textHebrew": "ארץ",
+          "includeMatches": false
+        }
+      },
+      "expected": {
+        "mispar_hechrachi": 291,
+        "mispar_gadol": 1101
+      }
+    },
+    {
+      "id": "the-adversary",
+      "input": {
+        "gematria": {
+          "textHebrew": "השטן",
+          "includeMatches": false
+        }
+      },
+      "expected": {
+        "mispar_hechrachi": 364,
+        "mispar_gadol": 1014
+      }
+    },
+    {
+      "id": "mouth",
+      "input": {
+        "gematria": {
+          "textHebrew": "פה",
+          "includeMatches": false
+        }
+      },
+      "expected": {
+        "mispar_hechrachi": 85,
+        "mispar_gadol": 85
+      }
+    },
+    {
+      "id": "final-pe",
+      "input": {
+        "gematria": {
+          "textHebrew": "כף",
+          "includeMatches": false
+        }
+      },
+      "expected": {
+        "mispar_hechrachi": 100,
+        "mispar_gadol": 820
+      }
+    },
+    {
+      "id": "rosh-hashanah-5786",
+      "input": {
+        "birth": {
+          "date": "2025-09-23",
+          "timezone": "UTC",
+          "afterSunset": false
+        }
+      },
+      "expected": {
+        "hebrew_year": 5786,
+        "month_number": 7,
+        "day": 1,
+        "leap_year": false
+      }
+    },
+    {
+      "id": "eve-of-rosh-hashanah",
+      "input": {
+        "birth": {
+          "date": "2025-09-22",
+          "timezone": "UTC",
+          "afterSunset": false
+        }
+      },
+      "expected": {
+        "hebrew_year": 5785,
+        "month_number": 6,
+        "day": 29,
+        "leap_year": false
+      }
+    },
+    {
+      "id": "after-sunset-eve",
+      "input": {
+        "birth": {
+          "date": "2025-09-22",
+          "timezone": "UTC",
+          "afterSunset": true
+        }
+      },
+      "expected": {
+        "hebrew_year": 5786,
+        "month_number": 7,
+        "day": 1,
+        "leap_year": false
+      }
+    },
+    {
+      "id": "rosh-hashanah-5787",
+      "input": {
+        "birth": {
+          "date": "2026-09-12",
+          "timezone": "UTC",
+          "afterSunset": false
+        }
+      },
+      "expected": {
+        "hebrew_year": 5787,
+        "month_number": 7,
+        "day": 1,
+        "leap_year": true
+      }
+    },
+    {
+      "id": "shevat-end",
+      "input": {
+        "birth": {
+          "date": "2024-02-09",
+          "timezone": "UTC",
+          "afterSunset": false
+        }
+      },
+      "expected": {
+        "hebrew_year": 5784,
+        "month_number": 11,
+        "day": 30,
+        "leap_year": true
+      }
+    },
+    {
+      "id": "adar-i-start",
+      "input": {
+        "birth": {
+          "date": "2024-02-10",
+          "timezone": "UTC",
+          "afterSunset": false
+        }
+      },
+      "expected": {
+        "hebrew_year": 5784,
+        "month_number": 12,
+        "day": 1,
+        "leap_year": true
+      }
+    },
+    {
+      "id": "adar-i-end",
+      "input": {
+        "birth": {
+          "date": "2024-03-10",
+          "timezone": "UTC",
+          "afterSunset": false
+        }
+      },
+      "expected": {
+        "hebrew_year": 5784,
+        "month_number": 12,
+        "day": 30,
+        "leap_year": true
+      }
+    },
+    {
+      "id": "adar-ii-start",
+      "input": {
+        "birth": {
+          "date": "2024-03-11",
+          "timezone": "UTC",
+          "afterSunset": false
+        }
+      },
+      "expected": {
+        "hebrew_year": 5784,
+        "month_number": 13,
+        "day": 1,
+        "leap_year": true
+      }
+    },
+    {
+      "id": "nisan-start",
+      "input": {
+        "birth": {
+          "date": "2024-04-09",
+          "timezone": "UTC",
+          "afterSunset": false
+        }
+      },
+      "expected": {
+        "hebrew_year": 5784,
+        "month_number": 1,
+        "day": 1,
+        "leap_year": true
+      }
+    },
+    {
+      "id": "plain-adar",
+      "input": {
+        "birth": {
+          "date": "2025-03-10",
+          "timezone": "UTC",
+          "afterSunset": false
+        }
+      },
+      "expected": {
+        "hebrew_year": 5785,
+        "month_number": 12,
+        "day": 10,
+        "leap_year": false
+      }
+    },
+    {
+      "id": "mid-year",
+      "input": {
+        "birth": {
+          "date": "1990-06-15",
+          "timezone": "UTC",
+          "afterSunset": false
+        }
+      },
+      "expected": {
+        "hebrew_year": 5750,
+        "month_number": 3,
+        "day": 22,
+        "leap_year": false
+      }
+    },
+    {
+      "id": "early-modern",
+      "input": {
+        "birth": {
+          "date": "1700-01-01",
+          "timezone": "UTC",
+          "afterSunset": false
+        }
+      },
+      "expected": {
+        "hebrew_year": 5460,
+        "month_number": 10,
+        "day": 10,
+        "leap_year": false
+      }
+    },
+    {
+      "id": "year-before-reform",
+      "input": {
+        "birth": {
+          "date": "1582-10-04",
+          "timezone": "UTC",
+          "afterSunset": false
+        }
+      },
+      "expected": {
+        "hebrew_year": 5343,
+        "month_number": 7,
+        "day": 8,
+        "leap_year": false
+      }
+    }
+  ],
+  "cross_checks": [
+    {
+      "id": "יין",
+      "source": "Mispar Hechrachi letter table",
+      "input": {
+        "textHebrew": "יין"
+      },
+      "expected": {
+        "mispar_hechrachi": 70
+      }
+    },
+    {
+      "id": "סוד",
+      "source": "Mispar Hechrachi letter table",
+      "input": {
+        "textHebrew": "סוד"
+      },
+      "expected": {
+        "mispar_hechrachi": 70
+      }
+    },
+    {
+      "id": "חי",
+      "source": "Mispar Hechrachi letter table",
+      "input": {
+        "textHebrew": "חי"
+      },
+      "expected": {
+        "mispar_hechrachi": 18
+      }
+    },
+    {
+      "id": "אמת",
+      "source": "Mispar Hechrachi letter table",
+      "input": {
+        "textHebrew": "אמת"
+      },
+      "expected": {
+        "mispar_hechrachi": 441
+      }
+    },
+    {
+      "id": "השטן",
+      "source": "Mispar Hechrachi letter table",
+      "input": {
+        "textHebrew": "השטן"
+      },
+      "expected": {
+        "mispar_hechrachi": 364
+      }
+    },
+    {
+      "id": "אליעזר",
+      "source": "Mispar Hechrachi letter table",
+      "input": {
+        "textHebrew": "אליעזר"
+      },
+      "expected": {
+        "mispar_hechrachi": 318
+      }
+    },
+    {
+      "id": "2025-09-23",
+      "source": "Hebcal date converter",
+      "input": {
+        "date": "2025-09-23",
+        "afterSunset": false
+      },
+      "expected": {
+        "hebrew_year": 5786,
+        "month_number": 7,
+        "day": 1
+      }
+    },
+    {
+      "id": "2025-09-22",
+      "source": "Hebcal date converter",
+      "input": {
+        "date": "2025-09-22",
+        "afterSunset": false
+      },
+      "expected": {
+        "hebrew_year": 5785,
+        "month_number": 6,
+        "day": 29
+      }
+    },
+    {
+      "id": "2025-09-22-after-sunset",
+      "source": "Hebcal date converter",
+      "input": {
+        "date": "2025-09-22",
+        "afterSunset": true
+      },
+      "expected": {
+        "hebrew_year": 5786,
+        "month_number": 7,
+        "day": 1
+      }
+    },
+    {
+      "id": "2026-09-12",
+      "source": "Hebcal date converter",
+      "input": {
+        "date": "2026-09-12",
+        "afterSunset": false
+      },
+      "expected": {
+        "hebrew_year": 5787,
+        "month_number": 7,
+        "day": 1
+      }
+    },
+    {
+      "id": "2024-02-09",
+      "source": "Hebcal date converter",
+      "input": {
+        "date": "2024-02-09",
+        "afterSunset": false
+      },
+      "expected": {
+        "hebrew_year": 5784,
+        "month_number": 11,
+        "day": 30
+      }
+    },
+    {
+      "id": "2024-02-10",
+      "source": "Hebcal date converter",
+      "input": {
+        "date": "2024-02-10",
+        "afterSunset": false
+      },
+      "expected": {
+        "hebrew_year": 5784,
+        "month_number": 12,
+        "day": 1
+      }
+    },
+    {
+      "id": "2024-03-10",
+      "source": "Hebcal date converter",
+      "input": {
+        "date": "2024-03-10",
+        "afterSunset": false
+      },
+      "expected": {
+        "hebrew_year": 5784,
+        "month_number": 12,
+        "day": 30
+      }
+    },
+    {
+      "id": "2024-03-11",
+      "source": "Hebcal date converter",
+      "input": {
+        "date": "2024-03-11",
+        "afterSunset": false
+      },
+      "expected": {
+        "hebrew_year": 5784,
+        "month_number": 13,
+        "day": 1
+      }
+    },
+    {
+      "id": "2024-04-09",
+      "source": "Hebcal date converter",
+      "input": {
+        "date": "2024-04-09",
+        "afterSunset": false
+      },
+      "expected": {
+        "hebrew_year": 5784,
+        "month_number": 1,
+        "day": 1
+      }
+    },
+    {
+      "id": "1990-06-15",
+      "source": "Hebcal date converter",
+      "input": {
+        "date": "1990-06-15",
+        "afterSunset": false
+      },
+      "expected": {
+        "hebrew_year": 5750,
+        "month_number": 3,
+        "day": 22
+      }
+    },
+    {
+      "id": "2025-03-10",
+      "source": "Hebcal date converter",
+      "input": {
+        "date": "2025-03-10",
+        "afterSunset": false
+      },
+      "expected": {
+        "hebrew_year": 5785,
+        "month_number": 12,
+        "day": 10
+      }
+    },
+    {
+      "id": "1700-01-01",
+      "source": "Hebcal date converter",
+      "input": {
+        "date": "1700-01-01",
+        "afterSunset": false
+      },
+      "expected": {
+        "hebrew_year": 5460,
+        "month_number": 10,
+        "day": 10
+      }
+    }
+  ]
+}
