@@ -123,6 +123,7 @@
   :root[data-theme="dark"] .coverage-map .map-light { display: none; }
   :root[data-theme="dark"] .coverage-map .map-dark { display: block; }
   @media print {
+    .coverage-map { display: none !important; }
     .coverage-map .map-light { display: block !important; }
     .coverage-map .map-dark { display: none !important; }
   }
@@ -144,7 +145,7 @@
     .print-only { display: block; }
     .page { break-before: page; }
     .panel { border: 0; border-radius: 0; padding: 0 !important; background: transparent; }
-    .measurements[hidden] { display: block !important; }
+    .measurements { display: none !important; }
     .wrap { max-width: none !important; padding: 0 !important; margin: 0 !important; }
     body h2 { font-size: 17pt; }
     body h3 { font-size: 12.5pt; }
@@ -237,6 +238,7 @@
     <h2 id="coverage-title">Coverage map</h2>
     <p class="mt-2 ink-2">Each reference authority, the domain it checks and the quantities compared, drawn from the references of every domain in this run.</p>
     <div class="panel mt-4 p-4 coverage-map avoid-break" data-coverage></div>
+    <div class="print-only mt-4" data-coverage-table></div>
   </section>
 
   <section id="method" class="page" aria-labelledby="method-title">
@@ -411,7 +413,7 @@
         ${blocks}
         <div class="rule pt-4">
           <button type="button" class="btn screen-only" aria-expanded="false" aria-controls="${tableId}" data-toggle>Show all ${int.format(points)} measurements</button>
-          <p class="eyebrow print-only">All ${int.format(points)} measurements</p>
+          <p class="print-only ink-2">All ${int.format(points)} measurements of this domain, case by case, are in ${esc(data.links.csv.replace("https://", ""))} and ${esc(data.links.json.replace("https://", ""))}.</p>
           <div id="${tableId}" class="measurements mt-3 overflow-x-auto" hidden>
             <table class="data dense">
               <thead><tr><th>Case</th><th>Quantity</th><th class="r">Expected</th><th class="r">Returned</th><th class="r">Deviation</th><th class="r">Band</th><th>Unit</th><th>Status</th></tr></thead>
@@ -519,6 +521,11 @@
       plugins: [tipLabels],
     }));
   };
+
+  document.querySelector("[data-coverage-table]").innerHTML = `<table class="data dense">
+    <thead><tr><th>Domain</th><th>Reference authorities</th><th>Covers</th></tr></thead>
+    <tbody>${data.domains.map((d) => `<tr><td><strong>${esc(d.title)}</strong></td><td>${d.sources.map((src) => esc(src.name)).join("; ")}</td><td>${d.covers.map(esc).join("; ")}</td></tr>`).join("")}</tbody>
+  </table>`;
 
   const drawCoverage = async () => {
     const host = document.querySelector("[data-coverage]");
