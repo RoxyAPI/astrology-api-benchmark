@@ -1,0 +1,297 @@
+{
+  "format": 1,
+  "domain": "human-design",
+  "sources": [
+    {
+      "name": "NASA JPL Horizons",
+      "url": "https://ssd.jpl.nasa.gov/api/horizons.api",
+      "command": "python -m benchmark pull human-design (OBSERVER tables of the geocentric Sun, QUANTITIES 31, one minute windows at whole UT seconds)",
+      "retrieved": "2026-10-09",
+      "licence": "NASA JPL data, public domain US government work; cite Horizons",
+      "method": "Apparent geocentric ecliptic longitude of date of the Sun at birth; the Design moment root found by Newton steps on the Sun rate until the Sun stands 88 degrees behind the natal Sun, then interpolated inside the bracketing minute. Gates and lines follow from these longitudes by the Rave Mandala.",
+      "notes": "Horizons puts the Sun at 302 degrees, the start of gate 41, at 2024-01-22 13:17:56 UT, inside the minute Jovian Archive publishes for the Rave New Year."
+    },
+    {
+      "name": "Introduction to the Human Design System",
+      "url": "https://www.ihdschool.com/resources/free-library",
+      "citation": "Ra Uru Hu, Introduction to the Human Design System, International Human Design School, free edition: pages 3 and 4, the Design calculation 88 degrees of the movement of the Sun before birth",
+      "retrieved": "2026-10-09",
+      "licence": "Published by the International Human Design School; the rule is cited, no text is reproduced",
+      "method": "The Design side is computed at the instant the Sun stood 88 degrees of solar arc before its natal longitude, never 88 calendar days.",
+      "applies_to": [
+        "design instant",
+        "design Sun gate",
+        "design Sun line",
+        "design Earth gate",
+        "design Earth line"
+      ]
+    },
+    {
+      "name": "Jovian Archive",
+      "url": "https://jovianarchive.com/blogs/transits-global-cycles/the-rave-new-year-stage-1-and-2",
+      "retrieved": "2026-10-09",
+      "licence": "Jovian Archive publication; facts cited, no text reproduced",
+      "method": "The Sun enters gate 41, the first gate of the Rave Mandala, on 22 January 2024 at 13:18 UTC, fixing the wheel start at 2 degrees Aquarius. The profile is the Personality Sun line over the Design Sun line (https://jovianarchive.com/blogs/chart-interpretations-components/understanding-your-human-design-profile).",
+      "applies_to": [
+        "personality Sun gate",
+        "personality Sun line",
+        "personality Earth gate",
+        "personality Earth line",
+        "design Sun gate",
+        "design Sun line",
+        "design Earth gate",
+        "design Earth line",
+        "profile"
+      ]
+    },
+    {
+      "name": "Human Design Gates by Zodiac Degrees",
+      "url": "https://bonniesorsby.com/human-design-gates-by-degree/",
+      "retrieved": "2026-10-09",
+      "licence": "Published table; the degree of each gate is cited as a fact",
+      "method": "The opening degree and minute of all 64 gates in zodiac order, which a test pins against the wheel order and the 5 deg 37 min 30 sec gate.",
+      "applies_to": [
+        "personality Sun gate",
+        "personality Sun line",
+        "personality Earth gate",
+        "personality Earth line",
+        "design Sun gate",
+        "design Sun line",
+        "design Earth gate",
+        "design Earth line"
+      ]
+    }
+  ],
+  "tolerances": [
+    {
+      "applies_to": [
+        "design instant"
+      ],
+      "value": 60,
+      "unit": "seconds",
+      "why": "The Sun moves about one arcsecond in 24 seconds, so this is about 2.5 arcseconds of solar arc: room for two good ephemerides and their nutation and aberration models, while 88 calendar days, a mean Sun or a wrong timezone misses by hours."
+    },
+    {
+      "applies_to": "*",
+      "value": 0,
+      "unit": "exact",
+      "why": "Gates, lines and the profile are discrete: the Rave Mandala applied to the longitude gives the value or it does not. Every reference Sun sits at least 10 arcseconds inside its line."
+    }
+  ],
+  "cases": [
+    {
+      "id": "einstein",
+      "chart": "einstein",
+      "expected": {
+        "design instant": "1878-12-17T12:51:11.916+00:00",
+        "personality Sun gate": 36,
+        "personality Sun line": 1,
+        "personality Earth gate": 6,
+        "personality Earth line": 1,
+        "design Sun gate": 11,
+        "design Sun line": 4,
+        "design Earth gate": 12,
+        "design Earth line": 4,
+        "profile": "1/4"
+      }
+    },
+    {
+      "id": "monroe",
+      "chart": "monroe",
+      "expected": {
+        "design instant": "1926-03-03T18:44:51.484+00:00",
+        "personality Sun gate": 16,
+        "personality Sun line": 6,
+        "personality Earth gate": 9,
+        "personality Earth line": 6,
+        "design Sun gate": 63,
+        "design Sun line": 2,
+        "design Earth gate": 64,
+        "design Earth line": 2,
+        "profile": "6/2"
+      }
+    },
+    {
+      "id": "jfk",
+      "chart": "jfk",
+      "expected": {
+        "design instant": "1917-02-28T23:54:06.349+00:00",
+        "personality Sun gate": 16,
+        "personality Sun line": 3,
+        "personality Earth gate": 9,
+        "personality Earth line": 3,
+        "design Sun gate": 37,
+        "design Sun line": 5,
+        "design Earth gate": 40,
+        "design Earth line": 5,
+        "profile": "3/5"
+      }
+    },
+    {
+      "id": "obama",
+      "chart": "obama",
+      "expected": {
+        "design instant": "1961-05-05T07:08:53.695+00:00",
+        "personality Sun gate": 33,
+        "personality Sun line": 6,
+        "personality Earth gate": 19,
+        "personality Earth line": 6,
+        "design Sun gate": 2,
+        "design Sun line": 2,
+        "design Earth gate": 1,
+        "design Earth line": 2,
+        "profile": "6/2"
+      }
+    },
+    {
+      "id": "musk",
+      "chart": "musk",
+      "expected": {
+        "design instant": "1971-03-29T05:40:53.873+00:00",
+        "personality Sun gate": 52,
+        "personality Sun line": 3,
+        "personality Earth gate": 58,
+        "personality Earth line": 3,
+        "design Sun gate": 17,
+        "design Sun line": 5,
+        "design Earth gate": 18,
+        "design Earth line": 5,
+        "profile": "3/5"
+      }
+    },
+    {
+      "id": "sydney_2010",
+      "chart": "sydney_2010",
+      "expected": {
+        "design instant": "2010-09-28T08:23:23.378+00:00",
+        "personality Sun gate": 10,
+        "personality Sun line": 6,
+        "personality Earth gate": 15,
+        "personality Earth line": 6,
+        "design Sun gate": 18,
+        "design Sun line": 2,
+        "design Earth gate": 17,
+        "design Earth line": 2,
+        "profile": "6/2"
+      }
+    },
+    {
+      "id": "ny_dst_fall",
+      "chart": "ny_dst_fall",
+      "expected": {
+        "design instant": "2005-08-01T01:01:03.830+00:00",
+        "personality Sun gate": 28,
+        "personality Sun line": 6,
+        "personality Earth gate": 27,
+        "personality Earth line": 6,
+        "design Sun gate": 33,
+        "design Sun line": 2,
+        "design Earth gate": 19,
+        "design Earth line": 2,
+        "profile": "6/2"
+      }
+    },
+    {
+      "id": "rave-new-year-2024",
+      "input": {
+        "date": "2024-01-22",
+        "time": "13:25:00",
+        "timezone": 0
+      },
+      "expected": {
+        "design instant": "2023-10-27T16:49:27.086+00:00",
+        "personality Sun gate": 41,
+        "personality Sun line": 1,
+        "personality Earth gate": 31,
+        "personality Earth line": 1,
+        "design Sun gate": 28,
+        "design Sun line": 3,
+        "design Earth gate": 27,
+        "design Earth line": 3,
+        "profile": "1/3"
+      }
+    },
+    {
+      "id": "design-line-edge",
+      "input": {
+        "date": "1990-07-16",
+        "time": "05:29:51",
+        "timezone": 0
+      },
+      "expected": {
+        "design instant": "1990-04-15T16:32:18.150+00:00",
+        "personality Sun gate": 62,
+        "personality Sun line": 3,
+        "personality Earth gate": 61,
+        "personality Earth line": 3,
+        "design Sun gate": 42,
+        "design Sun line": 6,
+        "design Earth gate": 32,
+        "design Earth line": 6,
+        "profile": "3/6"
+      }
+    },
+    {
+      "id": "personality-line-edge",
+      "input": {
+        "date": "1975-03-10",
+        "time": "02:08:19",
+        "timezone": 0
+      },
+      "expected": {
+        "design instant": "1974-12-13T06:53:37.314+00:00",
+        "personality Sun gate": 22,
+        "personality Sun line": 3,
+        "personality Earth gate": 47,
+        "personality Earth line": 3,
+        "design Sun gate": 26,
+        "design Sun line": 5,
+        "design Earth gate": 45,
+        "design Earth line": 5,
+        "profile": "3/5"
+      }
+    }
+  ],
+  "cross_checks": [
+    {
+      "id": "rave-new-year-2024",
+      "source": "Jovian Archive",
+      "input": {
+        "date": "2024-01-22",
+        "time": "13:25:00",
+        "timezone": 0
+      },
+      "expected": {
+        "personality Sun gate": 41,
+        "personality Sun line": 1
+      }
+    }
+  ],
+  "families": [
+    {
+      "label": "Design instant",
+      "quantities": [
+        "design instant"
+      ]
+    },
+    {
+      "label": "Personality and design Sun and Earth gates and lines",
+      "quantities": [
+        "personality Sun gate",
+        "personality Sun line",
+        "personality Earth gate",
+        "personality Earth line",
+        "design Sun gate",
+        "design Sun line",
+        "design Earth gate",
+        "design Earth line"
+      ]
+    },
+    {
+      "label": "Profile",
+      "quantities": [
+        "profile"
+      ]
+    }
+  ]
+}
