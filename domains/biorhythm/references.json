@@ -1,0 +1,217 @@
+{
+  "format": 1,
+  "domain": "biorhythm",
+  "sources": [
+    {
+      "name": "Cleve Moler, Biorhythms, MathWorks blog",
+      "url": "https://blogs.mathworks.com/cleve/2012/06/11/biorhythms-2/",
+      "command": "python -m benchmark pull biorhythm",
+      "retrieved": "2026-10-09",
+      "licence": "Published definition, facts only, cited",
+      "method": "Recomputed from the definition: physical sin(2 pi t / 23), emotional sin(2 pi t / 28), intellectual sin(2 pi t / 33), where t is the number of days since birth. The percentage is 100 times the sine rounded to the nearest whole number and the raw value is the sine rounded to four decimals.",
+      "notes": "The day count is the difference of two calendar dates, with no time of day and no time zone. Only the three primary cycles carry a published period, so no other cycle is checked."
+    },
+    {
+      "name": "US Patent 4,240,153, Biorhythm display device, USPTO",
+      "url": "https://patents.google.com/patent/US4240153A/en",
+      "retrieved": "2026-10-09",
+      "licence": "US government patent record, facts only, cited",
+      "method": "Read for the same three periods of 23, 28 and 33 days and for the rule that the cycles are set from the number of days elapsed since the birth date, which the day count of each case follows.",
+      "applies_to": [
+        "days_since_birth"
+      ]
+    }
+  ],
+  "families": [
+    {
+      "label": "Physical, emotional and intellectual cycles",
+      "quantities": [
+        "days_since_birth",
+        "physical_percent",
+        "physical_raw",
+        "emotional_percent",
+        "emotional_raw",
+        "intellectual_percent",
+        "intellectual_raw"
+      ]
+    }
+  ],
+  "tolerances": [
+    {
+      "applies_to": [
+        "days_since_birth"
+      ],
+      "value": 0,
+      "unit": "days",
+      "why": "A calendar day count is an integer: a miss is a wrong day"
+    },
+    {
+      "applies_to": "*",
+      "value": 0,
+      "unit": "exact",
+      "why": "The percentage is published as a whole number and the raw sine to four decimals, so the recomputed value rounded the same way must match exactly."
+    }
+  ],
+  "cases": [
+    {
+      "id": "birth-day",
+      "input": {
+        "birthDate": "1990-07-15",
+        "targetDate": "1990-07-15"
+      },
+      "expected": {
+        "days_since_birth": 0,
+        "physical_percent": 0,
+        "physical_raw": "0.0000",
+        "emotional_percent": 0,
+        "emotional_raw": "0.0000",
+        "intellectual_percent": 0,
+        "intellectual_raw": "0.0000"
+      }
+    },
+    {
+      "id": "before-anniversary",
+      "input": {
+        "birthDate": "1990-07-15",
+        "targetDate": "2026-04-10"
+      },
+      "expected": {
+        "days_since_birth": 13053,
+        "physical_percent": -14,
+        "physical_raw": "-0.1362",
+        "emotional_percent": 90,
+        "emotional_raw": "0.9010",
+        "intellectual_percent": -28,
+        "intellectual_raw": "-0.2817"
+      }
+    },
+    {
+      "id": "on-anniversary",
+      "input": {
+        "birthDate": "1990-07-15",
+        "targetDate": "2026-07-15"
+      },
+      "expected": {
+        "days_since_birth": 13149,
+        "physical_percent": -94,
+        "physical_raw": "-0.9423",
+        "emotional_percent": -62,
+        "emotional_raw": "-0.6235",
+        "intellectual_percent": 28,
+        "intellectual_raw": "0.2817"
+      }
+    },
+    {
+      "id": "leap-day-birth",
+      "input": {
+        "birthDate": "2000-02-29",
+        "targetDate": "2025-03-01"
+      },
+      "expected": {
+        "days_since_birth": 9132,
+        "physical_percent": 27,
+        "physical_raw": "0.2698",
+        "emotional_percent": 78,
+        "emotional_raw": "0.7818",
+        "intellectual_percent": -99,
+        "intellectual_raw": "-0.9898"
+      }
+    },
+    {
+      "id": "leap-day-span",
+      "input": {
+        "birthDate": "2000-02-29",
+        "targetDate": "2024-02-29"
+      },
+      "expected": {
+        "days_since_birth": 8766,
+        "physical_percent": 73,
+        "physical_raw": "0.7308",
+        "emotional_percent": 43,
+        "emotional_raw": "0.4339",
+        "intellectual_percent": -76,
+        "intellectual_raw": "-0.7557"
+      }
+    },
+    {
+      "id": "across-leap-day",
+      "input": {
+        "birthDate": "2023-12-31",
+        "targetDate": "2024-03-01"
+      },
+      "expected": {
+        "days_since_birth": 61,
+        "physical_percent": -82,
+        "physical_raw": "-0.8170",
+        "emotional_percent": 90,
+        "emotional_raw": "0.9010",
+        "intellectual_percent": -81,
+        "intellectual_raw": "-0.8146"
+      }
+    },
+    {
+      "id": "long-span",
+      "input": {
+        "birthDate": "1930-01-01",
+        "targetDate": "2026-10-01"
+      },
+      "expected": {
+        "days_since_birth": 35337,
+        "physical_percent": 63,
+        "physical_raw": "0.6311",
+        "emotional_percent": 22,
+        "emotional_raw": "0.2225",
+        "intellectual_percent": -91,
+        "intellectual_raw": "-0.9096"
+      }
+    },
+    {
+      "id": "century-span",
+      "input": {
+        "birthDate": "1900-03-01",
+        "targetDate": "2000-01-01"
+      },
+      "expected": {
+        "days_since_birth": 36465,
+        "physical_percent": 40,
+        "physical_raw": "0.3984",
+        "emotional_percent": 90,
+        "emotional_raw": "0.9010",
+        "intellectual_percent": 0,
+        "intellectual_raw": "0.0000"
+      }
+    },
+    {
+      "id": "elderly-birth",
+      "input": {
+        "birthDate": "1946-06-14",
+        "targetDate": "2026-10-09"
+      },
+      "expected": {
+        "days_since_birth": 29337,
+        "physical_percent": -14,
+        "physical_raw": "-0.1362",
+        "emotional_percent": -100,
+        "emotional_raw": "-1.0000",
+        "intellectual_percent": 0,
+        "intellectual_raw": "0.0000"
+      }
+    },
+    {
+      "id": "triple-return",
+      "input": {
+        "birthDate": "1990-07-15",
+        "targetDate": "2048-09-20"
+      },
+      "expected": {
+        "days_since_birth": 21252,
+        "physical_percent": 0,
+        "physical_raw": "0.0000",
+        "emotional_percent": 0,
+        "emotional_raw": "0.0000",
+        "intellectual_percent": 0,
+        "intellectual_raw": "0.0000"
+      }
+    }
+  ]
+}
