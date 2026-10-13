@@ -5,8 +5,8 @@ diana,Princess Diana,1961-07-01,19:45:00,52.8333,0.5,1,A,Sandringham UK BST; A-r
 einstein,Albert Einstein,1879-03-14,11:30:00,48.4,10.0,0.6667,AA,Ulm Germany LMT m10e0; pre-1900 chart with local mean time
 jobs,Steve Jobs,1955-02-24,19:15:00,37.7833,-122.4167,-8,AA,San Francisco PST; AA-rated celebrity birth chart
 musk,Elon Musk,1971-06-28,07:30:00,-25.75,28.1667,2,B,Pretoria South Africa SAST; southern hemisphere
-monroe,Marilyn Monroe,1926-06-01,09:30:00,34.05,-118.25,-8,AA,Los Angeles PST; AA-rated celebrity birth chart
-jfk,John F Kennedy,1917-05-29,15:00:00,42.3333,-71.1167,-5,A,Brookline MA EST; A-rated celebrity birth chart
+monroe,Marilyn Monroe,1926-06-01,09:30:00,34.05,-118.25,-8,AA,Los Angeles PST; AA-rated celebrity birth chart testing a pre-1950 epoch
+jfk,John F Kennedy,1917-05-29,15:00:00,42.3333,-71.1167,-5,A,Brookline MA EST; A-rated celebrity birth chart testing a pre-1950 epoch
 reykjavik_summer,Reykjavik summer solstice,1985-06-21,12:00:00,64.1466,-21.9426,0,synthetic,Iceland near 64N; tests near-polar latitude in continuous daylight
 ushuaia_winter,Ushuaia winter solstice,1985-12-21,09:00:00,-54.8019,-68.3030,-3,synthetic,Argentina far south near 55S; tests southern high latitude in winter
 quito_equinox,Quito autumn equinox,1995-09-23,12:00:00,-0.1807,-78.4678,-5,synthetic,Ecuador on the equator; tests ecliptic-equatorial alignment

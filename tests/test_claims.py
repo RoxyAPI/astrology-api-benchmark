@@ -1,12 +1,15 @@
 from __future__ import annotations
 
 import copy
+import re
 from typing import Any
 
 import pytest
 
 from benchmark.claims import (
+    EVERYDAY_CHARTS,
     amount,
+    control_sentence,
     fmt_up,
     headline,
     measured_deviation,
@@ -17,6 +20,8 @@ from benchmark.claims import (
     target_host,
     tier_sentences,
 )
+from benchmark.paths import RESULTS_DIR
+from benchmark.results import JSON_FILE, read_results
 from benchmark.schema import Chart, Unit, parse_references
 
 REFS: dict[str, Any] = {
@@ -84,6 +89,76 @@ DOMAIN: dict[str, Any] = {
 
 def doc(*domains: dict[str, Any], target: str = "https://roxyapi.com/api/v2") -> dict[str, Any]:
     return {"run": {"date": "2026-01-01", "target": target}, "domains": list(domains)}
+
+
+def test_everyday_split_names_existing_charts_and_documents_every_edge(
+    charts: dict[str, Chart],
+) -> None:
+    assert len(set(EVERYDAY_CHARTS)) == len(EVERYDAY_CHARTS)
+    assert set(EVERYDAY_CHARTS) <= charts.keys()
+    assert charts["einstein"].date.startswith("1879-")
+    for chart in charts.values():
+        if chart.id in EVERYDAY_CHARTS:
+            assert 1950 <= int(chart.date[:4]) <= 2010
+            continue
+        assert re.search(
+            r"pre-\d{4}|early \d{4}s|near-polar|high latitude|equator|"
+            r"spring-forward|fall-back|midnight sun|rollover|skipped",
+            chart.description,
+            re.IGNORECASE,
+        ), f"{chart.id} must describe the edge it tests"
+
+
+def test_control_sentence_computes_both_maxima_from_the_committed_run(
+    charts: dict[str, Chart],
+) -> None:
+    results = read_results(RESULTS_DIR / JSON_FILE)
+    planets = next(d for d in results["domains"] if d["id"] == "western-planets")
+    rows = [
+        m for m in planets["measurements"] if m["unit"] == "arcsec" and m["deviation"] is not None
+    ]
+    everyday = [m for m in rows if m["case"] in EVERYDAY_CHARTS]
+    everyday_max = max(m["deviation"] for m in everyday)
+    full_max = max(m["deviation"] for m in rows)
+    hardest = max(rows, key=lambda m: m["deviation"])["case"]
+    suffix = f", with the {charts[hardest].date[:4]} chart the hardest"
+    count = len({m["case"] for m in everyday})
+    assert control_sentence(results) == (
+        f"Picked from everyday modern charts alone, the {count} births from 1950 to 2010 at "
+        f"ordinary latitudes, the planet maximum would read "
+        f"{amount(everyday_max, Unit.ARCSEC, up=True, deg=True)}; the published "
+        f"{amount(full_max, Unit.ARCSEC, up=True, deg=True)} comes from the edge cases{suffix}."
+    )
+    assert amount(full_max, Unit.ARCSEC, up=True, deg=True) in tier_sentences(results)[0]
+
+
+@pytest.mark.parametrize("worst_case", ["einstein", "boston_1900"])
+def test_control_sentence_tracks_changed_values_counts_and_worst_case(worst_case: str) -> None:
+    everyday_max, full_max = 0.12345, 0.56789
+    planets = {
+        "id": "western-planets",
+        "measurements": [
+            m("jobs", "Sun", everyday_max),
+            m("jobs", "Moon", everyday_max / 2),
+            m("obama", "Sun", everyday_max / 3),
+            m("beyonce", "Sun", None, "MISSING"),
+            m(worst_case, "Sun", full_max),
+            {**m("jobs", "instant", full_max * 10), "unit": "seconds"},
+        ],
+    }
+    unrelated = {"id": "other", "measurements": [m("jobs", "Sun", full_max * 100)]}
+    sentence = control_sentence(doc(unrelated, planets))
+    assert "the 2 births" in sentence
+    assert f"would read {amount(everyday_max, Unit.ARCSEC, up=True, deg=True)};" in sentence
+    assert f"the published {amount(full_max, Unit.ARCSEC, up=True, deg=True)} comes" in sentence
+    year = {"einstein": "1879", "boston_1900": "1900"}[worst_case]
+    assert f"with the {year} chart the hardest" in sentence
+
+
+def test_control_sentence_omits_an_unmeasured_or_absent_subset() -> None:
+    assert control_sentence(doc(DOMAIN)) == ""
+    for rows in ([], [m("einstein", "Sun", 1)], [m("jobs", "Sun", None, "MISSING")]):
+        assert control_sentence(doc({"id": "western-planets", "measurements": rows})) == ""
 
 
 @pytest.mark.parametrize(

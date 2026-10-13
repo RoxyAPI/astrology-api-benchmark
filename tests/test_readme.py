@@ -9,7 +9,14 @@ from typing import Any
 import pytest
 
 from benchmark.__main__ import main
-from benchmark.claims import CASES, amount, fmt, measured_deviation, quantity_stats
+from benchmark.claims import (
+    CASES,
+    amount,
+    control_sentence,
+    fmt,
+    measured_deviation,
+    quantity_stats,
+)
 from benchmark.domains import discover, references_for
 from benchmark.paths import RESULTS_DIR, ROOT
 from benchmark.readme import (
@@ -62,6 +69,20 @@ def test_check_command_exits_one_on_drift_and_zero_when_current(tmp_path: Path) 
     args = ["readme", "--readme", str(readme), "--results", str(results)]
     assert main([*args, "--check"]) == 1
     assert "stale" in readme.read_text(encoding="utf-8")
+    assert main(args) == 0
+    assert main([*args, "--check"]) == 0
+
+
+def test_check_command_detects_control_only_drift_without_writing(tmp_path: Path) -> None:
+    readme, results = copy_inputs(tmp_path)
+    args = ["readme", "--readme", str(readme), "--results", str(results)]
+    assert main(args) == 0
+    sentence = control_sentence(read_results(results))
+    assert sentence
+    stale = readme.read_text(encoding="utf-8").replace(sentence, "Stale control.")
+    readme.write_text(stale, encoding="utf-8")
+    assert main([*args, "--check"]) == 1
+    assert readme.read_text(encoding="utf-8") == stale
     assert main(args) == 0
     assert main([*args, "--check"]) == 0
 
@@ -175,6 +196,8 @@ def test_scorecard_max_rounds_up_and_domains_link_the_report_card() -> None:
 def test_readme_intro_states_what_the_cases_are_chosen_to_do() -> None:
     intro = (ROOT / "README.md").read_text(encoding="utf-8").split("<!-- generated:claim:begin")[0]
     assert CASES in intro
+    sentence = control_sentence(read_results(RESULTS_DIR / JSON_FILE))
+    assert f"{CASES}\n\n{begin_marker('control')}\n{sentence}\n{end_marker('control')}" in intro
 
 
 def test_every_readme_image_is_an_absolute_url() -> None:

@@ -19,6 +19,7 @@ from benchmark.claims import (
     QuantityStat,
     amount,
     combined,
+    control_sentence,
     deviations,
     headline,
     labels,
@@ -42,7 +43,7 @@ from benchmark.site import SITE_URL
 from benchmark.spec import label, reference_url
 from benchmark.stats import median
 
-BLOCKS = ("claim", "scorecard", "coverage", "domains", "credits")
+BLOCKS = ("control", "claim", "scorecard", "coverage", "domains", "credits")
 """The generated blocks, in the order they appear in the README."""
 
 
@@ -62,6 +63,7 @@ def render_blocks(results: Mapping[str, Any], refs: Mapping[str, References]) ->
     """Every block body, keyed by block name, from a results document and its references."""
     domains: list[dict[str, Any]] = list(results["domains"])
     return {
+        "control": control_sentence(results),
         "claim": _claim(results, refs),
         "scorecard": _scorecard(domains),
         "coverage": _coverage(results, refs),

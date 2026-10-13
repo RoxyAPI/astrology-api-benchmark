@@ -7,6 +7,7 @@ results written before tiers existed carry none.
 
 from __future__ import annotations
 
+import csv
 import math
 import urllib.parse
 from collections.abc import Mapping, Sequence
@@ -14,6 +15,7 @@ from dataclasses import dataclass
 from typing import Any
 
 from benchmark.api import DEFAULT_TARGET
+from benchmark.paths import CHARTS_PATH
 from benchmark.schema import References, Status, Unit
 from benchmark.stats import median
 
@@ -27,6 +29,20 @@ CONTINUOUS = (Unit.ARCSEC, Unit.SECONDS)
 """Units whose deviation is a measured distance, so tiers and per quantity lines apply."""
 
 TIER_NOUNS: Mapping[Unit, str] = {Unit.ARCSEC: "positions", Unit.SECONDS: "instants"}
+
+EVERYDAY_CHARTS = (
+    "obama",
+    "beyonce",
+    "diana",
+    "jobs",
+    "musk",
+    "mumbai_2000",
+    "sydney_2010",
+    "tokyo_1990",
+)
+"""Births from 1950 to 2010 at ordinary latitudes, with no daylight saving change, leap day,
+high latitude, equator, calendar edge or pre-1950 epoch.
+"""
 
 CASES = (
     "The cases are built to break formulas, not to resemble everyday birth data: births on a leap "
@@ -84,6 +100,38 @@ def amount(value: float | None, unit: str, *, up: bool = False, deg: bool = Fals
     if deg and unit == Unit.ARCSEC and value is not None and shown != "n/a":
         text += f" ({degrees(float(shown.replace(',', '')))}°)"
     return text
+
+
+def control_sentence(results: ResultsDoc) -> str:
+    """Compare everyday planet measurements with the full run, using the published precision.
+
+    Omit the comparison when no everyday planet deviation was measured.
+    """
+    planets = next((d for d in results["domains"] if d["id"] == "western-planets"), None)
+    if planets is None:
+        return ""
+    measured = [
+        m
+        for m in planets["measurements"]
+        if m["unit"] == Unit.ARCSEC and m["deviation"] is not None
+    ]
+    everyday = [m for m in measured if m["case"] in EVERYDAY_CHARTS]
+    if not everyday:
+        return ""
+    worst = max(measured, key=lambda m: float(m["deviation"]))
+    everyday_max = max(float(m["deviation"]) for m in everyday)
+    count = len({m["case"] for m in everyday})
+    with CHARTS_PATH.open(newline="", encoding="utf-8") as fh:
+        born = {row["chart_id"]: row["date"][:4] for row in csv.DictReader(fh)}
+    year = born.get(worst["case"])
+    hardest = f", with the {year} chart the hardest" if year else ""
+    return (
+        f"Picked from everyday modern charts alone, the {count} births from 1950 to 2010 at "
+        f"ordinary latitudes, the planet maximum would read "
+        f"{amount(everyday_max, Unit.ARCSEC, up=True, deg=True)}; the published "
+        f"{amount(float(worst['deviation']), Unit.ARCSEC, up=True, deg=True)} comes from the "
+        f"edge cases{hardest}."
+    )
 
 
 type Labels = Mapping[tuple[str, Unit], str]

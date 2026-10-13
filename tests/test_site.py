@@ -10,7 +10,7 @@ from typing import Any
 import pytest
 
 from benchmark.__main__ import main
-from benchmark.claims import CASES, headline, labels, measured_deviation
+from benchmark.claims import CASES, control_sentence, headline, labels, measured_deviation
 from benchmark.domains import DomainError, references_for
 from benchmark.page import esc
 from benchmark.paths import RESULTS_DIR, TEMPLATE_PATH
@@ -102,6 +102,9 @@ def test_page_reads_in_full_without_scripts(built: tuple[Path, str]) -> None:
     assert len(text.split()) > 1500
     assert " ".join(headline(committed, labels(refs))) in text
     assert esc(CASES) in text
+    sentence = control_sentence(committed)
+    assert f"{CASES} {sentence}" in text
+    assert f"{esc(CASES)} {esc(sentence)}</p>" in html
     for domain in model["domains"]:
         assert domain["title"] in text and domain["authority"] in text
         for line in domain["quantity_lines"]:

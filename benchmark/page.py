@@ -12,7 +12,7 @@ import html
 from collections.abc import Mapping, Sequence
 from typing import Any
 
-from benchmark.claims import CASES, combined, fmt, fmt_up, measured_deviation
+from benchmark.claims import CASES, combined, control_sentence, fmt, fmt_up, measured_deviation
 from benchmark.schema import ALL, Unit
 
 type Model = Mapping[str, Any]
@@ -85,7 +85,7 @@ def sections(model: Model) -> dict[str, str]:
     run, links = model["run"], model["links"]
     return {
         "HEADLINE": esc(model["headline"]),
-        "CASES": esc(CASES),
+        "CASES": esc(" ".join(filter(None, (CASES, control_sentence(model))))),
         "RUN_DATE": esc(run["date"]),
         "TARGET": esc(model["target_host"]),
         "LOGO": esc(model["logo"]),
