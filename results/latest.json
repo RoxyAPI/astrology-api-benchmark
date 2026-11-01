@@ -1,7 +1,7 @@
 {
   "format": 1,
   "run": {
-    "date": "2026-10-09",
+    "date": "2026-11-01",
     "target": "https://roxyapi.com/api/v2"
   },
   "domains": [
@@ -31733,8 +31733,8 @@
           "case": "springfield-illinois",
           "quantity": "utc_offset_seconds",
           "unit": "exact",
-          "expected": -18000,
-          "actual": -18000,
+          "expected": -21600,
+          "actual": -21600,
           "deviation": 0.0,
           "tolerance": 0.0,
           "status": "PASS",
@@ -31755,8 +31755,8 @@
           "case": "springfield-oregon",
           "quantity": "utc_offset_seconds",
           "unit": "exact",
-          "expected": -25200,
-          "actual": -25200,
+          "expected": -28800,
+          "actual": -28800,
           "deviation": 0.0,
           "tolerance": 0.0,
           "status": "PASS",
@@ -31777,8 +31777,8 @@
           "case": "london-ontario",
           "quantity": "utc_offset_seconds",
           "unit": "exact",
-          "expected": -14400,
-          "actual": -14400,
+          "expected": -18000,
+          "actual": -18000,
           "deviation": 0.0,
           "tolerance": 0.0,
           "status": "PASS",
